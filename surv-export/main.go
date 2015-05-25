@@ -27,7 +27,7 @@ func main() {
 
 	c, err := config.LoadConfig(RcFile)
 	if err != nil {
-		fmt.Println("Error loading")
+		panic("Error loading "+RcFile)
 	}
 	fmt.Println(c.Dests)
 	fmt.Println(c.Default, c.Dests[c.Default])
