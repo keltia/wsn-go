@@ -5,6 +5,7 @@ import (
 	"text/template"
 	"os"
 	"fmt"
+	"runtime"
 )
 
 var (
@@ -66,8 +67,11 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 
 func (cl *Client) Unsubscribe(name string) (Topic, error) {
 	topic := cl.Topics[name]
-	topic.Started = false
-	return topic, nil
+	if topic.Started {
+		topic.Started = false
+		return Topic{}, nil
+	}
+	return Topic{}, runtime.Error("Topic "+name+" not started.")
 }
 
 func NewClient (c config.Config) (*Client, error) {
