@@ -47,7 +47,6 @@ var (
 	   </soap:Body>
 	</soap:Envelope>
 	`
-
 )
 
 func defaultFeed(buf []byte) { fmt.Println(buf)}
