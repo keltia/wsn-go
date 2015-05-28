@@ -42,8 +42,9 @@ func LoadConfig(file string) (Config, error) {
 	err = yaml.Unmarshal(buf, &c)
 	if err != nil {
 		fmt.Println("Error parsing yaml")
+		return Config{}, err
+	} else {
+		c.Default = "mine"
+		return *c, err
 	}
-
-	c.Default = "mine"
-	return *c, err
 }

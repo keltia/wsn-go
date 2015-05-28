@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"bytes"
 	"net/http"
-	"io/ioutil"
+//	"io/ioutil"
 )
 
 var (
