@@ -16,9 +16,8 @@ var (
 		"AsterixXML": "feed_xml",
 		"AsterixJSONgzipped": "feed_jsongz",
 	}
-)
+	survClient	http.Client = http.Client{}
 
-const (
 	subText = `
 	<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
 	               xmlns:b="http://docs.oasis-open.org/wsn/b-2"
