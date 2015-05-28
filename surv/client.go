@@ -51,26 +51,6 @@ var (
 
 func defaultFeed(buf []byte) { fmt.Println(buf)}
 
-func (cl *Client) Subscribe(name, callback string) (string, error) {
-	c := cl.config
-	subvars := SubVars{c.Base+":"+c.Port+"/"+callback, name}
-
-	t := template.Must(template.New("subscribe").Parse(subText))
-	if err := t.Execute(os.Stdout, subvars); err != nil {
-		fmt.Fprintf(os.Stderr, "Error creating template\n")
-		return "", err
-	}
-	topic := cl.Topics[name]
-	topic.Started = true
-	return "", nil
-}
-
-func (cl *Client) Unsubscribe(name string) (Topic, error) {
-	topic := cl.Topics[name]
-	topic.Started = false
-	return topic, nil
-}
-
 func NewClient (c config.Config) (*Client, error) {
 	cl := new(Client)
 	cl.config	= c
@@ -82,3 +62,67 @@ func NewClient (c config.Config) (*Client, error) {
 	cl.Feed_one = defaultFeed
 	return cl, nil
 }
+
+func init() {
+	survClient = http.Client{}
+}
+
+// Subscribe to a given topic
+func (cl *Client) Subscribe(name, callback string) (string, error) {
+	var result	bytes.Buffer
+
+	c := cl.config
+	subvars := SubVars{c.Base+":"+c.Port+"/"+callback, name}
+
+	t := template.Must(template.New("subscribe").Parse(string(subText)))
+	if err := t.Execute(&result, subvars); err != nil {
+		fmt.Fprintf(os.Stderr, "Error creating template\n")
+		return "", err
+	}
+
+	targetURL := c.Base+":"+c.Port+"/"+callback
+	payload := result.String()
+
+	buf := bytes.NewBufferString(payload)
+	req, err := http.NewRequest("POST", targetURL, buf)
+	req.Header.Add("SOAPAction", "Subscribe")
+	req.Header.Add("Content-Type", "text/xml; charset=UTF-8")
+
+	resp, err := survClient.Do(req)
+	defer resp.Body.Close()
+
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error during POST: %v", err)
+		return "", nil
+	}
+
+	//body, err := ioutil.ReadAll(resp.Body)
+
+
+	topic := cl.Topics[name]
+	topic.Started = true
+	return "", nil
+}
+
+// Unsubscribe
+func (cl *Client) Unsubscribe(name string) (Topic, error) {
+	topic := cl.Topics[name]
+	buf := bytes.NewBufferString(unsubText)
+	req, err := http.NewRequest("POST", topic.Address, buf)
+	if err != nil {
+		return Topic{}, err
+	}
+	req.Header.Add("SOAPAction", "Unsubscribe")
+	req.Header.Add("Content-Type", "text/xml; charset=UTF-8")
+
+	resp, err := survClient.Do(req)
+	defer resp.Body.Close()
+
+	if err != nil {
+		return Topic{}, err
+	} else {
+		topic.Started = false
+		return topic, nil
+	}
+}
+
