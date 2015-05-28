@@ -55,9 +55,9 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 	subvars := SubVars{c.Base+":"+c.Port+"/"+callback, name}
 
 	t := template.Must(template.New("subscribe").Parse(subText))
-	err := t.Execute(os.Stdout, subvars)
-	if err != nil {
-
+	if err := t.Execute(os.Stdout, subvars); err != nil {
+		fmt.Fprintf(os.Stderr, "Error creating template\n")
+		return _, err
 	}
 	topic := cl.Topics[name]
 	topic.Started = true
