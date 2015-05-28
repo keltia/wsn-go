@@ -5,6 +5,9 @@ import (
 	"text/template"
 	"os"
 	"fmt"
+	"bytes"
+	"net/http"
+	"io/ioutil"
 )
 
 var (
