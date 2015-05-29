@@ -46,8 +46,12 @@ func main() {
 			}
 		}
 	}
+
+	// Start server for callback
+	// server := NewServer(tn
+
+	// Go go go
 	for _, tn := range feeds {
-		// server := NewServer(tn
 		unsubFn, err := client.Subscribe(tn, Feeds[tn])
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error subscribing to %n: %v", tn, err)
