@@ -11,11 +11,6 @@ import (
 )
 
 var (
-	Feeds = map[string]string{
-		"AsterixJSON": "feed_json",
-		"AsterixXML": "feed_xml",
-		"AsterixJSONgzipped": "feed_jsongz",
-	}
 	survClient	http.Client = http.Client{}
 
 	subText = `
