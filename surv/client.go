@@ -50,10 +50,6 @@ func NewClient (c config.Config) (*Client, error) {
 	cl := new(Client)
 	cl.config	= c
 	cl.Target	= c.Proto+"://"+c.Site+":"+c.Port+"/"+c.Endpoint
-	for i, _ := range(Feeds) {
-		fmt.Println("Configuring "+i)
-		cl.Topics[i] = Topic{ 0, 0, "", false}
-	}
 	cl.Feed_one = defaultFeed
 	return cl, nil
 }
