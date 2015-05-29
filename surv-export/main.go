@@ -37,7 +37,7 @@ func main() {
 	client, err := surv.NewClient(c)
 
 	// Look for feed names on CLI
-	for _, tn := range flag.Args {
+	for _, tn := range flag.Args() {
 		if Feeds[tn] != "" {
 			feeds = append(feeds, tn)
 		}
