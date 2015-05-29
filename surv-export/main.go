@@ -40,6 +40,10 @@ func main() {
 	for _, tn := range flag.Args() {
 		if Feeds[tn] != "" {
 			feeds = append(feeds, tn)
+			client.NewFeed(Feeds[tn])
+			if fVerbose {
+				fmt.Println("Configuring "+tn)
+			}
 		}
 	}
 	for _, tn := range feeds {
