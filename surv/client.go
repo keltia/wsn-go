@@ -58,6 +58,13 @@ func init() {
 	survClient = http.Client{}
 }
 
+// Create .Topics structure w/o subscribing
+func (cl *Client) NewFeed(name string) {
+	c := cl.config
+	addr := c.Base+":"+c.Port+"/"+name
+	cl.Topics[name] = Topic{Address: addr, Started: false}
+}
+
 // Subscribe to a given topic
 func (cl *Client) Subscribe(name, callback string) (string, error) {
 	var result	bytes.Buffer
