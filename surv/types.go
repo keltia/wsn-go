@@ -72,6 +72,11 @@ type SDNotify struct {
 
 type SDMessage struct {
 	XMLName		xml.Name
-	Topic		string
-	Data		[]byte
+	Topic		string `xml:"SubscriptionReference"`
+	Payload		SDPayload
+}
+
+type SDPayload struct {
+	XMLName		xml.Name
+	Data		[]byte `xml:"PlainText"`
 }
