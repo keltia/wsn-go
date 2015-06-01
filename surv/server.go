@@ -29,12 +29,12 @@ func handleNotify(w http.ResponseWriter, req *http.Request) {
 	fmt.Println(notify.Body.Notify.Message.Payload.Data)
 }
 
-func ServerStart(cl *config.Config, feeds []string) {
+func ServerStart(cl *Client, feeds []string) {
 	server := http.NewServeMux()
 	for _, feed := range feeds {
 		log.Println("Setting handler for "+feed)
 		server.HandleFunc(feed, handleNotify)
 	}
 	log.Println("Serving...")
-	log.Fatal(http.ListenAndServe(":"+cl.Port, nil))
+	log.Fatal(http.ListenAndServe(":"+cl.config.Port, nil))
 }

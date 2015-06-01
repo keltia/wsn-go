@@ -101,5 +101,5 @@ func main() {
 	// Start server for callback
 	fmt.Println("Starting server...")
 	go doSubscribe(feeds)
-	surv.ServerStart(&c, feeds)
+	surv.ServerStart(SurvClient, feeds)
 }
