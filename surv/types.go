@@ -31,20 +31,20 @@ type Topic struct {
 
 type SubscribeAnswer struct {
     XMLName xml.Name
-    Body    Body
+    Body    SABody
 }
 
-type Body struct {
+type SABody struct {
     XMLName     xml.Name
-    Resp        Resp `xml:"SubscribeResponse"`
+    Resp        SAResp `xml:"SubscribeResponse"`
 }
 
-type Resp struct {
+type SAResp struct {
 	XMLName	xml.Name `xml:"SubscribeResponse"`
-	Reference	Reference `xml:"SubscriptionReference"`
+	Reference	SAReference `xml:"SubscriptionReference"`
 }
 
-type Reference struct {
+type SAReference struct {
 	XMLName xml.Name `xml:"SubscriptionReference"`
 	Address	string
 	ReferenceParameters string
