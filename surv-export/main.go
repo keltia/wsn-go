@@ -45,6 +45,7 @@ func doSubscribe(feeds []string) {
 	}
 }
 
+// Main program
 func main() {
 	var feeds []string
 
