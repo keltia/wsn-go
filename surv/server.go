@@ -19,6 +19,7 @@ func handleNotify(w http.ResponseWriter, req *http.Request) {
 	//
 	// body is an XML SOAP
 	//
+	log.Println("In handleNotify")
 	body, err := ioutil.ReadAll(req.Body)
 	defer req.Body.Close()
 
@@ -30,10 +31,16 @@ func handleNotify(w http.ResponseWriter, req *http.Request) {
 	}
 	// FIXME
 	pathInfo := req.Header.Get("Path-Info")
+	log.Println(pathInfo)
 	parts := strings.Split(pathInfo, "/")
-	last := parts[:len(pathInfo)]
-	survClient.Topics[last].Bytes += len(notify.Body.Notify.Message.Payload)
-	survClient.Topics[last].Pkts++
+	last := parts[len(parts) - 1]
+	log.Println(last)
+
+	topicList := survClient.Topics
+	log.Println(topicList[last])
+
+	//topicList[last].Bytes += int64(len(notify.Body.Notify.Message.Payload.Data))
+	//topicList[last].Pkts++
 
 	fmt.Println(notify.Body.Notify.Message.Payload.Data)
 }
