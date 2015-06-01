@@ -5,7 +5,6 @@
 package surv
 
 import (
-	"../config"
 	"net/http"
 	"encoding/xml"
 	"fmt"
