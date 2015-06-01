@@ -50,7 +50,7 @@ func main() {
 	}
 
 	// Start server for callback
-	// server := NewServer(tn
+	surv.ServerStart(c, feeds)
 
 	// Go go go
 	for _, tn := range feeds {
