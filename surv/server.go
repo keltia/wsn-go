@@ -12,6 +12,8 @@ import (
 	"io/ioutil"
 )
 
+var survClient *Client
+
 func handleNotify(w http.ResponseWriter, req *http.Request) {
 	//
 	// body is an XML SOAP
@@ -29,6 +31,7 @@ func handleNotify(w http.ResponseWriter, req *http.Request) {
 }
 
 func ServerStart(cl *Client, feeds []string) {
+	survClient = cl
 	server := http.NewServeMux()
 	for _, feed := range feeds {
 		log.Println("Setting handler for "+feed)
