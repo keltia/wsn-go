@@ -96,8 +96,7 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 
 	// Parse XML
 	res := &SubscribeAnswer{}
-	err = xml.Unmarshal(body, res)
-	if err != nil {
+	if err = xml.Unmarshal(body, res); err != nil {
 		return "", err
 	}
 
