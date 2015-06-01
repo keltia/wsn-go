@@ -51,3 +51,27 @@ type SAReference struct {
 	Metadata string
 }
 
+// Surv data (CAT62 simplified)
+
+type SurvData struct {
+    XMLName xml.Name
+    Body    SDBody
+}
+
+type SDBody struct {
+    XMLName     xml.Name
+    Notify      SDNotify `xml:"Notify"`
+}
+
+type SDNotify struct {
+	XMLName		xml.Name
+	Message		SDMessage `xml:"NotificationMessage"`
+}
+
+// Data can be JSON, compressed JSON or XML
+
+type SDMessage struct {
+	XMLName		xml.Name
+	Topic		string
+	Data		[]byte
+}
