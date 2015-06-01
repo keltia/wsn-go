@@ -29,7 +29,7 @@ type Topic struct {
 
 // SOAP stuff
 
-type Soap struct {
+type SubscribeAnswer struct {
     XMLName xml.Name
     Body    Body
 }

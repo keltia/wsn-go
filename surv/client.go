@@ -99,7 +99,7 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 	body, err := ioutil.ReadAll(resp.Body)
 
 	// Parse XML
-	res := &Soap{}
+	res := &SubscribeAnswer{}
 	err = xml.Unmarshal(body, res)
 	if err != nil {
 		return "", err
