@@ -46,6 +46,21 @@ func doSubscribe(feeds []string) {
 	}
 }
 
+// Handle shutdown operations
+func doShutdown() {
+	// do last actions and wait for all write operations to end
+	for name, topic := range (SurvClient.Topics) {
+		err := SurvClient.Unsubscribe(name)
+		if err != nil {
+			log.Printf("Error unsubscribing to %n: %v", name, err)
+		}
+		if fVerbose {
+			fmt.Println("Unsubscribing to ", name, " as ", Feeds[name])
+		}
+		fmt.Printf("Topic: %s Bytes: %ld Pkts: %d", name, topic.Bytes, topic.Pkts)
+	}
+}
+
 // Main program
 func main() {
 	var feeds []string
@@ -57,17 +72,7 @@ func main() {
 	    <-sigint
 	    log.Println("Program killed !")
 
-		// do last actions and wait for all write operations to end
-		for name, topic := range(SurvClient.Topics) {
-			err := SurvClient.Unsubscribe(name)
-			if err != nil {
-				log.Printf("Error unsubscribing to %n: %v", name, err)
-			}
-			if fVerbose {
-				fmt.Println("Unsubscribing to ", name, " as ", Feeds[name])
-			}
-			fmt.Printf("Topic: %s Bytes: %ld Pkts: %d", name, topic.Bytes, topic.Pkts)
-		}
+		doShutdown()
 
 	    os.Exit(0)
 	}()
