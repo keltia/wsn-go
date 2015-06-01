@@ -8,6 +8,6 @@ all:    ${DEST}/surv-export
 clean:
 	rm -f ${DEST}/surv-export
 
-${DEST}/surv-export:    main.go config.go client.go types.go cli.go
+${DEST}/surv-export:    main.go config.go client.go types.go cli.go server.go
 	go build -v -o $@ surv-export/main.go surv-export/cli.go
 
