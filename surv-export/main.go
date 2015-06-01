@@ -21,6 +21,8 @@ var (
 		"AsterixXML": "feed_xml",
 		"AsterixJSONgzipped": "feed_jsongz",
 	}
+
+	SurvClient	surv.Client
 )
 
 func main() {
@@ -34,13 +36,13 @@ func main() {
 	fmt.Println(c.Default, c.Dests[c.Default])
 
 	flag.Parse()
-	client, err := surv.NewClient(c)
+	SurvClient, err := surv.NewClient(c)
 
 	// Look for feed names on CLI
 	for _, tn := range flag.Args() {
 		if Feeds[tn] != "" {
 			feeds = append(feeds, tn)
-			client.NewFeed(Feeds[tn])
+			SurvClient.NewFeed(Feeds[tn])
 			if fVerbose {
 				fmt.Println("Configuring "+tn)
 			}
@@ -52,14 +54,14 @@ func main() {
 
 	// Go go go
 	for _, tn := range feeds {
-		unsubFn, err := client.Subscribe(tn, Feeds[tn])
+		unsubFn, err := SurvClient.Subscribe(tn, Feeds[tn])
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error subscribing to %n: %v", tn, err)
 		}
 		topic := surv.Topic{Started: true, Address: unsubFn}
-		client.Topics[tn] = topic
+		SurvClient.Topics[tn] = topic
 	}
-	for name, topic := range(client.Topics) {
+	for name, topic := range(SurvClient.Topics) {
 		fmt.Printf("Topic: %s Bytes: %ld Pkts: %d", name, topic.Bytes, topic.Pkts)
 	}
 }
