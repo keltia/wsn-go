@@ -3,7 +3,7 @@ package surv
 import (
 	"../config"
 	"text/template"
-	"os"
+	"log"
 	"fmt"
 	"bytes"
 	"net/http"
@@ -76,7 +76,7 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 
 	t := template.Must(template.New("subscribe").Parse(string(subText)))
 	if err := t.Execute(&result, subvars); err != nil {
-		fmt.Fprintf(os.Stderr, "Error creating template\n")
+		log.Printf("Error creating template\n")
 		return "", err
 	}
 
@@ -92,7 +92,7 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 	defer resp.Body.Close()
 
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error during POST: %v", err)
+		log.Printf("Error during POST: %v", err)
 		return "", nil
 	}
 
