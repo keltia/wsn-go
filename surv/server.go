@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"log"
 	"io/ioutil"
+	"strings"
 )
 
 var survClient *Client
@@ -27,6 +28,13 @@ func handleNotify(w http.ResponseWriter, req *http.Request) {
 		real := fmt.Sprintf("Error: %v", err)
 		http.Error(w, real, 500)
 	}
+	// FIXME
+	pathInfo := req.Header.Get("Path-Info")
+	parts := strings.Split(pathInfo, "/")
+	last := parts[:len(pathInfo)]
+	survClient.Topics[last].Bytes += len(notify.Body.Notify.Message.Payload)
+	survClient.Topics[last].Pkts++
+
 	fmt.Println(notify.Body.Notify.Message.Payload.Data)
 }
 
