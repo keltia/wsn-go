@@ -28,6 +28,23 @@ var (
 	SurvClient	surv.Client
 )
 
+func doSubscribe(feeds []string) {
+	time.Sleep(5)
+	// Go go go
+	for _, tn := range feeds {
+		unsubFn, err := SurvClient.Subscribe(tn, Feeds[tn])
+		if err != nil {
+			log.Printf("Error subscribing to %n: %v", tn, err)
+		}
+		if fVerbose {
+			fmt.Println("Subscribing to ", tn, " as ", Feeds[tn])
+			fmt.Println("  unsub is ", unsubFn)
+		}
+		topic := surv.Topic{Started: true, Address: unsubFn}
+		SurvClient.Topics[tn] = topic
+	}
+}
+
 func main() {
 	var feeds []string
 
@@ -68,24 +85,13 @@ func main() {
 			feeds = append(feeds, tn)
 			SurvClient.NewFeed(Feeds[tn])
 			if fVerbose {
-				fmt.Println("Configuring "+tn)
+				log.Println("Configuring "+tn)
 			}
 		}
 	}
 
 	// Start server for callback
+	fmt.Println("Starting server...")
+	go doSubscribe(feeds)
 	surv.ServerStart(&c, feeds)
-
-	// Go go go
-	for _, tn := range feeds {
-		unsubFn, err := SurvClient.Subscribe(tn, Feeds[tn])
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error subscribing to %n: %v", tn, err)
-		}
-		topic := surv.Topic{Started: true, Address: unsubFn}
-		SurvClient.Topics[tn] = topic
-	}
-	for name, topic := range(SurvClient.Topics) {
-		fmt.Printf("Topic: %s Bytes: %ld Pkts: %d", name, topic.Bytes, topic.Pkts)
-	}
 }
