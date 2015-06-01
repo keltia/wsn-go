@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	survClient	http.Client = http.Client{}
+	httpClient http.Client = http.Client{}
 
 	subText = `
 	<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
@@ -84,7 +84,7 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 	req.Header.Add("SOAPAction", "Subscribe")
 	req.Header.Add("Content-Type", "text/xml; charset=UTF-8")
 
-	resp, err := survClient.Do(req)
+	resp, err := httpClient.Do(req)
 	defer resp.Body.Close()
 
 	if err != nil {
@@ -122,7 +122,7 @@ func (cl *Client) Unsubscribe(name string) (error) {
 	req.Header.Add("SOAPAction", "Unsubscribe")
 	req.Header.Add("Content-Type", "text/xml; charset=UTF-8")
 
-	resp, err := survClient.Do(req)
+	resp, err := httpClient.Do(req)
 	defer resp.Body.Close()
 
 	if err != nil {
