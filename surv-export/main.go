@@ -11,6 +11,9 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"log"
+	"os/signal"
+	"time"
 )
 
 var (
@@ -27,6 +30,27 @@ var (
 
 func main() {
 	var feeds []string
+
+	go func() {
+	    sigchan := make(chan os.Signal, 3)
+	    signal.Notify(sigchan, os.Interrupt)
+	    <-sigchan
+	    log.Println("Program killed !")
+
+		// do last actions and wait for all write operations to end
+		for name, topic := range(SurvClient.Topics) {
+			err := SurvClient.Unsubscribe(name)
+			if err != nil {
+				log.Printf("Error unsubscribing to %n: %v", name, err)
+			}
+			if fVerbose {
+				fmt.Println("Unsubscribing to ", name, " as ", Feeds[name])
+			}
+			fmt.Printf("Topic: %s Bytes: %ld Pkts: %d", name, topic.Bytes, topic.Pkts)
+		}
+
+	    os.Exit(0)
+	}()
 
 	c, err := config.LoadConfig(RcFile)
 	if err != nil {
