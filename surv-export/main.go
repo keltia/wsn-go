@@ -28,6 +28,7 @@ var (
 	SurvClient	surv.Client
 )
 
+// Subscribe to wanted topics
 func doSubscribe(feeds []string) {
 	time.Sleep(5)
 	// Go go go
