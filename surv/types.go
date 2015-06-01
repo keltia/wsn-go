@@ -1,6 +1,11 @@
 package surv
 
-import "../config"
+import (
+	"../config"
+	"encoding/xml"
+)
+
+// My stuff
 
 type SubVars struct {
 	my_topic	string
@@ -20,5 +25,29 @@ type Topic struct {
 	Pkts	int
 	Address	string
 	Started	bool
+}
+
+// SOAP stuff
+
+type Soap struct {
+    XMLName xml.Name
+    Body    Body
+}
+
+type Body struct {
+    XMLName     xml.Name
+    Resp        Resp `xml:"SubscribeResponse"`
+}
+
+type Resp struct {
+	XMLName	xml.Name `xml:"SubscribeResponse"`
+	Reference	Reference `xml:"SubscriptionReference"`
+}
+
+type Reference struct {
+	XMLName xml.Name `xml:"SubscriptionReference"`
+	Address	string
+	ReferenceParameters string
+	Metadata string
 }
 

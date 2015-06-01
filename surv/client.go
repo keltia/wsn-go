@@ -8,6 +8,9 @@ import (
 	"bytes"
 	"net/http"
 //	"io/ioutil"
+	"io/ioutil"
+	"encoding/xml"
+	"strings"
 )
 
 var (
@@ -94,12 +97,23 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 		return "", nil
 	}
 
-	//body, err := ioutil.ReadAll(resp.Body)
+	body, err := ioutil.ReadAll(resp.Body)
 
+	// Parse XML
+	res := &Soap{}
+	err = xml.Unmarshal(body, res)
+	if err != nil {
+		return "", err
+	}
+
+	address := res.Body.Resp.Reference.Address
+	address = strings.Replace(address, "0.0.0.0", c.Site, -1)
 
 	topic := cl.Topics[name]
 	topic.Started = true
-	return "", nil
+	topic.Address = address
+
+	return address, nil
 }
 
 // Unsubscribe
