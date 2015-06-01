@@ -56,10 +56,6 @@ func NewClient (c config.Config) (*Client, error) {
 	return cl, nil
 }
 
-func init() {
-	survClient = http.Client{}
-}
-
 // Create .Topics structure w/o subscribing
 func (cl *Client) NewFeed(name string) {
 	c := cl.config
