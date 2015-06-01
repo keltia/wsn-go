@@ -116,12 +116,12 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 }
 
 // Unsubscribe
-func (cl *Client) Unsubscribe(name string) (Topic, error) {
+func (cl *Client) Unsubscribe(name string) (error) {
 	topic := cl.Topics[name]
 	buf := bytes.NewBufferString(unsubText)
 	req, err := http.NewRequest("POST", topic.Address, buf)
 	if err != nil {
-		return Topic{}, err
+		return err
 	}
 	req.Header.Add("SOAPAction", "Unsubscribe")
 	req.Header.Add("Content-Type", "text/xml; charset=UTF-8")
@@ -130,10 +130,10 @@ func (cl *Client) Unsubscribe(name string) (Topic, error) {
 	defer resp.Body.Close()
 
 	if err != nil {
-		return Topic{}, err
+		return err
 	} else {
 		topic.Started = false
-		return topic, nil
+		return nil
 	}
 }
 
