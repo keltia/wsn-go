@@ -48,10 +48,11 @@ func doSubscribe(feeds []string) {
 func main() {
 	var feeds []string
 
+	// Handle SIGINT
 	go func() {
-	    sigchan := make(chan os.Signal, 3)
-	    signal.Notify(sigchan, os.Interrupt)
-	    <-sigchan
+	    sigint := make(chan os.Signal, 3)
+	    signal.Notify(sigint, os.Interrupt)
+	    <-sigint
 	    log.Println("Program killed !")
 
 		// do last actions and wait for all write operations to end
