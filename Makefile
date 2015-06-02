@@ -11,3 +11,7 @@ clean:
 ${DEST}/surv-export:    main.go config.go client.go types.go cli.go server.go
 	go build -v -o $@ surv-export/main.go surv-export/cli.go
 
+push:
+	git push --all
+	git push --all backup
+	git push --all bitbucket
