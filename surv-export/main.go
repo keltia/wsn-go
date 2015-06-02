@@ -19,6 +19,7 @@ import (
 var (
 	RcFile = filepath.Join(os.Getenv("HOME"), ".surveillance", "config.yml")
 
+	// All possible feeds
 	Feeds = map[string]string{
 		"AsterixJSON": "feed_json",
 		"AsterixXML": "feed_xml",
