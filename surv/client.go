@@ -57,10 +57,15 @@ func NewClient (c config.Config) (*Client, error) {
 }
 
 // Create .Topics structure w/o subscribing
-func (cl *Client) NewFeed(name string) {
-	c := cl.config
-	addr := c.Base+":"+c.Port+"/"+name
-	cl.Topics[name] = Topic{Address: addr, Started: false}
+func (cl *Client) AddFeed(name string) {
+	log.Println("Adding new feed", name)
+	cl.Topics[name] = Topic{Started: false}
+}
+
+// Generate an URL
+func (cl *Client) generateURL() string {
+	c := cl.Config
+	return fmt.Sprintf("%s://%s:%s/%s", c.Proto, c.Site, c.Port, c.Endpoint)
 }
 
 // Subscribe to a given topic
