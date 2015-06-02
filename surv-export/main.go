@@ -26,7 +26,9 @@ var (
 		"AsterixJSONgzipped": "feed_jsongz",
 	}
 
-	SurvClient	surv.Client
+	RunningFeeds = map[string]string{}
+
+	SurvClient	*surv.Client
 )
 
 // Subscribe to wanted topics
@@ -51,21 +53,30 @@ func doSubscribe(feeds []string) {
 func doShutdown() {
 	// do last actions and wait for all write operations to end
 	for name, topic := range (SurvClient.Topics) {
-		err := SurvClient.Unsubscribe(name)
-		if err != nil {
-			log.Printf("Error unsubscribing to %n: %v", name, err)
+		if topic.Started {
+			err := SurvClient.Unsubscribe(name)
+			if err != nil {
+				log.Printf("Error unsubscribing to %n: %v", name, err)
+			}
+			if fVerbose {
+				log.Println("Unsubscribing from", name)
+				log.Printf("Topic: %s Bytes: %d Pkts: %d", name, topic.Bytes, topic.Pkts)
+			}
 		}
-		if fVerbose {
-			fmt.Println("Unsubscribing to ", name, " as ", Feeds[name])
-		}
-		fmt.Printf("Topic: %s Bytes: %ld Pkts: %d", name, topic.Bytes, topic.Pkts)
 	}
+}
+
+// return list of keys of map m
+func keys(m map[string]string) []string {
+	var keys []string
+	for k, _ := range m {
+		keys = append(keys, k)
+	}
+	return keys
 }
 
 // Main program
 func main() {
-	var feeds []string
-
 	// Handle SIGINT
 	go func() {
 	    sigint := make(chan os.Signal, 3)
@@ -91,16 +102,16 @@ func main() {
 	// Look for feed names on CLI
 	for _, tn := range flag.Args() {
 		if Feeds[tn] != "" {
-			feeds = append(feeds, tn)
-			SurvClient.NewFeed(Feeds[tn])
 			if fVerbose {
 				log.Println("Configuring "+tn)
 			}
+			RunningFeeds[tn] = Feeds[tn]
+			SurvClient.AddFeed(tn)
 		}
 	}
 
 	// Start server for callback
-	fmt.Println("Starting server...")
-	go doSubscribe(feeds)
-	surv.ServerStart(SurvClient, feeds)
+	log.Println("Starting server for ", keys(RunningFeeds), "...")
+	go doSubscribe(RunningFeeds)
+	surv.ServerStart(SurvClient, RunningFeeds)
 }
