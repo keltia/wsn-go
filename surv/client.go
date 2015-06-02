@@ -117,7 +117,7 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 	address := res.Body.Resp.Reference.Address
 	address = strings.Replace(address, "0.0.0.0", c.Site, -1)
 
-	topic := cl.Topics[name]
+	topic := cl.Topics[callback]
 	topic.Started = true
 	topic.UnsubAddr = address
 
