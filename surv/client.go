@@ -73,8 +73,14 @@ func (cl *Client) generateURL() string {
 func (cl *Client) Subscribe(name, callback string) (string, error) {
 	var result	bytes.Buffer
 
-	c := cl.config
-	subvars := SubVars{c.Base+":"+c.Port+"/"+callback, name}
+	c := cl.Config
+	targetURL := cl.generateURL()
+	myEndpoint := cl.Config.Base + ":" + cl.Config.Port + "/" + callback
+
+	log.Println("Targetting ", targetURL)
+	log.Printf("Subscribing %s on my side", myEndpoint)
+
+	subvars := SubVars{TopicURL: myEndpoint, TopicName: name}
 
 	t := template.Must(template.New("subscribe").Parse(string(subText)))
 	if err := t.Execute(&result, subvars); err != nil {
