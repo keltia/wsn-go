@@ -32,20 +32,20 @@ var (
 )
 
 // Subscribe to wanted topics
-func doSubscribe(feeds []string) {
-	time.Sleep(5)
+func doSubscribe(feeds map[string]string) {
+	time.Sleep(1 * time.Second)
 	// Go go go
-	for _, tn := range feeds {
-		unsubFn, err := SurvClient.Subscribe(tn, Feeds[tn])
+	for name, target := range feeds {
+		unsubFn, err := SurvClient.Subscribe(name, target)
 		if err != nil {
-			log.Printf("Error subscribing to %n: %v", tn, err)
+			log.Printf("Error subscribing to %n: %v", name, err)
 		}
 		if fVerbose {
-			fmt.Println("Subscribing to ", tn, " as ", Feeds[tn])
-			fmt.Println("  unsub is ", unsubFn)
+			log.Printf("Subscribing to /%s for %s\n", target, name)
+			log.Printf("  unsub is %s\n", unsubFn)
 		}
-		topic := surv.Topic{Started: true, Address: unsubFn}
-		SurvClient.Topics[tn] = topic
+		topic := surv.Topic{Started: true, UnsubAddr: unsubFn}
+		SurvClient.Topics[name] = topic
 	}
 }
 
@@ -89,21 +89,28 @@ func main() {
 	    os.Exit(0)
 	}()
 
+	flag.Parse()
+
 	c, err := config.LoadConfig(RcFile)
 	if err != nil {
 		panic("Error loading "+RcFile)
 	}
+	if fVerbose {
+		fmt.Printf("Config is %s://%s:%s/%s\n", c.Proto, c.Site, c.Port, c.Endpoint)
+	}
 	fmt.Println(c.Dests)
 	fmt.Println(c.Default, c.Dests[c.Default])
 
-	flag.Parse()
-	SurvClient, err := surv.NewClient(c)
+	SurvClient, err = surv.NewClient(c)
 
+	if len(flag.Args()) == 0 {
+		log.Fatal("You must specify at least one feed!")
+	}
 	// Look for feed names on CLI
 	for _, tn := range flag.Args() {
 		if Feeds[tn] != "" {
 			if fVerbose {
-				log.Println("Configuring "+tn)
+				log.Println("Configuring", Feeds[tn], "for", tn)
 			}
 			RunningFeeds[tn] = Feeds[tn]
 			SurvClient.AddFeed(tn)
