@@ -23,11 +23,11 @@ var (
 	   <soap:Body>
 	      <b:Subscribe>
 	         <b:ConsumerReference>
-	            <add:Address>{{.my_topic}}</add:Address>
+	            <add:Address>{{.TopicURL}}</add:Address>
 	         </b:ConsumerReference>
 	         <b:Filter>
 	           <b:TopicExpression>
-	             {{.topic}}
+	             {{.TopicName}}
 	           </b:TopicExpression>
 	         </b:Filter>
 	      </b:Subscribe>
