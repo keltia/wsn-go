@@ -8,12 +8,12 @@ import (
 // My stuff
 
 type SubVars struct {
-	my_topic	string
-	topic		string
+	TopicName	string
+	TopicURL	string
 }
 
 type Client struct {
-	config		config.Config
+	Config		config.Config
 	Target		string
 	Wsdl		string
 	Topics		map[string]Topic
@@ -21,10 +21,10 @@ type Client struct {
 }
 
 type Topic struct {
-	Bytes	int64
-	Pkts	int
-	Address	string
-	Started	bool
+	Bytes		int64
+	Pkts		int
+	UnsubAddr	string
+	Started		bool
 }
 
 // SOAP stuff
@@ -54,29 +54,30 @@ type SAReference struct {
 // Surv data (CAT62 simplified)
 
 type SurvData struct {
-    XMLName xml.Name
+    XMLName xml.Name `xml:"Envelope"`
     Body    SDBody
 }
 
 type SDBody struct {
-    XMLName     xml.Name
-    Notify      SDNotify `xml:"Notify"`
+    Notify      SDNotify
 }
 
 type SDNotify struct {
-	XMLName		xml.Name
-	Message		SDMessage `xml:"NotificationMessage"`
+	NotifyMsg	SDNotifyMsg `xml:"NotificationMessage"`
 }
 
 // Data can be JSON, compressed JSON or XML
 
-type SDMessage struct {
-	XMLName		xml.Name
-	Topic		string `xml:"SubscriptionReference"`
-	Payload		SDPayload
+type SDNotifyMsg struct {
+	NotifyRef	SAReference `xml:"SubscriptionReference"`
+	Topic		string
+	Message		SDMessage
 }
 
-type SDPayload struct {
-	XMLName		xml.Name
-	Data		[]byte `xml:"PlainText"`
+type SDMessage struct {
+	Payload		SDCat62Payload `xml:"Cat62SurveillanceJSON"`
+}
+
+type SDCat62Payload struct {
+	Text		[]byte `xml:"PlainText"`
 }
