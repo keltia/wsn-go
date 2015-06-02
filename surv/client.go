@@ -88,9 +88,7 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 		return "", err
 	}
 
-	payload := result.String()
-
-	buf := bytes.NewBufferString(payload)
+	buf := bytes.NewBufferString(result.String())
 	req, err := http.NewRequest("POST", targetURL, buf)
 	if err != nil {
 		log.Fatal("Error creating request for ", buf, ": ", err)
