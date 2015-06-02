@@ -132,8 +132,8 @@ func (cl *Client) Unsubscribe(name string) (error) {
 	if err != nil {
 		return err
 	}
-	req.Header.Add("SOAPAction", "Unsubscribe")
-	req.Header.Add("Content-Type", "text/xml; charset=UTF-8")
+	req.Header.Set("SOAPAction", "Unsubscribe")
+	req.Header.Set("Content-Type", "text/xml; charset=UTF-8")
 
 	resp, err := httpClient.Do(req)
 	defer resp.Body.Close()
