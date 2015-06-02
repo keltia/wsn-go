@@ -88,13 +88,15 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 		return "", err
 	}
 
-	targetURL := c.Base+":"+c.Port+"/"+callback
 	payload := result.String()
 
 	buf := bytes.NewBufferString(payload)
 	req, err := http.NewRequest("POST", targetURL, buf)
-	req.Header.Add("SOAPAction", "Subscribe")
-	req.Header.Add("Content-Type", "text/xml; charset=UTF-8")
+	if err != nil {
+		log.Fatal("Error creating request for ", buf, ": ", err)
+	}
+	req.Header.Set("SOAPAction", "Subscribe")
+	req.Header.Set("Content-Type", "text/xml; charset=UTF-8")
 
 	resp, err := httpClient.Do(req)
 	defer resp.Body.Close()
@@ -117,7 +119,7 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 
 	topic := cl.Topics[name]
 	topic.Started = true
-	topic.Address = address
+	topic.UnsubAddr = address
 
 	return address, nil
 }
@@ -126,7 +128,7 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 func (cl *Client) Unsubscribe(name string) (error) {
 	topic := cl.Topics[name]
 	buf := bytes.NewBufferString(unsubText)
-	req, err := http.NewRequest("POST", topic.Address, buf)
+	req, err := http.NewRequest("POST", topic.UnsubAddr, buf)
 	if err != nil {
 		return err
 	}
