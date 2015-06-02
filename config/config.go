@@ -18,14 +18,14 @@ type Dest struct {
 }
 
 type Config struct {
-	Proto		string
-	Site 		string
-	Port		string
-	Endpoint	string
+	Proto		string			// http
+	Site 		string			// 192.70.89.113
+	Port		string			// 9000
+	Endpoint	string			// wsn/NotificationBroker
 	Wsdl		string
-	Base		string
+	Base		string			// http://147.196.152.4
 	Dests		map[string]Dest
-	Default		string
+	Default		string			// mine
 }
 
 func (dest Dest) String() string {
