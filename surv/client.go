@@ -50,7 +50,8 @@ func defaultFeed(buf []byte) { fmt.Println(buf)}
 
 func NewClient (c config.Config) (*Client, error) {
 	cl := new(Client)
-	cl.config	= c
+	cl.Topics	= make(map[string]Topic, 10)
+	cl.Config	= c
 	cl.Target	= c.Proto+"://"+c.Site+":"+c.Port+"/"+c.Endpoint
 	cl.Feed_one = defaultFeed
 	return cl, nil
