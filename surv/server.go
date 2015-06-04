@@ -13,9 +13,7 @@ import (
 	"strings"
 )
 
-var survClient *Client
-
-func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.HandlerFunc {
+func makeHandler(fn func(http.ResponseWriter, *http.Request, string, *Client), cl *Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		//defer func() {
 		//	if e, ok := recover().(error); ok {
@@ -26,7 +24,7 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 		//}()
 		title := r.URL.Path
 		log.Println(title)
-		fn(w, r, title)
+		fn(w, r, title, cl)
 	}
 }
 
@@ -38,7 +36,7 @@ func getFeedName(url string) string {
 
 }
 
-func handleNotify(w http.ResponseWriter, req *http.Request, url string) {
+func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Client) {
 	log.Printf("%s %s %s", req.RemoteAddr, req.Method, req.URL)
 	log.Println(req)
 	//
@@ -61,11 +59,9 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string) {
 			return
 		}
 
-		//topicList := survClient.Topics
-		//log.Println(topicList[last])
-
-		//topicList[last].Bytes += int64(len(notify.Body.Notify.Message.Payload.Data))
-		//topicList[last].Pkts++
+		topic := cl.Topics[last]
+		topic.Bytes += int64(len(notify.Body.Notify.NotifyMsg.Message.Payload.Text))
+		topic.Pkts++
 
 		log.Printf("%+v", string(notify.Body.Notify.NotifyMsg.Message.Payload.Text))
 	} else {
@@ -77,7 +73,7 @@ func ServerStart(cl *Client, feeds map[string]string) {
 	server := http.NewServeMux()
 	for name, feed := range feeds {
 		log.Printf("Setting handler for %s as /%s\n", name, feed)
-		server.HandleFunc("/" + feed, makeHandler(handleNotify))
+		server.HandleFunc("/" + feed, makeHandler(handleNotify, cl))
 	}
 	log.Println("Serving", feeds)
 	log.Fatal(http.ListenAndServe(":"+cl.Config.Port, server))
