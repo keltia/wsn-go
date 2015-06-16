@@ -78,7 +78,7 @@ func keys(m map[string]string) []string {
 }
 
 // fOutput callback
-func file_output(buf []byte) {
+func fileOutput(buf []byte) {
 	if nb, err := fOutputFH.Write(buf); err != nil {
 		log.Fatalf("Error writing %d bytes: %v", nb, err)
 	}
@@ -133,7 +133,7 @@ func main() {
 			panic(err)
 		}
 
-		SurvClient.AddHandler(file_output)
+		SurvClient.AddHandler(fileOutput)
 	}
 
 	// Look for feed names on CLI
