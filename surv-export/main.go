@@ -99,6 +99,7 @@ func main() {
 		os.Exit(1)
 	}
 
+	// Load configuration
 	c, err := config.LoadConfig(RcFile)
 	if err != nil {
 		panic("Error loading "+RcFile)
@@ -109,6 +110,7 @@ func main() {
 		fmt.Println(c.Default, c.Dests[c.Default])
 	}
 
+	// Actually instanciate the client part
 	SurvClient, err = surv.NewClient(c)
 
 	// Look for feed names on CLI
