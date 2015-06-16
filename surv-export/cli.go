@@ -16,12 +16,13 @@ import (
 var (
 	// cli
 	fVerbose	bool
+	fOutput		string
 )
 
 // my usage string
 const (
 	cliUsage	= `
-Usage: %s feeds...
+Usage: %s [-o FILE] [-v] feeds...
 `
 )
 
@@ -35,4 +36,5 @@ var Usage = func() {
 func init() {
 	// cli
 	flag.BoolVar(&fVerbose, "v", false, "Set verbose flag.")
+	flag.StringVar(&fOutput, "o", "", "Specify output FILE.")
 }
