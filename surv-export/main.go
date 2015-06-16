@@ -122,6 +122,20 @@ func main() {
 	// Actually instanciate the client part
 	SurvClient, err = surv.NewClient(c)
 
+	// Open output file
+	if (fOutput != "") {
+		if (fVerbose) {
+			log.Printf("Output file is %s\n", fOutput)
+		}
+
+		if fOutputFH, err = os.Create(fOutput); err != nil {
+			fmt.Fprintf(os.Stderr, "Error creating %s\n", fOutput)
+			panic(err)
+		}
+
+		SurvClient.AddHandler(file_output)
+	}
+
 	// Look for feed names on CLI
 	for _, tn := range flag.Args() {
 		if Feeds[tn] != "" {
