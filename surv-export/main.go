@@ -105,9 +105,9 @@ func main() {
 	}
 	if fVerbose {
 		fmt.Printf("Config is %s://%s:%s/%s\n", c.Proto, c.Site, c.Port, c.Endpoint)
+		fmt.Println(c.Dests)
+		fmt.Println(c.Default, c.Dests[c.Default])
 	}
-	fmt.Println(c.Dests)
-	fmt.Println(c.Default, c.Dests[c.Default])
 
 	SurvClient, err = surv.NewClient(c)
 
