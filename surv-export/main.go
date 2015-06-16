@@ -120,7 +120,9 @@ func main() {
 	}
 
 	// Actually instanciate the client part
-	SurvClient, err = surv.NewClient(c)
+	if SurvClient, err = surv.NewClient(c); err != nil {
+		log.Fatalf("Error connecting to %s: %v", SurvClient.Target)
+	}
 
 	// Open output file
 	if (fOutput != "") {
