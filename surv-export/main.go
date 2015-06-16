@@ -1,6 +1,8 @@
-// fa-export.go
+// surv-export.go
 //
+// Export data from the WS-N endpoint giving out ADS-B data in various formats.
 //
+// @author Ollivier Robert <ollivier.robert@eurocontrol.int>
 
 package main
 
