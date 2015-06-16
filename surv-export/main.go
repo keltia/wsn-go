@@ -93,7 +93,7 @@ func main() {
 	if len(flag.Args()) == 0 {
 		fmt.Fprint(os.Stderr, "You must specify at least one feed!\n")
 		fmt.Fprintln(os.Stderr, "List of possible feeds:")
-		for _, f := range Feeds {
+		for f, _ := range Feeds {
 			fmt.Fprintf(os.Stderr, "  %s\n", f)
 		}
 		os.Exit(1)
