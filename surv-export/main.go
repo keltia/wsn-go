@@ -30,7 +30,7 @@ var (
 
 	SurvClient	*surv.Client
 
-	fOutputFH os.File
+	fOutputFH	*os.File
 )
 
 // Subscribe to wanted topics
