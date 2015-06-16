@@ -63,6 +63,11 @@ func (cl *Client) AddFeed(name string) {
 	cl.Topics[name] = Topic{Started: false}
 }
 
+// Change default callback
+func (cl *Client) AddHandler(fn func([]byte)) {
+	cl.Feed_one = fn
+}
+
 // Generate an URL
 func (cl *Client) generateURL() string {
 	c := cl.Config
