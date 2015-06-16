@@ -90,6 +90,14 @@ func main() {
 	}()
 
 	flag.Parse()
+	if len(flag.Args()) == 0 {
+		fmt.Fprint(os.Stderr, "You must specify at least one feed!\n")
+		fmt.Fprintln(os.Stderr, "List of possible feeds:")
+		for _, f := range Feeds {
+			fmt.Fprintf(os.Stderr, "  %s\n", f)
+		}
+		os.Exit(1)
+	}
 
 	c, err := config.LoadConfig(RcFile)
 	if err != nil {
@@ -103,9 +111,6 @@ func main() {
 
 	SurvClient, err = surv.NewClient(c)
 
-	if len(flag.Args()) == 0 {
-		log.Fatal("You must specify at least one feed!")
-	}
 	// Look for feed names on CLI
 	for _, tn := range flag.Args() {
 		if Feeds[tn] != "" {
