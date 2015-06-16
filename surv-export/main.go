@@ -29,6 +29,8 @@ var (
 	RunningFeeds = map[string]string{}
 
 	SurvClient	*surv.Client
+
+	fOutputFH os.File
 )
 
 // Subscribe to wanted topics
@@ -73,6 +75,13 @@ func keys(m map[string]string) []string {
 		keys = append(keys, k)
 	}
 	return keys
+}
+
+// fOutput callback
+func file_output(buf []byte) {
+	if nb, err := fOutputFH.Write(buf); err != nil {
+		log.Fatalf("Error writing %d bytes: %v", nb, err)
+	}
 }
 
 // Main program
