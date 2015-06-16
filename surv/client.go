@@ -46,7 +46,7 @@ var (
 	`
 )
 
-func defaultFeed(buf []byte) { fmt.Println(buf)}
+func defaultFeed(buf []byte) { fmt.Println(string(buf))}
 
 func NewClient (c config.Config) (*Client, error) {
 	cl := new(Client)
