@@ -10,6 +10,8 @@ import (
 	"io/ioutil"
 	"encoding/xml"
 	"strings"
+	"time"
+	"os"
 )
 
 var (
@@ -66,6 +68,19 @@ func (cl *Client) AddFeed(name string) {
 // Change default callback
 func (cl *Client) AddHandler(fn func([]byte)) {
 	cl.Feed_one = fn
+}
+
+// Allow run of specified duration
+func (cl *Client) SetTimer(timer int64) {
+	// Sleep for fTimeout seconds then sends Interrupt
+	go func() {
+		time.Sleep(time.Duration(timer) * time.Second)
+		if cl.Verbose {
+			log.Println("Timer off, time to kill")
+		}
+		myself, _ := os.FindProcess(os.Getpid())
+		myself.Signal(os.Interrupt)
+	}()
 }
 
 // Generate an URL
