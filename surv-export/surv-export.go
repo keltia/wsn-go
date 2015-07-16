@@ -205,5 +205,5 @@ func main() {
 	// Start server for callback
 	log.Println("Starting server for ", keys(RunningFeeds), "...")
 	go doSubscribe(RunningFeeds)
-	surv.ServerStart(SurvClient, RunningFeeds)
+	SurvClient.ServerStart(RunningFeeds)
 }

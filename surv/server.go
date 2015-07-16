@@ -70,7 +70,7 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Clie
 	}
 }
 
-func ServerStart(cl *Client, feeds map[string]string) {
+func (cl *Client) ServerStart(feeds map[string]string) {
 	server := http.NewServeMux()
 	for name, feed := range feeds {
 		log.Printf("Setting handler for %s as /%s\n", name, feed)
