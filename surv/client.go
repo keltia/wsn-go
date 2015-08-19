@@ -52,7 +52,7 @@ func NewClient (c *config.Config) (*Client, error) {
 	cl := new(Client)
 	cl.Topics	= make(map[string]Topic, 10)
 	cl.Config	= c
-	cl.Target	= c.Proto+"://"+c.Site+":"+c.Port+"/"+c.Endpoint
+	cl.Target	= c.Proto+"://"+c.Site+":"+fmt.Sprintf("%d", c.Port)+"/"+c.Endpoint
 	cl.Feed_one = defaultFeed
 	return cl, nil
 }
@@ -80,7 +80,7 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 
 	c := cl.Config
 	targetURL := cl.generateURL()
-	myEndpoint := cl.Config.Base + ":" + cl.Config.Port + "/" + callback
+	myEndpoint := cl.Config.Base + ":" + fmt.Sprintf("%d", cl.Config.Port) + "/" + callback
 
 	log.Println("Targetting ", targetURL)
 	log.Printf("Subscribing %s on my side", myEndpoint)

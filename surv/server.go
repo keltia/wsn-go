@@ -77,5 +77,5 @@ func ServerStart(cl *Client, feeds map[string]string) {
 		server.HandleFunc("/" + feed, makeHandler(handleNotify, cl))
 	}
 	log.Println("Serving", feeds)
-	log.Fatal(http.ListenAndServe(":"+cl.Config.Port, server))
+	log.Fatal(http.ListenAndServe(":"+fmt.Sprintf("%d", cl.Config.Port), server))
 }
