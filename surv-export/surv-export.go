@@ -12,7 +12,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"path/filepath"
 	"log"
 	"os/signal"
 	"time"
