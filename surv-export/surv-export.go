@@ -21,7 +21,8 @@ import (
 )
 
 var (
-	RcFile = filepath.Join(os.Getenv("HOME"), ".surveillance", "config.yml")
+	// We use a tag to find the proper file now. $HOME/.<tag>/config.toml
+	RcFile = "surveillance"
 
 	// All possible feeds
 	Feeds = map[string]string{
