@@ -48,7 +48,7 @@ var (
 
 func defaultFeed(buf []byte) { fmt.Println(string(buf))}
 
-func NewClient (c config.Config) (*Client, error) {
+func NewClient (c *config.Config) (*Client, error) {
 	cl := new(Client)
 	cl.Topics	= make(map[string]Topic, 10)
 	cl.Config	= c
