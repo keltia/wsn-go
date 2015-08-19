@@ -167,6 +167,11 @@ func main() {
 		SurvClient.Verbose = true
 	}
 
+	// Handle other destinations.
+	if fDest != "" {
+		SurvClient.Config.Default = fDest
+	}
+
 	// Open output file
 	if (fOutput != "") {
 		if (fVerbose) {
