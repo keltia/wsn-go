@@ -19,12 +19,13 @@ var (
 	fOutput		string
 	fTimeout   int64
 	fsTimeout  string
+	fDest      string
 )
 
 // my usage string
 const (
 	cliUsage	= `
-Usage: %s [-o FILE] [-i N(s|mn|h|d)] [-v] feeds...
+Usage: %s [-o FILE] [-i N(s|mn|h|d)] [-v] [-d dest] feeds...
 `
 )
 
@@ -38,6 +39,7 @@ var Usage = func() {
 func init() {
 	// cli
 	flag.BoolVar(&fVerbose, "v", false, "Set verbose flag.")
+	flag.StringVar(&fDest, "d", "", "Set default destination")
 	flag.StringVar(&fsTimeout, "i", "60s", "Stop after N s/mn/h/days")
 	flag.StringVar(&fOutput, "o", "", "Specify output FILE.")
 }
