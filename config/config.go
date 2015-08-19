@@ -5,10 +5,14 @@
 package config
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
+	"os"
+	"path/filepath"
+	"strings"
 
-	"gopkg.in/yaml.v2"
+	"github.com/naoina/toml"
 )
 
 type Dest struct {
@@ -20,7 +24,7 @@ type Dest struct {
 type Config struct {
 	Proto		string			// http
 	Site 		string			// 192.70.89.113
-	Port		string			// 9000
+	Port		int				// 9000
 	Endpoint	string			// wsn/NotificationBroker
 	Wsdl		string
 	Base		string			// http://147.196.152.4
@@ -28,23 +32,43 @@ type Config struct {
 	Default		string			// mine
 }
 
+// Check the parameter for either tag or filename
+func checkName(file string) string {
+	// Check for tag
+	if !strings.HasSuffix(file, ".toml") {
+		// file must be a tag so add a "."
+		return filepath.Join(os.Getenv("HOME"),
+			fmt.Sprintf(".%s", file),
+			"config.toml")
+	} else {
+		return file
+	}
+}
+
+// Basic Stringer for Config
 func (dest Dest) String() string {
 	return fmt.Sprintf("%v: %v", dest.Broker, dest.Name)
 }
 
-func LoadConfig(file string) (Config, error) {
-	buf, err := ioutil.ReadFile(file)
-	if err != nil {
-		return Config{}, err
-	}
+// Load a file as a TOML document and return the structure
+func LoadConfig(file string) (*Config, error) {
+	// Check for tag
+	sFile := checkName(file)
 
 	c := new(Config)
-	err = yaml.Unmarshal(buf, &c)
+	buf, err := ioutil.ReadFile(sFile)
 	if err != nil {
-		fmt.Println("Error parsing yaml")
-		return Config{}, err
-	} else {
-		c.Default = "mine"
-		return *c, err
+		return c, errors.New(fmt.Sprintf("Can not read %s", sFile))
 	}
+
+	err = toml.Unmarshal(buf, &c)
+	if err != nil {
+		return c, errors.New(fmt.Sprintf("Error parsing toml %s: %v",
+			sFile, err))
+	}
+
+	// Finally set default destination
+	c.Default = "mine"
+
+	return c, err
 }
