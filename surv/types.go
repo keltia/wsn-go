@@ -13,7 +13,7 @@ type SubVars struct {
 }
 
 type Client struct {
-	Config		config.Config
+	Config		*config.Config
 	Target		string
 	Wsdl		string
 	Topics		map[string]Topic

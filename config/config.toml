@@ -1,0 +1,21 @@
+proto = "http"
+site = "192.70.89.113"
+port = 9000
+endpoint = "wsn/NotificationBroker"
+wsdl = "data/NotificationBroker.wsdl"
+base = "http://147.196.152.4"
+default = "mine"
+
+[dests]
+
+  [dests.mine]
+
+    broker = "localhost"
+    prefix = "surv"
+    type = "queue"
+
+  [dests.swim02]
+
+    broker = "swim02.eurocontrol.fr"
+    prefix = "surv"
+    type = "queue"
