@@ -18,6 +18,7 @@ type Client struct {
 	Wsdl		string
 	Topics		map[string]Topic
 	Feed_one	func([]byte)
+	Verbose		bool
 }
 
 type Topic struct {

@@ -16,6 +16,8 @@ import (
 	"log"
 	"os/signal"
 	"time"
+	"strconv"
+	"regexp"
 )
 
 var (
@@ -26,6 +28,12 @@ var (
 		"AsterixJSON": "feed_json",
 		"AsterixXML": "feed_xml",
 		"AsterixJSONgzipped": "feed_jsongz",
+	}
+
+	timeMods = map[string]int64{
+		"mn": 60,
+		"h":  3600,
+		"d":  3600 * 24,
 	}
 
 	RunningFeeds = map[string]string{}
@@ -86,6 +94,35 @@ func fileOutput(buf []byte) {
 	}
 }
 
+// Check for specific modifiers, returns seconds
+//
+//XXX could use time.ParseDuration except it does not support days.
+func checkTimeout(value string) int64 {
+	mod := int64(1)
+	re := regexp.MustCompile(`(?P<time>\d+)(?P<mod>(s|mn|h|d)*)`)
+	match := re.FindStringSubmatch(value)
+	if match == nil {
+		return 0
+	} else {
+		// Get the base time
+		time, err := strconv.ParseInt(match[1], 10, 64)
+		if err != nil {
+			return 0
+		}
+
+		// Look for meaningful modifier
+		if match[2] != "" {
+			mod = timeMods[match[2]]
+			if mod == 0 {
+				mod = 1
+			}
+		}
+
+		// At the worst, mod == 1.
+		return time * mod
+	}
+}
+
 // Main program
 func main() {
 	// Handle SIGINT
@@ -126,6 +163,10 @@ func main() {
 		log.Fatalf("Error connecting to %s: %v", SurvClient.Target)
 	}
 
+	if fVerbose {
+		SurvClient.Verbose = true
+	}
+
 	// Open output file
 	if (fOutput != "") {
 		if (fVerbose) {
@@ -138,6 +179,16 @@ func main() {
 		}
 
 		SurvClient.AddHandler(fileOutput)
+	}
+
+	// Check if we did specify a timeout with -i
+	if fsTimeout != "" {
+		fTimeout = checkTimeout(fsTimeout)
+
+		if fVerbose {
+			log.Printf("Run for %ds\n", fTimeout)
+		}
+		SurvClient.SetTimer(fTimeout)
 	}
 
 	// Look for feed names on CLI
@@ -154,5 +205,5 @@ func main() {
 	// Start server for callback
 	log.Println("Starting server for ", keys(RunningFeeds), "...")
 	go doSubscribe(RunningFeeds)
-	surv.ServerStart(SurvClient, RunningFeeds)
+	SurvClient.ServerStart(RunningFeeds)
 }
