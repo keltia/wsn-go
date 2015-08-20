@@ -86,7 +86,7 @@ func (cl *Client) SetTimer(timer int64) {
 // Generate an URL
 func (cl *Client) generateURL() string {
 	c := cl.Config
-	return fmt.Sprintf("%s://%s:%s/%s", c.Proto, c.Site, c.Port, c.Endpoint)
+	return fmt.Sprintf("%s://%s:%d/%s", c.Proto, c.Site, c.Port, c.Endpoint)
 }
 
 // Subscribe to a given topic
