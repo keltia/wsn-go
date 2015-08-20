@@ -150,7 +150,7 @@ func main() {
 	// Load configuration
 	c, err := config.LoadConfig(RcFile)
 	if err != nil {
-		panic("Error loading "+RcFile)
+		log.Fatalf("Error loading %s: %v", RcFile, err)
 	}
 	if fVerbose {
 		fmt.Printf("Config is %s://%s:%s/%s\n", c.Proto, c.Site, c.Port, c.Endpoint)
