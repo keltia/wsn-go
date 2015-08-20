@@ -70,5 +70,5 @@ func LoadConfig(file string) (*Config, error) {
 	// Finally set default destination
 	c.Default = "mine"
 
-	return c, err
+	return c, nil
 }
