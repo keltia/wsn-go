@@ -11,11 +11,11 @@ default = "mine"
   [dests.mine]
 
     broker = "localhost"
-    prefix = "surv"
+    name = "surv"
     type = "queue"
 
   [dests.swim02]
 
     broker = "swim02.eurocontrol.fr"
-    prefix = "surv"
+    name = "surv"
     type = "queue"
