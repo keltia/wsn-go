@@ -37,18 +37,25 @@ func getFeedName(url string) string {
 }
 
 func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Client) {
-	log.Printf("%s %s %s", req.RemoteAddr, req.Method, req.URL)
-	log.Println(req)
+	if cl.Verbose {
+		log.Printf("%s %s %s", req.RemoteAddr, req.Method, req.URL)
+		log.Println(req)
+	}
 	//
 	// body is an XML SOAP
 	//
 	if req.Method == "POST" {
-		log.Println("In handleNotify")
+		if cl.Verbose {
+			log.Println("In handleNotify")
+		}
 		body, err := ioutil.ReadAll(req.Body)
 		defer req.Body.Close()
 
 		last := getFeedName(url)
-		log.Println("Request is", last)
+		if cl.Verbose {
+			log.Printf("|%s|\n", string(body))
+			log.Println("Request is", last)
+		}
 
 		notify := &SurvData{}
 		err = xml.Unmarshal(body, notify)
