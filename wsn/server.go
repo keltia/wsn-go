@@ -47,8 +47,6 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Clie
 			log.Println("In handleNotify")
 			log.Printf("%s %s %s", req.RemoteAddr, req.Method, req.URL)
 			log.Println(req)
-
-			log.Printf("|%s|\n", string(body))
 		}
 
 		last := getFeedName(url)
@@ -64,7 +62,9 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Clie
 			//http.Error(w, real, 500)
 			return
 		}
-
+		if cl.Verbose {
+			log.Printf("|%s|", string(notify.Body.Notify.NotifyMsg.Message))
+		}
 		topic := cl.Topics[last]
 		topic.Bytes += int64(len(notify.Body.Notify.NotifyMsg.Message))
 		topic.Pkts++
