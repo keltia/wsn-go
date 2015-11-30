@@ -15,5 +15,4 @@ surv-export:    surv-export.go config.go client.go types.go cli.go server.go
 
 push:
 	git push --all
-	git push --all backup
-	git push --all bitbucket
+	git push --all gitlab
