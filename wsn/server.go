@@ -41,6 +41,7 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Clie
 		log.Println("In handleNotify")
 		log.Printf("%s %s %s", req.RemoteAddr, req.Method, req.URL)
 		log.Println(req)
+		log.Printf("|%s|\n", string(req.Body))
 	}
 	//
 	// body is an XML SOAP
@@ -51,7 +52,6 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Clie
 
 		last := getFeedName(url)
 		if cl.Verbose {
-			log.Printf("|%s|\n", string(body))
 			log.Println("Request is", last)
 		}
 
