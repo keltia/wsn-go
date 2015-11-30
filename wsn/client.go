@@ -48,6 +48,9 @@ var (
 	`
 )
 
+// Private functions
+
+// Defaults to console output
 func defaultFeed(buf []byte) { fmt.Println(string(buf))}
 
 func NewClient (c *config.Config) (*Client, error) {
