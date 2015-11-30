@@ -53,6 +53,15 @@ var (
 // Defaults to console output
 func defaultFeed(buf []byte) { fmt.Println(string(buf))}
 
+// Generate an URL
+func (cl *Client) generateURL() string {
+	c := cl.Config
+	return fmt.Sprintf("%s://%s:%d/%s", c.Proto, c.Site, c.Port, c.Endpoint)
+}
+
+// Public interface
+
+// Create new client instance
 func NewClient (c *config.Config) (*Client, error) {
 	cl := new(Client)
 	cl.Topics	= make(map[string]Topic, 10)
@@ -84,12 +93,6 @@ func (cl *Client) SetTimer(timer int64) {
 		myself, _ := os.FindProcess(os.Getpid())
 		myself.Signal(os.Interrupt)
 	}()
-}
-
-// Generate an URL
-func (cl *Client) generateURL() string {
-	c := cl.Config
-	return fmt.Sprintf("%s://%s:%d/%s", c.Proto, c.Site, c.Port, c.Endpoint)
 }
 
 // Subscribe to a given topic
