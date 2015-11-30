@@ -57,13 +57,13 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Clie
 		notify := &SurvData{}
 		err = xml.Unmarshal(body, notify)
 		if err != nil {
-			real := fmt.Sprintf("Error: %v", err)
+			real := fmt.Sprintf("Error parsing: |%s|: %v", string(body), err)
 			log.Println(real)
 			//http.Error(w, real, 500)
 			return
 		}
 		if cl.Verbose {
-			log.Printf("|%s|", string(notify.Body.Notify.NotifyMsg.Message))
+			log.Printf("|%v|", notify)
 		}
 		topic := cl.Topics[last]
 		topic.Bytes += int64(len(notify.Body.Notify.NotifyMsg.Message))
