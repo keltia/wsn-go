@@ -47,6 +47,8 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Clie
 		nb, err := req.Body.Read(body)
 		if err != nil && nb != 0 {
 			log.Printf("|%s|\n", string(body))
+		} else {
+			log.Printf("Empty body\n")
 		}
 	}
 	//
