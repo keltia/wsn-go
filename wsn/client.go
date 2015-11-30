@@ -1,7 +1,6 @@
 package wsn
 
 import (
-	"../config"
 	"text/template"
 	"log"
 	"fmt"
@@ -12,6 +11,7 @@ import (
 	"strings"
 	"time"
 	"os"
+	"github.com/keltia/wsn-go/config"
 )
 
 var (
