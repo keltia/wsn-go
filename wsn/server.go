@@ -63,7 +63,6 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Clie
 		topic.Bytes += int64(len(notify.Body.Notify.NotifyMsg.Message))
 		topic.Pkts++
 
-		//log.Printf("%+v", string(notify.Body.Notify.NotifyMsg.Message.Payload.Text))
 		(cl.Feed_one)(notify.Body.Notify.NotifyMsg.Message)
 	} else {
 		http.NotFound(w, req)
