@@ -41,7 +41,13 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Clie
 		log.Println("In handleNotify")
 		log.Printf("%s %s %s", req.RemoteAddr, req.Method, req.URL)
 		log.Println(req)
-		log.Printf("|%s|\n", string(req.Body))
+
+		var body []byte
+
+		nb, err := req.Body.Read(body)
+		if err != nil && nb != 0 {
+			log.Printf("|%s|\n", string(body))
+		}
 	}
 	//
 	// body is an XML SOAP
