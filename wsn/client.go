@@ -73,7 +73,9 @@ func NewClient (c *config.Config) (*Client, error) {
 
 // Create .Topics structure w/o subscribing
 func (cl *Client) AddFeed(name string) {
-	log.Println("Adding new feed", name)
+	if cl.Verbose {
+		log.Println("Adding new feed", name)
+	}
 	cl.Topics[name] = Topic{Started: false}
 }
 
@@ -103,8 +105,10 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 	targetURL := cl.generateURL()
 	myEndpoint := cl.Config.Base + ":" + fmt.Sprintf("%d", cl.Config.Port) + "/" + callback
 
-	log.Println("Targetting ", targetURL)
-	log.Printf("Subscribing %s on my side", myEndpoint)
+	if cl.Verbose {
+		log.Println("Targetting ", targetURL)
+		log.Printf("Subscribing %s on my side", myEndpoint)
+	}
 
 	subvars := SubVars{TopicURL: myEndpoint, TopicName: name}
 
