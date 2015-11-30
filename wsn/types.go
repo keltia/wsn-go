@@ -72,13 +72,5 @@ type SDNotify struct {
 type SDNotifyMsg struct {
 	NotifyRef	SAReference `xml:"SubscriptionReference"`
 	Topic		string
-	Message		SDMessage
-}
-
-type SDMessage struct {
-	Payload		SDCat62Payload `xml:"Cat62SurveillanceJSON"`
-}
-
-type SDCat62Payload struct {
-	Text		[]byte `xml:"PlainText"`
+	Message		[]byte		// Generic payload
 }
