@@ -1,4 +1,4 @@
-package surv
+package wsn
 
 import (
 	"../config"

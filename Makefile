@@ -1,6 +1,6 @@
 # Main Makefile for surv-export
 
-VPATH=  surv-export:config:surv
+VPATH=  surv-export:config:wsn
 
 all: surv-export
 

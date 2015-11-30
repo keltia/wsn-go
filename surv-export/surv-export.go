@@ -8,7 +8,7 @@ package main
 
 import (
 	"../config"
-	"../surv"
+	"../wsn"
 	"flag"
 	"fmt"
 	"os"
@@ -38,7 +38,7 @@ var (
 
 	RunningFeeds = map[string]string{}
 
-	SurvClient	*surv.Client
+	SurvClient	*wsn.Client
 
 	fOutputFH	*os.File
 )
@@ -56,7 +56,7 @@ func doSubscribe(feeds map[string]string) {
 			log.Printf("Subscribing to /%s for %s\n", target, name)
 			log.Printf("  unsub is %s\n", unsubFn)
 		}
-		topic := surv.Topic{Started: true, UnsubAddr: unsubFn}
+		topic := wsn.Topic{Started: true, UnsubAddr: unsubFn}
 		SurvClient.Topics[name] = topic
 	}
 }
@@ -159,7 +159,7 @@ func main() {
 	}
 
 	// Actually instanciate the client part
-	if SurvClient, err = surv.NewClient(c); err != nil {
+	if SurvClient, err = wsn.NewClient(c); err != nil {
 		log.Fatalf("Error connecting to %s: %v", SurvClient.Target)
 	}
 

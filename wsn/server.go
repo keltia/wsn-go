@@ -2,7 +2,7 @@
 //
 // Server-side of the WS-N package
 
-package surv
+package wsn
 
 import (
 	"net/http"
