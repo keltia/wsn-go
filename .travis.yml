@@ -8,3 +8,6 @@ branches:
   - master
 install:
   - go get github.com/naoina/toml
+script:
+  - cd config && go build -v
+  - cd wsn && go build -v
