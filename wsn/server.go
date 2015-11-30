@@ -37,26 +37,19 @@ func getFeedName(url string) string {
 }
 
 func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Client) {
-	if cl.Verbose {
-		log.Println("In handleNotify")
-		log.Printf("%s %s %s", req.RemoteAddr, req.Method, req.URL)
-		log.Println(req)
-
-		var body []byte
-
-		nb, err := req.Body.Read(body)
-		if err != nil && nb != 0 {
-			log.Printf("|%s|\n", string(body))
-		} else {
-			log.Printf("Empty body\n")
-		}
-	}
-	//
 	// body is an XML SOAP
 	//
 	if req.Method == "POST" {
 		body, err := ioutil.ReadAll(req.Body)
 		defer req.Body.Close()
+
+		if cl.Verbose {
+			log.Println("In handleNotify")
+			log.Printf("%s %s %s", req.RemoteAddr, req.Method, req.URL)
+			log.Println(req)
+
+			log.Printf("|%s|\n", string(body))
+		}
 
 		last := getFeedName(url)
 		if cl.Verbose {
