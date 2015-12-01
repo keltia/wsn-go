@@ -8,48 +8,48 @@ import (
 // My stuff
 
 type SubVars struct {
-	TopicName	string
-	TopicURL	string
+	TopicName string
+	TopicURL  string
 }
 
 type Client struct {
-	Config		*config.Config
-	Target		string
-	Wsdl		string
-	Topics		map[string]Topic
-	Feed_one	func([]byte)
-	Verbose		bool
+	Config   *config.Config
+	Target   string
+	Wsdl     string
+	Topics   map[string]Topic
+	Feed_one func([]byte)
+	Verbose  bool
 }
 
 type Topic struct {
-	Bytes		int64
-	Pkts		int
-	UnsubAddr	string
-	Started		bool
+	Bytes     int64
+	Pkts      int
+	UnsubAddr string
+	Started   bool
 }
 
 // SOAP stuff
 
 type SubscribeAnswer struct {
-    XMLName xml.Name
-    Body    SABody
+	XMLName xml.Name
+	Body    SABody
 }
 
 type SABody struct {
-    XMLName     xml.Name
-    Resp        SAResp `xml:"SubscribeResponse"`
+	XMLName xml.Name
+	Resp    SAResp `xml:"SubscribeResponse"`
 }
 
 type SAResp struct {
-	XMLName	xml.Name `xml:"SubscribeResponse"`
-	Reference	SAReference `xml:"SubscriptionReference"`
+	XMLName   xml.Name    `xml:"SubscribeResponse"`
+	Reference SAReference `xml:"SubscriptionReference"`
 }
 
 type SAReference struct {
-	XMLName xml.Name `xml:"SubscriptionReference"`
-	Address	string
+	XMLName             xml.Name `xml:"SubscriptionReference"`
+	Address             string
 	ReferenceParameters string
-	Metadata string
+	Metadata            string
 }
 
 // Surv data (CAT62 simplified)
