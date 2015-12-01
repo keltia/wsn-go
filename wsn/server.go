@@ -62,14 +62,21 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Clie
 			//http.Error(w, real, 500)
 			return
 		}
+
+		// payload is way inside
+		payload := notify.Body.Notify.NotificationMessage.Message.Data
+
+		// XXX very long output, convert to string for clarity
 		if cl.Verbose {
-			log.Printf("|%v|", notify)
+			log.Printf("|%v|", string(payload))
 		}
+
+		// Stats
 		topic := cl.Topics[last]
-		topic.Bytes += int64(len(notify.Body.Notify.NotificationMessage.Message.Data))
+		topic.Bytes += int64(len(payload))
 		topic.Pkts++
 
-		(cl.Feed_one)(notify.Body.Notify.NotificationMessage.Message.Data)
+		(cl.Feed_one)(payload)
 	} else {
 		http.NotFound(w, req)
 	}
