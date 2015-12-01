@@ -54,7 +54,7 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Clie
 			log.Println("Request is", last)
 		}
 
-		notify := &SurvData{}
+		notify := &WsnData{}
 		err = xml.Unmarshal(body, notify)
 		if err != nil {
 			real := fmt.Sprintf("Error parsing: |%s|: %v", string(body), err)
@@ -66,10 +66,10 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Clie
 			log.Printf("|%v|", notify)
 		}
 		topic := cl.Topics[last]
-		topic.Bytes += int64(len(notify.Body.Notify.NotifyMsg.Message))
+		topic.Bytes += int64(len(notify.Body.Notify.NotificationMessage.Message.Data))
 		topic.Pkts++
 
-		(cl.Feed_one)(notify.Body.Notify.NotifyMsg.Message)
+		(cl.Feed_one)(notify.Body.Notify.NotificationMessage.Message.Data)
 	} else {
 		http.NotFound(w, req)
 	}

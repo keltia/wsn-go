@@ -52,25 +52,19 @@ type SAReference struct {
 	Metadata            string
 }
 
-// Surv data (CAT62 simplified)
+// Generic WS-N data
 
-type SurvData struct {
-    XMLName xml.Name `xml:"Envelope"`
-    Body    SDBody
-}
-
-type SDBody struct {
-    Notify      SDNotify
-}
-
-type SDNotify struct {
-	NotifyMsg	SDNotifyMsg `xml:"NotificationMessage"`
-}
-
-// Data can be JSON, compressed JSON or XML
-
-type SDNotifyMsg struct {
-	NotifyRef	SAReference `xml:"SubscriptionReference"`
-	Topic		string
-	Message		[]byte		// Generic payload
+type WsnData struct {
+	XMLName xml.Name `xml:"Envelope"`
+	Body    struct {
+		Notify struct {
+			NotificationMessage struct {
+				SubscriptionReference SAReference
+				Topic           string
+				Message         struct {
+					Data []byte `xml:",innerxml"`
+				}
+			}
+		}
+	}
 }
