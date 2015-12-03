@@ -4,7 +4,7 @@
   WS-N (Webservice Notifications) is an OASIS standard protocol for the publish-subscribe pattern,
   also called P/S, in either pushing or polling.
 
-  See the OASISworking group at https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=wsn
+  See the OASIS working group at https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=wsn
   for details.
 
   Client-side part of the WS-N package.  It supports Publish-Subscribe with push (not polling).
