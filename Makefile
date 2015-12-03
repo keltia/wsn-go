@@ -5,7 +5,7 @@ VPATH=  config:wsn
 all: test
 
 clean:
-	rm -f surv-export
+	go clean -v
 
 test: client.go server.go types.go config.go
 	go test -v ./...
