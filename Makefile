@@ -2,10 +2,13 @@
 
 VPATH=  config:wsn
 
-all: test
+all: build test
 
 clean:
 	go clean -v
+
+build: client.go server.go types.go config.go
+	go build -v ./...
 
 test: client.go server.go types.go config.go
 	go test -v ./...
