@@ -162,7 +162,7 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 
 	c := cl.Config
 	targetURL := cl.generateURL()
-	myEndpoint := cl.Config.Base + ":" + fmt.Sprintf("%d", cl.Config.Port) + "/" + callback
+	myEndpoint := c.Base + ":" + fmt.Sprintf("%d", c.Port) + "/" + callback
 
 	if cl.Verbose {
 		log.Println("Targetting ", targetURL)
