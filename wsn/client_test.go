@@ -4,14 +4,13 @@ import (
 	"fmt"
 	"testing"
 	"github.com/keltia/wsn-go/config"
-	"github.com/keltia/wsn-go/wsn"
 )
 
 var myConfig = config.Config{Proto: "http", Site: "example.com", Port: 666, Endpoint: "foo"}
 //var client wsn.Client
 
-var _topics map[string]*wsn.Topic
-var _topic *wsn.Topic
+var _topics map[string]*Topic
+var _topic *Topic
 
 func TestNewClient(t *testing.T) {
 	var err error
