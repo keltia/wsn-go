@@ -125,6 +125,7 @@ func NewClient (c *config.Config) (*Client, error) {
 	cl.Config	= c
 	cl.Target	= c.Proto+"://"+c.Site+":"+fmt.Sprintf("%d", c.Port)+"/"+c.Endpoint
 	cl.Feed_one = defaultFeed
+	cl.Timeout  = 0		// in seconds
 	return cl, nil
 }
 
@@ -144,6 +145,7 @@ func (cl *Client) AddHandler(fn func([]byte)) {
 // Allow run of specified duration
 func (cl *Client) SetTimer(timer int64) {
 	// Sleep for fTimeout seconds then sends Interrupt
+	cl.Timeout = timer
 	go func() {
 		time.Sleep(time.Duration(timer) * time.Second)
 		if cl.Verbose {

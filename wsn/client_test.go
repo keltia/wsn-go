@@ -56,3 +56,16 @@ func TestAddFeed(t *testing.T) {
 		t.Errorf("Error: topic should not be startted")
 	}
 }
+
+func TestSetTimer(t *testing.T) {
+	client, err := NewClient(&myConfig)
+	if err != nil {
+		t.Errorf("Bad init: %v: %v", client, err)
+	}
+
+	tval := int64(3600)
+	client.SetTimer(tval)
+	if client.Timeout != tval {
+		t.Errorf("Bad init for Timeout: %v: %v", client, client.Timeout)
+	}
+}

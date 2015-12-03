@@ -19,6 +19,7 @@ type Client struct {
 	Topics   map[string]*Topic
 	Feed_one func([]byte)
 	Verbose  bool
+	Timeout  int64
 }
 
 type Topic struct {
