@@ -8,5 +8,4 @@ branches:
   - master
 install:
   - go get github.com/naoina/toml
-script:
-  - go build -v ./...
+
