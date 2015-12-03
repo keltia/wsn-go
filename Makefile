@@ -1,18 +1,15 @@
 # Main Makefile for surv-export
 
-VPATH=  surv-export:config:wsn
+VPATH=  config:wsn
 
-all: surv-export
+all: test
 
 clean:
 	rm -f surv-export
 
-install:
-	go install -v surv-export/surv-export.go surv-export/cli.go
-
-surv-export:    surv-export.go config.go client.go types.go cli.go server.go
-	go build -v -o $@ surv-export/surv-export.go surv-export/cli.go
+test: client.go server.go types.go config.go
+	go test -v ./...
 
 push:
 	git push --all
-	git push --all gitlab
+	git push --all backup
