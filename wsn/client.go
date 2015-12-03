@@ -64,7 +64,7 @@ func (cl *Client) generateURL() string {
 // Create new client instance
 func NewClient (c *config.Config) (*Client, error) {
 	cl := new(Client)
-	cl.Topics	= make(map[string]Topic, 10)
+	cl.Topics	= make(map[string]*Topic, 10)
 	cl.Config	= c
 	cl.Target	= c.Proto+"://"+c.Site+":"+fmt.Sprintf("%d", c.Port)+"/"+c.Endpoint
 	cl.Feed_one = defaultFeed
@@ -76,7 +76,7 @@ func (cl *Client) AddFeed(name string) {
 	if cl.Verbose {
 		log.Println("Adding new feed", name)
 	}
-	cl.Topics[name] = Topic{Started: false}
+	cl.Topics[name] = &Topic{Started: false}
 }
 
 // Change default callback
