@@ -81,3 +81,15 @@ func TestGenerateURL(t *testing.T) {
 		t.Errorf("Error: bad format %s for %v\n", url, client)
 	}
 }
+
+func TestAddHandler(t *testing.T) {
+	client, err := NewClient(&myConfig)
+	if err != nil {
+		t.Errorf("Bad init: %v: %v", client, err)
+	}
+
+	client.AddHandler(nil)
+	if client.Feed_one != nil {
+		t.Errorf("Error: error setting Feed_one()\n")
+	}
+}
