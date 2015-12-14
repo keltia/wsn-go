@@ -1,7 +1,6 @@
 package wsn
 
 import (
-	"fmt"
 	"testing"
 	"github.com/keltia/wsn-go/config"
 )
@@ -33,7 +32,7 @@ func TestNewClient(t *testing.T) {
 		t.Errorf("Wrong fields: %v: %v", conf, client)
 	}
 
-	if client.Target != (conf.Proto+"://"+conf.Site+":"+fmt.Sprintf("%d", conf.Port)+"/"+conf.Endpoint) {
+	if client.Target != client.generateURL(conf.Endpoint) {
 		t.Errorf("Wrong Target: %v: %v", conf, client)
 	}
 
