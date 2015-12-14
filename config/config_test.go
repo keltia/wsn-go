@@ -32,3 +32,12 @@ func TestCheckName(t *testing.T) {
 		t.Errorf("Error: should end with .toml: %s", res)
 	}
 }
+
+func TestStringer(t *testing.T) {
+	dest := Dest{Broker:"broker", Name:"myname", Type:"mytype"}
+
+	res := dest.String()
+	if res != "broker: myname" {
+		t.Errorf("Error: malformed string: %s", res)
+	}
+}
