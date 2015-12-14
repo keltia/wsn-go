@@ -34,6 +34,14 @@ type Config struct {
 
 // Check the parameter for either tag or filename
 func checkName(file string) string {
+	// Full path, MUST have .toml
+	if bfile := []byte(file); bfile[0] == '/' {
+		if !strings.HasSuffix(file, ".toml") {
+			return ""
+		} else {
+			return file
+		}
+	}
 	// Check for tag
 	if !strings.HasSuffix(file, ".toml") {
 		// file must be a tag so add a "."

@@ -1,10 +1,9 @@
 package wsn
 
 import (
+	"encoding/xml"
 	"testing"
 	//"github.com/keltia/wsn-go/config"
-	"fmt"
-	"encoding/xml"
 )
 
 const (
@@ -41,11 +40,9 @@ const (
 
 func TestDecodeNotify(t *testing.T) {
 	body := []byte(onePkt)
-	fmt.Printf("Pkt: %v\n", onePkt)
 	notify := &WsnData{}
 	err := xml.Unmarshal(body, notify)
 	if err != nil {
 		t.Errorf("Payload should be identical: %v\n%v", decodedPkt, notify)
 	}
-	t.Logf("Notify: %v", notify)
 }

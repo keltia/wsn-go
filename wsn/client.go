@@ -111,9 +111,9 @@ var (
 func defaultFeed(buf []byte) { fmt.Println(string(buf))}
 
 // Generate an URL
-func (cl *Client) generateURL() string {
+func (cl *Client) generateURL(endPoint string) string {
 	c := cl.Config
-	return fmt.Sprintf("%s://%s:%d/%s", c.Proto, c.Site, c.Port, c.Endpoint)
+	return fmt.Sprintf("%s://%s:%d/%s", c.Proto, c.Site, c.Port, endPoint)
 }
 
 // Public interface
@@ -123,7 +123,7 @@ func NewClient (c *config.Config) (*Client, error) {
 	cl := new(Client)
 	cl.Topics	= make(map[string]*Topic, 10)
 	cl.Config	= c
-	cl.Target	= cl.generateURL()
+	cl.Target	= cl.generateURL(c.Endpoint)
 	cl.Feed_one = defaultFeed
 	cl.Timeout  = 0		// in seconds
 	return cl, nil
@@ -161,7 +161,7 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 	var result	bytes.Buffer
 
 	c := cl.Config
-	targetURL := cl.generateURL()
+	targetURL := cl.generateURL(c.Endpoint)
 	myEndpoint := c.Base + ":" + fmt.Sprintf("%d", c.Port) + "/" + callback
 
 	// Make sure we have everything

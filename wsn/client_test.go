@@ -1,7 +1,6 @@
 package wsn
 
 import (
-	"fmt"
 	"testing"
 	"github.com/keltia/wsn-go/config"
 )
@@ -33,7 +32,7 @@ func TestNewClient(t *testing.T) {
 		t.Errorf("Wrong fields: %v: %v", conf, client)
 	}
 
-	if client.Target != (conf.Proto+"://"+conf.Site+":"+fmt.Sprintf("%d", conf.Port)+"/"+conf.Endpoint) {
+	if client.Target != client.generateURL(conf.Endpoint) {
 		t.Errorf("Wrong Target: %v: %v", conf, client)
 	}
 
@@ -79,7 +78,7 @@ func TestGenerateURL(t *testing.T) {
 		t.Errorf("Bad init: %v: %v", client, err)
 	}
 
-	url := client.generateURL()
+	url := client.generateURL(myConfig.Endpoint)
 	if url != "http://example.com:666/foo" {
 		t.Errorf("Error: bad format %s for %v\n", url, client)
 	}
