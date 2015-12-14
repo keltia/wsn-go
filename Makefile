@@ -14,5 +14,5 @@ test: client.go server.go types.go config.go
 	go test -v ./...
 
 push:
-	git push --all
+	git push --all origin
 	git push --all backup
