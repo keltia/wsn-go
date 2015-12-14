@@ -37,6 +37,9 @@ func TestNewClient(t *testing.T) {
 		t.Errorf("Wrong Target: %v: %v", conf, client)
 	}
 
+	if client.Topics == nil {
+		t.Errorf("Uninitialized topics: %v: %v", client)
+	}
 }
 
 func TestAddFeed(t *testing.T) {
