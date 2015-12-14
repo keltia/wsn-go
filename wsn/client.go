@@ -164,6 +164,8 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 	targetURL := cl.generateURL()
 	myEndpoint := c.Base + ":" + fmt.Sprintf("%d", c.Port) + "/" + callback
 
+	// Make sure we have everything
+	cl.Topics[callback] = &Topic{0, 0, "", false}
 	if cl.Verbose {
 		log.Println("Targetting ", targetURL)
 		log.Printf("Subscribing %s on my side", myEndpoint)
