@@ -1,10 +1,9 @@
 package wsn
 
 import (
+	"encoding/xml"
 	"testing"
 	//"github.com/keltia/wsn-go/config"
-	"fmt"
-	"encoding/xml"
 )
 
 const (
