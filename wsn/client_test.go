@@ -79,7 +79,7 @@ func TestGenerateURL(t *testing.T) {
 		t.Errorf("Bad init: %v: %v", client, err)
 	}
 
-	url := client.generateURL()
+	url := client.generateURL(myConfig.Endpoint)
 	if url != "http://example.com:666/foo" {
 		t.Errorf("Error: bad format %s for %v\n", url, client)
 	}
