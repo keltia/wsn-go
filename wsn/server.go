@@ -49,7 +49,10 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Clie
 	// body is an XML SOAP
 	//
 	if req.Method == "POST" {
-		body, err := ioutil.ReadAll(req.Body)
+		body, err := ioutil.ReadAll(req.Body);
+		if err != nil {
+			http.Error(w, fmt.Sprintf("Error reading payload %s\n", req.Body), 500)
+		}
 		defer req.Body.Close()
 
 		if cl.Verbose {
