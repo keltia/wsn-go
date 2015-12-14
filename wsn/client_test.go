@@ -69,3 +69,15 @@ func TestSetTimer(t *testing.T) {
 		t.Errorf("Bad init for Timeout: %v: %v", client, client.Timeout)
 	}
 }
+
+func TestGenerateURL(t *testing.T) {
+	client, err := NewClient(&myConfig)
+	if err != nil {
+		t.Errorf("Bad init: %v: %v", client, err)
+	}
+
+	url := client.generateURL()
+	if url != "http://example.com:666/foo" {
+		t.Errorf("Error: bad format %s for %v\n", url, client)
+	}
+}
