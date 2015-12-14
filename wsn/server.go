@@ -36,6 +36,15 @@ func getFeedName(url string) string {
 
 }
 
+func decodeNotify(body []byte) (notify *WsnData, err error) {
+	err = xml.Unmarshal(body, notify)
+	if err != nil {
+		log.Println(fmt.Sprintf("Error parsing: |%s|: %v", string(body), err))
+		//http.Error(w, real, 500)
+	}
+	return
+}
+
 func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Client) {
 	// body is an XML SOAP
 	//
@@ -54,14 +63,8 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Clie
 			log.Println("Request is", last)
 		}
 
-		notify := &WsnData{}
-		err = xml.Unmarshal(body, notify)
-		if err != nil {
-			real := fmt.Sprintf("Error parsing: |%s|: %v", string(body), err)
-			log.Println(real)
-			//http.Error(w, real, 500)
-			return
-		}
+		// Decode body
+		notify, err := decodeNotify(body)
 
 		// payload is way inside
 		payload := notify.Body.Notify.NotificationMessage.Message.Data
