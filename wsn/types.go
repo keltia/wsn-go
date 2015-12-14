@@ -69,3 +69,7 @@ type WsnData struct {
 		}
 	}
 }
+
+func (d *WsnData) String() string {
+	return string(d.Body.Notify.NotificationMessage.Message.Data)
+}
