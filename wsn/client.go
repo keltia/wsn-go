@@ -172,7 +172,7 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 	myEndpoint := fmt.Sprintf("%s:%d%s", c.Base, c.Port), callback)
 
 	// Make sure we have everything
-	cl.Topics[callback] = &Topic{0, 0, "", false}
+	cl.Topics[callback] = &Topic{Bytes:0, Pkts:0, UnsubAddr:"", Started:false}
 	if cl.Verbose {
 		log.Println("Targetting ", targetURL)
 		log.Printf("Subscribing %s on my side", myEndpoint)
