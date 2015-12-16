@@ -162,7 +162,14 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 
 	c := cl.Config
 	targetURL := cl.generateURL(c.Endpoint)
-	myEndpoint := c.Base + ":" + fmt.Sprintf("%d", c.Port) + "/" + callback
+
+	// We require the feed name/callback to start with /
+	if []rune(callback)[0] != '/' {
+		callback = "/" + callback
+	}
+
+	// XXX might useful to merge with generateURL() at some point
+	myEndpoint := fmt.Sprintf("%s:%d%s", c.Base, c.Port), callback)
 
 	// Make sure we have everything
 	cl.Topics[callback] = &Topic{0, 0, "", false}
