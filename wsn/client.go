@@ -169,7 +169,7 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 	}
 
 	// XXX might useful to merge with generateURL() at some point
-	myEndpoint := fmt.Sprintf("%s:%d%s", c.Base, c.Port), callback)
+	myEndpoint := fmt.Sprintf("%s:%d%s", c.Base, c.Port, callback)
 
 	// Make sure we have everything
 	cl.Topics[callback] = &Topic{Bytes:0, Pkts:0, UnsubAddr:"", Started:false}
