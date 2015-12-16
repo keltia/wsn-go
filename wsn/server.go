@@ -84,12 +84,12 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Clie
 	}
 }
 
-func (cl *Client) ServerStart(feeds map[string]string) {
+func (cl *Client) ServerStart() {
 	server := http.NewServeMux()
-	for name, feed := range feeds {
-		log.Printf("Setting handler for %s as /%s\n", name, feed)
-		server.HandleFunc("/" + feed, makeHandler(handleNotify, cl))
+	for feed, _ := range cl.Topics {
+		log.Printf("Setting handler %s\n", feed)
+		server.HandleFunc(feed, makeHandler(handleNotify, cl))
 	}
-	log.Println("Serving", feeds)
+	log.Println("Starting")
 	log.Fatal(http.ListenAndServe(":"+fmt.Sprintf("%d", cl.Config.Port), server))
 }

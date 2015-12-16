@@ -41,11 +41,8 @@
   subscribing because the latter effectively starts the data streams and need the server part to be
   started as well, which you do with "StartServer".
 
-      client.StartServer(feeds)
+      client.StartServer()
 
-  with feeds being a map[string]string with topic name as key and the endpoint as value.
-
-  You
   See https://github.com/keltia/surv-client-go for a running example client using `wsn-go`.
 
   BUGS
@@ -162,10 +159,17 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 
 	c := cl.Config
 	targetURL := cl.generateURL(c.Endpoint)
-	myEndpoint := c.Base + ":" + fmt.Sprintf("%d", c.Port) + "/" + callback
+
+	// We require the feed name/callback to start with /
+	if []rune(callback)[0] != '/' {
+		callback = "/" + callback
+	}
+
+	// XXX might useful to merge with generateURL() at some point
+	myEndpoint := fmt.Sprintf("%s:%d%s", c.Base, c.Port, callback)
 
 	// Make sure we have everything
-	cl.Topics[callback] = &Topic{0, 0, "", false}
+	cl.Topics[callback] = &Topic{Bytes:0, Pkts:0, UnsubAddr:"", Started:false}
 	if cl.Verbose {
 		log.Println("Targetting ", targetURL)
 		log.Printf("Subscribing %s on my side", myEndpoint)
