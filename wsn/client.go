@@ -41,11 +41,8 @@
   subscribing because the latter effectively starts the data streams and need the server part to be
   started as well, which you do with "StartServer".
 
-      client.StartServer(feeds)
+      client.StartServer()
 
-  with feeds being a map[string]string with topic name as key and the endpoint as value.
-
-  You
   See https://github.com/keltia/surv-client-go for a running example client using `wsn-go`.
 
   BUGS
