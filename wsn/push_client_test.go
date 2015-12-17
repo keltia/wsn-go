@@ -11,7 +11,7 @@ var myConfig = config.Config{Proto: "http", Site: "example.com", Port: 666, Endp
 var _topics map[string]*Topic
 var _topic *Topic
 
-func TestNewClient(t *testing.T) {
+func TestNewPushClient(t *testing.T) {
 	var err error
 
 	client, err := NewPushClient(&myConfig)
