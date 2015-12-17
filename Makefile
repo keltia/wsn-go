@@ -16,4 +16,6 @@ test: ${SRCS}
 
 push:
 	git push --all
+	git push --tags
 	git push --all gitlab
+	git push --tags gitlab
