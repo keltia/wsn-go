@@ -1,16 +1,17 @@
 # Main Makefile for surv-export
 
 VPATH=  config:wsn
+SRCS=   push_client.go push_server.go types.go config.go
 
 all: build test
 
 clean:
 	go clean -v
 
-build: client.go server.go types.go config.go
+build: ${SRCS}
 	go build -v ./...
 
-test: client.go server.go types.go config.go
+test: ${SRCS}
 	go test -v ./...
 
 push:
