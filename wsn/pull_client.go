@@ -56,6 +56,9 @@
 package wsn
 
 import (
+	"log"
+	"os"
+	"time"
 	"github.com/keltia/wsn-go/config"
 )
 
@@ -74,3 +77,31 @@ func NewPullClient(config *config.Config) (client *PullClient, err error) {
 	err = nil
 	return
 }
+
+// Create .Topics structure w/o subscribing
+func (cl *PullClient) AddFeed(name string) {
+	if cl.Verbose {
+		log.Println("Adding new feed", name)
+	}
+	cl.Topics[name] = &Topic{Started: false}
+}
+
+// Change default callback
+func (cl *PullClient) AddHandler(fn func([]byte)) {
+	cl.Feed_one = fn
+}
+
+// Allow run of specified duration
+func (cl *PullClient) SetTimer(timer int64) {
+	// Sleep for fTimeout seconds then sends Interrupt
+	cl.Timeout = timer
+	go func() {
+		time.Sleep(time.Duration(timer) * time.Second)
+		if cl.Verbose {
+			log.Println("Timer off, time to kill")
+		}
+		myself, _ := os.FindProcess(os.Getpid())
+		myself.Signal(os.Interrupt)
+	}()
+}
+
