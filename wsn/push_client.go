@@ -68,50 +68,7 @@ import (
 	"github.com/keltia/wsn-go/config"
 )
 
-var (
-	httpClient http.Client = http.Client{}
-
-	subText = `
-	<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
-	               xmlns:b="http://docs.oasis-open.org/wsn/b-2"
-	               xmlns:add="http://www.w3.org/2005/08/addressing">
-	   <soap:Header/>
-	   <soap:Body>
-	      <b:Subscribe>
-	         <b:ConsumerReference>
-	            <add:Address>{{.TopicURL}}</add:Address>
-	         </b:ConsumerReference>
-	         <b:Filter>
-	           <b:TopicExpression>
-	             {{.TopicName}}
-	           </b:TopicExpression>
-	         </b:Filter>
-	      </b:Subscribe>
-	   </soap:Body>
-	</soap:Envelope>
-	`
-
-	unsubText = `
-	<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
-	               xmlns:b="http://docs.oasis-open.org/wsn/b-2">
-	   <soap:Header/>
-	   <soap:Body>
-	      <b:Unsubscribe/>
-	   </soap:Body>
-	</soap:Envelope>
-	`
-)
-
 // Private functions
-
-// Defaults to console output
-func defaultFeed(buf []byte) { fmt.Println(string(buf))}
-
-// Generate an URL
-func (cl *PushClient) generateURL(endPoint string) string {
-	c := cl.Config
-	return fmt.Sprintf("%s://%s:%d/%s", c.Proto, c.Site, c.Port, endPoint)
-}
 
 // Public interface
 
