@@ -72,18 +72,6 @@ func TestSetTimer(t *testing.T) {
 	}
 }
 
-func TestGenerateURL(t *testing.T) {
-	client, err := NewPushClient(&myConfig)
-	if err != nil {
-		t.Errorf("Bad init: %v: %v", client, err)
-	}
-
-	url := client.generateURL(myConfig.Endpoint)
-	if url != "http://example.com:666/foo" {
-		t.Errorf("Error: bad format %s for %v\n", url, client)
-	}
-}
-
 func TestAddHandler(t *testing.T) {
 	client, err := NewPushClient(&myConfig)
 	if err != nil {
