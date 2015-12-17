@@ -1,3 +1,5 @@
+// client.go
+
 package wsn
 
 import (
@@ -12,6 +14,7 @@ const (
 	MODE_PUSH
 )
 
+// Generic Client interface for both Push/Pull modes
 type Client interface {
 	io.Reader
 
@@ -24,6 +27,10 @@ type Client interface {
 
 // Error list
 
+// Topic errors
 var ErrTopicNotFound = errors.New("Topic not found")
 
+// Pull point creation/destruction errors
 var ErrCreatingPullPoint = errors.New("Can not create pull point")
+
+var ErrDestroyingPullPoint = errors.New("Can not destroy pull point")
