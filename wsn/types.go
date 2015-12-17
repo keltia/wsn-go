@@ -15,7 +15,6 @@ type SubVars struct {
 type Client struct {
 	Config   *config.Config
 	Target   string
-	Wsdl     string
 	Topics   map[string]*Topic
 	Feed_one func([]byte)
 	Verbose  bool
