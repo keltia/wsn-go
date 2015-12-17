@@ -5,22 +5,21 @@ import (
 	"github.com/keltia/wsn-go/config"
 )
 
-var myConfig = config.Config{Proto: "http", Site: "example.com", Port: 666, Endpoint: "foo"}
-//var client wsn.Client
+var pushConfig = config.Config{Proto: "http", Site: "example.com", Port: 666, Endpoint: "foo"}
 
-var _topics map[string]*Topic
-var _topic *Topic
+var push_topics map[string]*Topic
+var push_topic *Topic
 
 func TestNewPushClient(t *testing.T) {
 	var err error
 
-	client, err := NewPushClient(&myConfig)
+	client, err := NewPushClient(&pushConfig)
 	if err != nil {
 		t.Errorf("Bad init: %v: %v", client, err)
 	}
 
 	conf := client.Config
-	if conf.Port != myConfig.Port || conf.Site != myConfig.Site {
+	if conf.Port != pushConfig.Port || conf.Site != pushConfig.Site {
 		t.Errorf("Wrong fields: %v: %v", conf, client)
 	}
 
@@ -28,7 +27,7 @@ func TestNewPushClient(t *testing.T) {
 		t.Errorf("Error: Verbose should be false! %v", client.Verbose)
 	}
 
-	if conf.Proto != myConfig.Proto || conf.Endpoint != myConfig.Endpoint {
+	if conf.Proto != pushConfig.Proto || conf.Endpoint != pushConfig.Endpoint {
 		t.Errorf("Wrong fields: %v: %v", conf, client)
 	}
 
@@ -42,7 +41,7 @@ func TestNewPushClient(t *testing.T) {
 }
 
 func TestAddFeed(t *testing.T) {
-	client, err := NewPushClient(&myConfig)
+	client, err := NewPushClient(&pushConfig)
 	if err != nil {
 		t.Errorf("Bad init: %v: %v", client, err)
 	}
@@ -60,7 +59,7 @@ func TestAddFeed(t *testing.T) {
 }
 
 func TestSetTimer(t *testing.T) {
-	client, err := NewPushClient(&myConfig)
+	client, err := NewPushClient(&pushConfig)
 	if err != nil {
 		t.Errorf("Bad init: %v: %v", client, err)
 	}
@@ -73,7 +72,7 @@ func TestSetTimer(t *testing.T) {
 }
 
 func TestAddHandler(t *testing.T) {
-	client, err := NewPushClient(&myConfig)
+	client, err := NewPushClient(&pushConfig)
 	if err != nil {
 		t.Errorf("Bad init: %v: %v", client, err)
 	}
