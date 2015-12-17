@@ -13,7 +13,7 @@ import (
 	"strings"
 )
 
-func makeHandler(fn func(http.ResponseWriter, *http.Request, string, *Client), cl *Client) http.HandlerFunc {
+func makeHandler(fn func(http.ResponseWriter, *http.Request, string, *PushClient), cl *PushClient) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		//defer func() {
 		//	if e, ok := recover().(error); ok {
@@ -36,7 +36,7 @@ func getFeedName(url string) string {
 
 }
 
-func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Client) {
+func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *PushClient) {
 	// body is an XML SOAP
 	//
 	if req.Method == "POST" {
@@ -84,7 +84,7 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string, cl *Clie
 	}
 }
 
-func (cl *Client) ServerStart() {
+func (cl *PushClient) ServerStart() {
 	server := http.NewServeMux()
 	for feed, _ := range cl.Topics {
 		log.Printf("Setting handler %s\n", feed)

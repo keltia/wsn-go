@@ -12,7 +12,7 @@ type SubVars struct {
 	TopicURL  string
 }
 
-type Client struct {
+type PushClient struct {
 	Config   *config.Config
 	Target   string
 	Wsdl     string

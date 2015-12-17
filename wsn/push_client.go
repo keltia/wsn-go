@@ -108,7 +108,7 @@ var (
 func defaultFeed(buf []byte) { fmt.Println(string(buf))}
 
 // Generate an URL
-func (cl *Client) generateURL(endPoint string) string {
+func (cl *PushClient) generateURL(endPoint string) string {
 	c := cl.Config
 	return fmt.Sprintf("%s://%s:%d/%s", c.Proto, c.Site, c.Port, endPoint)
 }
@@ -116,8 +116,8 @@ func (cl *Client) generateURL(endPoint string) string {
 // Public interface
 
 // Create new client instance
-func NewPushClient(c *config.Config) (*Client, error) {
-	cl := new(Client)
+func NewPushClient(c *config.Config) (*PushClient, error) {
+	cl := new(PushClient)
 	cl.Topics	= make(map[string]*Topic, 10)
 	cl.Config	= c
 	cl.Target	= cl.generateURL(c.Endpoint)
@@ -127,7 +127,7 @@ func NewPushClient(c *config.Config) (*Client, error) {
 }
 
 // Create .Topics structure w/o subscribing
-func (cl *Client) AddFeed(name string) {
+func (cl *PushClient) AddFeed(name string) {
 	if cl.Verbose {
 		log.Println("Adding new feed", name)
 	}
@@ -135,12 +135,12 @@ func (cl *Client) AddFeed(name string) {
 }
 
 // Change default callback
-func (cl *Client) AddHandler(fn func([]byte)) {
+func (cl *PushClient) AddHandler(fn func([]byte)) {
 	cl.Feed_one = fn
 }
 
 // Allow run of specified duration
-func (cl *Client) SetTimer(timer int64) {
+func (cl *PushClient) SetTimer(timer int64) {
 	// Sleep for fTimeout seconds then sends Interrupt
 	cl.Timeout = timer
 	go func() {
@@ -154,7 +154,7 @@ func (cl *Client) SetTimer(timer int64) {
 }
 
 // Subscribe to a given topic
-func (cl *Client) Subscribe(name, callback string) (string, error) {
+func (cl *PushClient) Subscribe(name, callback string) (string, error) {
 	var result	bytes.Buffer
 
 	c := cl.Config
@@ -218,7 +218,7 @@ func (cl *Client) Subscribe(name, callback string) (string, error) {
 }
 
 // Unsubscribe
-func (cl *Client) Unsubscribe(name string) (error) {
+func (cl *PushClient) Unsubscribe(name string) (error) {
 	topic := cl.Topics[name]
 	buf := bytes.NewBufferString(unsubText)
 	req, err := http.NewRequest("POST", topic.UnsubAddr, buf)
