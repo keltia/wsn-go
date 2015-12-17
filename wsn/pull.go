@@ -25,6 +25,11 @@ func NewPullClient() *PullClient {
 	}
 }
 
+// Type returns the openrating mode of the client
+func (c *PullClient) Type() int {
+	return MODE_PULL
+}
+
 func (c *PullClient) Subscribe(topic string) (err error) {
 
 	// Create Pull Point if needed

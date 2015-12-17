@@ -7,11 +7,15 @@ import (
 
 const (
 	MAX_TOPICS = 10
+
+	MODE_PULL = 1 + iota
+	MODE_PUSH
 )
 
 type Client interface {
 	io.Reader
 
+	Type() int
 	Subscribe(string) error
 	Unsubscribe(string) error
 	Start() error

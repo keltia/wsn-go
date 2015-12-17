@@ -43,6 +43,11 @@ func NewPushClient() (client * PushClient) {
 	}
 }
 
+// Type returns the client mode
+func (c *PushClient) Type() int {
+	return MODE_PUSH
+}
+
 // Subscribe registers the given topic
 func (c *PushClient) Subscribe(topic string) (err error) {
 	// Add the topic
