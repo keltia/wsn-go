@@ -77,7 +77,7 @@ func NewPushClient(c *config.Config) (*PushClient, error) {
 	cl := new(PushClient)
 	cl.Topics	= make(map[string]*Topic, 10)
 	cl.Config	= c
-	cl.Target	= cl.generateURL(c.Endpoint)
+	cl.Target	= generateEndpoint(c)
 	cl.Feed_one = defaultFeed
 	cl.Timeout  = 0		// in seconds
 	return cl, nil
@@ -115,7 +115,7 @@ func (cl *PushClient) Subscribe(name, callback string) (string, error) {
 	var result	bytes.Buffer
 
 	c := cl.Config
-	targetURL := cl.generateURL(c.Endpoint)
+	targetURL := generateEndpoint(c)
 
 	// We require the feed name/callback to start with /
 	if []rune(callback)[0] != '/' {

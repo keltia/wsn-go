@@ -32,7 +32,7 @@ func TestNewPushClient(t *testing.T) {
 		t.Errorf("Wrong fields: %v: %v", conf, client)
 	}
 
-	if client.Target != client.generateURL(conf.Endpoint) {
+	if client.Target != generateEndpoint(conf) {
 		t.Errorf("Wrong Target: %v: %v", conf, client)
 	}
 
