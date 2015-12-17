@@ -116,7 +116,7 @@ func (cl *Client) generateURL(endPoint string) string {
 // Public interface
 
 // Create new client instance
-func NewClient (c *config.Config) (*Client, error) {
+func NewPushClient(c *config.Config) (*Client, error) {
 	cl := new(Client)
 	cl.Topics	= make(map[string]*Topic, 10)
 	cl.Config	= c

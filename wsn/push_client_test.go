@@ -14,7 +14,7 @@ var _topic *Topic
 func TestNewClient(t *testing.T) {
 	var err error
 
-	client, err := NewClient(&myConfig)
+	client, err := NewPushClient(&myConfig)
 	if err != nil {
 		t.Errorf("Bad init: %v: %v", client, err)
 	}
@@ -42,7 +42,7 @@ func TestNewClient(t *testing.T) {
 }
 
 func TestAddFeed(t *testing.T) {
-	client, err := NewClient(&myConfig)
+	client, err := NewPushClient(&myConfig)
 	if err != nil {
 		t.Errorf("Bad init: %v: %v", client, err)
 	}
@@ -60,7 +60,7 @@ func TestAddFeed(t *testing.T) {
 }
 
 func TestSetTimer(t *testing.T) {
-	client, err := NewClient(&myConfig)
+	client, err := NewPushClient(&myConfig)
 	if err != nil {
 		t.Errorf("Bad init: %v: %v", client, err)
 	}
@@ -73,7 +73,7 @@ func TestSetTimer(t *testing.T) {
 }
 
 func TestGenerateURL(t *testing.T) {
-	client, err := NewClient(&myConfig)
+	client, err := NewPushClient(&myConfig)
 	if err != nil {
 		t.Errorf("Bad init: %v: %v", client, err)
 	}
@@ -85,7 +85,7 @@ func TestGenerateURL(t *testing.T) {
 }
 
 func TestAddHandler(t *testing.T) {
-	client, err := NewClient(&myConfig)
+	client, err := NewPushClient(&myConfig)
 	if err != nil {
 		t.Errorf("Bad init: %v: %v", client, err)
 	}
