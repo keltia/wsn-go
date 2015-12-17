@@ -1,3 +1,5 @@
+// Copyright 2015 Ollivier Robert for EUROCONTROL  All rights reserved
+
 package wsn
 
 import (
