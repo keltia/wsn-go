@@ -1,6 +1,6 @@
-// server.go
+// push_server.go
 //
-// Server-side of the WS-N package
+// Server-side of the WS-N Push package
 
 package wsn
 
