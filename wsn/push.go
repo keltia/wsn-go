@@ -7,6 +7,8 @@ import (
 	"log"
 )
 
+// A PullClient represents an active Push mode client for WS-N.  It maintains a list of
+// subscribed topics.
 type PushClient struct {
 	List TopicList
 }
@@ -38,7 +40,7 @@ func (c *PushClient) realUnsubscribe(name string) (err error) {
 
 // Public API
 
-// NewPushClient creates a new client using push mode
+// NewPushClient creates a new client using push mode with an empty list of topics.
 func NewPushClient() (client * PushClient) {
 	return &PushClient{
 		List: TopicList{},
