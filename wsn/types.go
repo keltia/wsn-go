@@ -22,6 +22,15 @@ type PushClient struct {
 	Timeout  int64
 }
 
+type PullClient struct {
+	Config   *config.Config
+	Target   string
+	Topics   map[string]*Topic
+	Feed_one func([]byte)
+	Verbose  bool
+	Timeout  int64
+}
+
 type Topic struct {
 	Bytes     int64
 	Pkts      int
