@@ -54,7 +54,7 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 
 		// Send SOAP request
 		targetURL := c.generateURL(config.Endpoint)
-		body, err = soap.SendRequest(targetURL, xmlReq)
+		body, err = soap.SendRequest("subscribe", targetURL, xmlReq)
 
 		// Parse XML
 		res := &SubscribeAnswer{}
