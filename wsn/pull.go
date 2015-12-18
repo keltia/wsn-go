@@ -85,8 +85,10 @@ func (c *PullClient) Start() (err error) {
 
 // Stop unsubscribe from all topics
 func (c *PullClient) Stop() (err error) {
-	for name, _ := range c.List {
-		err = c.Unsubscribe(name)
+	for name, topic := range c.List {
+		if topic.Started {
+			err = c.Unsubscribe(name)
+		}
 	}
 	return
 }
