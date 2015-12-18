@@ -54,7 +54,7 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 
 		// Send SOAP request
 		targetURL := c.generateURL(config.Endpoint)
-		body, err = soap.SendRequest("subscribe", targetURL, xmlReq)
+		body, err = soap.SendRequest("subscribe", targetURL, &xmlReq)
 
 		// Parse XML
 		res := &SubscribeAnswer{}
@@ -77,7 +77,7 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 // Does the actual WS-N un-subscription
 func (c *PushClient) realUnsubscribe(name string) (err error) {
 	if topic, present := c.List[name]; present {
-		var xmlReq bytes.Buffer
+		var xmlReq *bytes.Buffer
 
 		// Prepare the request
 		xmlReq = bytes.NewBufferString(unsubscribePushText)
