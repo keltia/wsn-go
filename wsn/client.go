@@ -30,6 +30,9 @@ type Client interface {
 // Topic errors
 var ErrTopicNotFound = errors.New("Topic not found")
 
+// Can't add an existing topic
+var ErrTopicAlreadyExist = errors.New("Topic already exist!")
+
 // Pull point creation error
 var ErrCreatingPullPoint = errors.New("Can not create pull point")
 
