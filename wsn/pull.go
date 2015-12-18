@@ -77,6 +77,9 @@ func (c *PullClient) Unsubscribe(topic string) (err error) {
 
 // Start set the active flag on all topics
 func (c *PullClient) Start() (err error) {
+	for _, topic := range c.List {
+		topic.Started = true
+	}
 	return
 }
 
