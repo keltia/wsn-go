@@ -22,9 +22,7 @@ const (
 	            <add:Address>{{.TopicURL}}</add:Address>
 	         </b:ConsumerReference>
 	         <b:Filter>
-	           <b:TopicExpression>
-	             {{.TopicName}}
-	           </b:TopicExpression>
+	           <b:TopicExpression>{{.TopicName}}</b:TopicExpression>
 	         </b:Filter>
 	      </b:Subscribe>
 	   </soap:Body>
@@ -74,9 +72,7 @@ const (
 	   <soap:Body>
 	      <b:Subscribe xmlns:b="http://docs.oasis-open.org/wsn/b-2">
 	         <b:ConsumerReference>
-	            <wsa:Address>
-	              {{.PullPt}}
-	            </wsa:Address>
+	            <wsa:Address>{{.PullPt}}</wsa:Address>
 	         </b:ConsumerReference>
 	         <b:Filter>
 	            <b:TopicExpression Dialect="http://docs.oasis-open.org/wsn/t-1/TopicExpression/Simple">
