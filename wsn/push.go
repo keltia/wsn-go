@@ -76,9 +76,18 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 
 // Does the actual WS-N un-subscription
 func (c *PushClient) realUnsubscribe(name string) (err error) {
-	if _, present := c.List[name]; present {
-		c.List[name].UnsubAddr = ""
-		c.List[name].Started = false
+	if topic, present := c.List[name]; present {
+		var xmlReq bytes.Buffer
+
+		// Prepare the request
+		xmlReq = bytes.NewBufferString(unsubscribePushText)
+
+		// Send SOAP request
+		targetURL := topic.UnsubAddr
+		_, err = soap.SendRequest("Unsubscribe", targetURL, xmlReq)
+
+		topic.UnsubAddr = ""
+		topic.Started = false
 	} else {
 		err = ErrTopicNotFound
 	}
