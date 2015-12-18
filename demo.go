@@ -12,12 +12,12 @@ import (
 
 func main() {
 	config, err := config.LoadConfig("surveillance")
-	pull := wsn.NewPullClient()
+/*	pull := wsn.NewPullClient()
 	err = pull.Subscribe("foo")
 	defer pull.Stop()
 
 	fmt.Printf("pull is of type: %v\n", reflect.TypeOf(pull))
-
+*/
 	push := wsn.NewPushClient(config)
 	defer push.Stop()
 	err = push.Subscribe("bar")
@@ -27,8 +27,8 @@ func main() {
 
 
 	push.Start()
-	pull.Start()
-	data, err := ioutil.ReadAll(pull)
+//	pull.Start()
+	data, err := ioutil.ReadAll(push)
 	if err == nil {
 		fmt.Println(string(data))
 	}
