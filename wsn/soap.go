@@ -4,7 +4,6 @@ package wsn
 
 import (
 	"bytes"
-	"log"
 	"text/template"
 )
 
@@ -138,10 +137,9 @@ const (
 
 func createRequest(action, templ string, vars SubVars) (result bytes.Buffer, err error) {
 	t := template.Must(template.New(action).Parse(templ))
-	if err := t.Execute(&result, vars); err != nil {
+	if err = t.Execute(&result, vars); err != nil {
 		err = ErrCantCreateTemplate
 		result = bytes.Buffer{}
-		return
 	}
 	return
 }
