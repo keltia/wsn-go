@@ -13,9 +13,10 @@ var (
 	httpClient http.Client = http.Client{}
 )
 
-func SendRequest(targetURL string, buf bytes.Buffer) (err error) {
+func SendRequest(targetURL string, result bytes.Buffer) (body []byte, err error) {
 
 	// Prepare the request
+	buf := bytes.NewBufferString(result.String())
 	req, err := http.NewRequest("POST", targetURL, buf)
 	if err != nil {
 		log.Fatal("Error creating request for ", buf, ": ", err)
@@ -27,10 +28,10 @@ func SendRequest(targetURL string, buf bytes.Buffer) (err error) {
 	defer resp.Body.Close()
 
 	if err != nil {
-		log.Printf("Error during POST: %v", err)
-		return "", nil
+		body = nil
+	} else {
+		// body is the XML encoded answer, to be decoded further up
+		body, err = ioutil.ReadAll(resp.Body)
 	}
-
-	body, err := ioutil.ReadAll(resp.Body)
-
+	return
 }
