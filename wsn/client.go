@@ -30,7 +30,8 @@ type Client interface {
 // Topic errors
 var ErrTopicNotFound = errors.New("Topic not found")
 
-// Pull point creation/destruction errors
+// Pull point creation error
 var ErrCreatingPullPoint = errors.New("Can not create pull point")
 
+// Pull point destruction errors
 var ErrDestroyingPullPoint = errors.New("Can not destroy pull point")
