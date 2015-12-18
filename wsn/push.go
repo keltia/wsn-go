@@ -3,27 +3,75 @@
 package wsn
 
 import (
+	"bytes"
+	"encoding/xml"
+	"fmt"
 	"io"
 	"log"
+	"strings"
+	"wsn-go/config"
+	"wsn-ng/soap"
 )
 
 // A PullClient represents an active Push mode client for WS-N.  It maintains a list of
 // subscribed topics.
 type PushClient struct {
+	Config config.Config
 	List TopicList
 }
 
 // Private func
 
+// createEndpoint generates our local endpoint URL
+func (c *PushClient) createEndpoint(name string) (endpoint string) {
+	config := c.Config
+	realEP := strings.ToLower(name)
+	endpoint = fmt.Sprintf("%s:%d%s", config.Base, config.Port, realEP)
+	endpoint = fmt.Sprintf("%s://%s:%d/%s", config.Proto, config.Site, config.Port, realEP)
+	return
+}
+
+// Generate an URL on the target site
+func (c *PushClient) generateURL(endPoint string) string {
+	config := c.Config
+	return fmt.Sprintf("%s://%s:%d/%s", config.Proto, config.Site, config.Port, endPoint)
+}
+
 // Does the actual WS-N subscription
 func (c *PushClient) realSubscribe(name string) (err error) {
+	var config = c.Config
+
+	// Handle only already registered topics
 	if _, present := c.List[name]; present {
-		c.List[name].UnsubAddr = "my_unsub_addr"
+		var xmlReq bytes.Buffer
+		var body []byte
+
+		// Prepare the request
+		vars := SubVars{
+			TopicURL: c.createEndpoint(name),
+			TopicName: name,
+		}
+		xmlReq, err = createRequest("subscribe", subscribePushText, vars)
+
+		// Send SOAP request
+		targetURL := c.generateURL(config.Endpoint)
+		body, err = soap.SendRequest(targetURL, xmlReq)
+
+		// Parse XML
+		res := &SubscribeAnswer{}
+		if err = xml.Unmarshal(body, res); err != nil {
+			return
+		}
+
+		// Special case
+		address := res.Body.Resp.Reference.Address
+		address = strings.Replace(address, "0.0.0.0", config.Site, -1)
+
+		c.List[name].UnsubAddr = address
 		c.List[name].Started = true
 	} else {
 		err = ErrTopicNotFound
 	}
-
 	return
 }
 
