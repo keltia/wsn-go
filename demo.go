@@ -20,8 +20,8 @@ func main() {
 */
 	push := wsn.NewPushClient(config)
 	defer push.Stop()
+
 	err = push.Subscribe("bar")
-	err = push.Subscribe("baz")
 
 	fmt.Printf("push is of type: %v\n", reflect.TypeOf(push))
 
@@ -29,11 +29,6 @@ func main() {
 	push.Start()
 //	pull.Start()
 	data, err := ioutil.ReadAll(push)
-	if err == nil {
-		fmt.Println(string(data))
-	}
-
-	data, err = ioutil.ReadAll(push)
 	if err == nil {
 		fmt.Println(string(data))
 	}
