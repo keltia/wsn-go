@@ -3,20 +3,22 @@
 package main
 
 import (
-	"wsn-ng/wsn"
 	"fmt"
 	"io/ioutil"
 	"reflect"
+	"wsn-go/config"
+	"wsn-ng/wsn"
 )
 
 func main() {
+	config, err := config.LoadConfig("surveillance")
 	pull := wsn.NewPullClient()
-	err := pull.Subscribe("foo")
+	err = pull.Subscribe("foo")
 	defer pull.Stop()
 
 	fmt.Printf("pull is of type: %v\n", reflect.TypeOf(pull))
 
-	push := wsn.NewPushClient()
+	push := wsn.NewPushClient(config)
 	defer push.Stop()
 	err = push.Subscribe("bar")
 	err = push.Subscribe("baz")
