@@ -2,7 +2,7 @@ package wsn
 
 import (
 	"testing"
-	"github.com/keltia/wsn-go/config"
+	"wsn-go/config"
 )
 
 var myConfig = config.Config{Proto: "http", Site: "example.com", Port: 666, Endpoint: "foo"}

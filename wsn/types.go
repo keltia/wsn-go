@@ -2,7 +2,7 @@ package wsn
 
 import (
 	"encoding/xml"
-	"github.com/keltia/wsn-go/config"
+	"wsn-go/config"
 )
 
 // My stuff

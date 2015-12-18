@@ -65,7 +65,7 @@ import (
 	"strings"
 	"time"
 	"os"
-	"github.com/keltia/wsn-go/config"
+	"wsn-go/config"
 )
 
 var (
