@@ -35,3 +35,6 @@ var ErrCreatingPullPoint = errors.New("Can not create pull point")
 
 // Pull point destruction errors
 var ErrDestroyingPullPoint = errors.New("Can not destroy pull point")
+
+// Templating error
+var ErrCantCreateTemplate = errors.New("Can not instanciate template")
