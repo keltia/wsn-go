@@ -131,8 +131,7 @@ func (c *PushClient) Unsubscribe(name string) (err error) {
 	log.Printf("unsubscribed push/%s", name)
 
 	if _, present := c.List[name]; present {
-		// xml.doUnsubscribe()
-		c.List[name].Started = false
+		err = c.realUnsubscribe(name)
 	} else {
 		err = ErrTopicNotFound
 	}
