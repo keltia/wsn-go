@@ -25,7 +25,7 @@ type PushClient struct {
 // createEndpoint generates our local endpoint URL
 func (c *PushClient) createEndpoint(name string) (endpoint string) {
 	config := c.Config
-	realEP := strings.ToLower(name)
+	realEP := "/" + strings.ToLower(name)
 	endpoint = fmt.Sprintf("%s:%d%s", config.Base, config.Port, realEP)
 	return
 }
