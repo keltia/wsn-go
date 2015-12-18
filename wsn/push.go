@@ -27,7 +27,6 @@ func (c *PushClient) createEndpoint(name string) (endpoint string) {
 	config := c.Config
 	realEP := strings.ToLower(name)
 	endpoint = fmt.Sprintf("%s:%d%s", config.Base, config.Port, realEP)
-	endpoint = fmt.Sprintf("%s://%s:%d/%s", config.Proto, config.Site, config.Port, realEP)
 	return
 }
 
