@@ -41,7 +41,7 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 	var config = c.Config
 
 	// Handle only already registered topics
-	if _, present := c.List[name]; present {
+	if topic, present := c.List[name]; present {
 		var xmlReq bytes.Buffer
 		var body []byte
 
@@ -66,8 +66,8 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 		address := res.Body.Resp.Reference.Address
 		address = strings.Replace(address, "0.0.0.0", config.Site, -1)
 
-		c.List[name].UnsubAddr = address
-		c.List[name].Started = true
+		topic.UnsubAddr = address
+		topic.Started = true
 	} else {
 		err = ErrTopicNotFound
 	}
