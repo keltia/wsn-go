@@ -9,6 +9,7 @@ import (
 	"io"
 	"log"
 	"strings"
+	"time"
 	"wsn-go/config"
 	"wsn-ng/soap"
 )
@@ -16,8 +17,11 @@ import (
 // PushClient represents an active Push mode client for WS-N.  It maintains a list of
 // subscribed topics.
 type PushClient struct {
-	Config *config.Config
-	List TopicList
+	Config  *config.Config
+	List    TopicList
+	Timeout time.Duration
+	timer   chan bool
+	verbose bool
 }
 
 // Private func
@@ -101,7 +105,7 @@ func NewPushClient(config *config.Config) (client * PushClient) {
 	return &PushClient{
 		Config: config,
 		List: TopicList{},
-
+		Timeout: -1,
 	}
 }
 
@@ -139,10 +143,36 @@ func (c *PushClient) Unsubscribe(name string) (err error) {
 	return
 }
 
+// SetTimeout records that we want to stop after some time
+func (c *PushClient) SetTimeout(timeout int64) {
+	c.Timeout = timeout * time.Second
+}
+
 // Start does the real subscribe because it actually start the data flow
 func (c *PushClient) Start() (err error) {
 	for name, _ := range c.List {
-		err = c.realSubscribe(name)
+		if err = c.realSubscribe(name); err != nil {
+			return
+		}
+	}
+
+	// Set timer
+	if c.Timeout != -1 {
+		var expired bool
+
+		c.timer = make(chan bool)
+		go func() {
+			time.Sleep(time.Duration(c.Timeout) * time.Second)
+			log.Println("Timer expired!")
+			c.timer <- true
+		}()
+		// Wait for timeout
+		expired <- c.timer
+		if expired {
+			c.Stop()
+		} else {
+			log.Fatalf("Fatal: timer expired for unknown reason")
+		}
 	}
 	return
 }
