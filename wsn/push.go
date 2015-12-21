@@ -13,7 +13,7 @@ import (
 	"wsn-ng/soap"
 )
 
-// A PullClient represents an active Push mode client for WS-N.  It maintains a list of
+// PushClient represents an active Push mode client for WS-N.  It maintains a list of
 // subscribed topics.
 type PushClient struct {
 	Config *config.Config
@@ -101,6 +101,7 @@ func NewPushClient(config *config.Config) (client * PushClient) {
 	return &PushClient{
 		Config: config,
 		List: TopicList{},
+
 	}
 }
 
