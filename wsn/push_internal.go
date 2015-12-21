@@ -41,11 +41,11 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 			TopicURL: c.createEndpoint(name),
 			TopicName: name,
 		}
-		xmlReq, err = soap.CreateRequest("subscribe", vars)
+		soapReq, err := soap.NewRequest(soap.SUBSCRIBEPUSH, vars)
 
 		// Send SOAP request
 		targetURL := c.generateURL(config.Endpoint)
-		answer, err = soap.SendRequest("subscribe", targetURL, &xmlReq)
+		answer, err = soapReq.Send(targetURL)
 
 		// Parse XML
 		res := &SubscribeAnswer{}
