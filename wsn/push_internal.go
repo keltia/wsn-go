@@ -50,7 +50,7 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 
 	    	// We will fix the broken return address (might be 0.0.0.0)
 	    	baseIp := strings.Split(c.target, ":")
-		address := strings.Replace(answer, "0.0.0.0", baseIp, -1)
+		address := strings.Replace(answer, "0.0.0.0", baseIp[1], -1)
 		topic.UnsubAddr = address
 		topic.Started = true
 	} else {
