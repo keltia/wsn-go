@@ -15,16 +15,14 @@ import (
 
 // createEndpoint generates our local endpoint URL
 func (c *PushClient) createEndpoint(name string) (endpoint string) {
-	config := c.Config
 	realEP := "/" + strings.ToLower(name)
-	endpoint = fmt.Sprintf("%s:%d%s", config.Base, config.Port, realEP)
+	endpoint = fmt.Sprintf("%s:%d%s", c.base, c.port, realEP)
 	return
 }
 
 // generateURL generates an URL on the target site
 func (c *PushClient) generateURL(endPoint string) string {
-	config := c.Config
-	return fmt.Sprintf("%s://%s:%d/%s", config.Proto, config.Site, config.Port, endPoint)
+    return fmt.Sprintf("%s:%d/%s", c.target, c.port, endPoint)
 }
 
 // realSubscribe does the actual WS-N subscription
