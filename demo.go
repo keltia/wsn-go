@@ -8,10 +8,15 @@ import (
 	"reflect"
 	"wsn-go/config"
 	"wsn-go/wsn"
+	"os"
 )
 
 func main() {
 	config, err := config.LoadConfig("surveillance")
+	if err != nil {
+		fmt.Printf("%v\n%v\n", config, err)
+		os.Exit(1)
+	}
 /*	pull := wsn.NewPullClient()
 	err = pull.Subscribe("foo")
 	defer pull.Stop()
