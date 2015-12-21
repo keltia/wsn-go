@@ -166,22 +166,14 @@ func (c *PushClient) Start() (err error) {
 
 	// Set timer
 	if c.Timeout != -1 {
-		var expired bool
-
-		c.timer = make(chan bool)
+		// Fire up goroutine
 		go func() {
 			time.Sleep(time.Duration(c.Timeout) * time.Second)
 			log.Println("Timer expired!")
-			c.timer <- true
-		}()
-		// Wait for timeout
-		expired <- c.timer
-		if expired {
 			c.Stop()
-		} else {
-			log.Fatalf("Fatal: timer expired for unknown reason")
-		}
+		}()
 	}
+
 	return
 }
 
