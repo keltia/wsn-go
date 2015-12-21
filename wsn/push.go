@@ -30,13 +30,13 @@ func (c *PushClient) createEndpoint(name string) (endpoint string) {
 	return
 }
 
-// Generate an URL on the target site
+// generateURL generates an URL on the target site
 func (c *PushClient) generateURL(endPoint string) string {
 	config := c.Config
 	return fmt.Sprintf("%s://%s:%d/%s", config.Proto, config.Site, config.Port, endPoint)
 }
 
-// Does the actual WS-N subscription
+// realSubscribe does the actual WS-N subscription
 func (c *PushClient) realSubscribe(name string) (err error) {
 	var config = c.Config
 
@@ -74,7 +74,7 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 	return
 }
 
-// Does the actual WS-N un-subscription
+// realUnsubscribe does the actual WS-N un-subscription
 func (c *PushClient) realUnsubscribe(name string) (err error) {
 	if topic, present := c.List[name]; present {
 		var xmlReq *bytes.Buffer
