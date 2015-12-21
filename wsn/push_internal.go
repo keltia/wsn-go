@@ -33,7 +33,6 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 
 	// Handle only already registered topics
 	if topic, present := c.List[name]; present {
-		var xmlReq bytes.Buffer
 		var answer []byte
 
 		// Prepare the request
