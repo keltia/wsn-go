@@ -70,17 +70,16 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 // realUnsubscribe does the actual WS-N un-subscription
 func (c *PushClient) realUnsubscribe(name string) (err error) {
 	if topic, present := c.List[name]; present {
-		var xmlReq *bytes.Buffer
+            // Prepare the request
+	    soapReq, err := soap.NewRequest(soap.UNSUBSCRIBEPUSH, soap.SubVars{})
+	    if err != nil {
+		return
+	    }
+	    // Send SOAP request
+	    _, err = soapReq.Send(topic.UnsubAddr)
 
-		// Prepare the request
-		xmlReq = bytes.NewBufferString(unsubscribePushText)
-
-		// Send SOAP request
-		targetURL := topic.UnsubAddr
-		_, err = soap.SendRequest("Unsubscribe", targetURL, xmlReq)
-
-		topic.UnsubAddr = ""
-		topic.Started = false
+            topic.UnsubAddr = ""
+            topic.Started = false
 	} else {
 		err = ErrTopicNotFound
 	}
