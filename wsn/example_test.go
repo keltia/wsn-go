@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"reflect"
 	"io/ioutil"
-	"wsn-ng/wsn"
+	"wsn-go/wsn"
 )
 
 func ExampleNewPullClient() {
