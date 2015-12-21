@@ -40,6 +40,7 @@ func NewPushClient(config *config.Config) (client * PushClient) {
 		verbose: false,
 	}
 	client.target = client.generateURL(config.Broker)
+	return
 }
 
 // Type returns the client mode
