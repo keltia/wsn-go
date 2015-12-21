@@ -33,6 +33,9 @@ var ErrTopicNotFound = errors.New("Topic not found")
 // Can't add an existing topic
 var ErrTopicAlreadyExist = errors.New("Topic already exist!")
 
+// Can't subscribe more than once
+var ErrTopicAlreadySubscribed = errors.New("Topic already subscribed!")
+
 // Pull point creation error
 var ErrCreatingPullPoint = errors.New("Can not create pull point")
 
