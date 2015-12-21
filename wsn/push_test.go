@@ -44,3 +44,16 @@ func TestNewPushClient(t *testing.T) {
 		t.Errorf("verbose is not correctly set: %s", client.verbose)
 	}
 }
+
+func TestPushType (t *testing.T) {
+	// Load our stuff
+	config, err :=  config.LoadConfig("../config/config.toml")
+	if err != nil {
+		t.Errorf("Error loading config: %v", err)
+	}
+	client := NewPushClient(config)
+
+	if client.Type() != MODE_PUSH {
+		t.Errorf("Wrong type for %v", client)
+	}
+}
