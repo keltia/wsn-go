@@ -174,16 +174,23 @@ var (
 
 // getTemplate return the template suited for operation
 
-// CreateRequest instantiate a template
-func CreateRequest(action int, vars SubVars) (result bytes.Buffer, err error) {
+// CreateRequest instantiates a template
+func NewRequest(action int, vars SubVars) (request *Request, err error) {
+    request = &Request{
+	Action: action,
+	Text: bytes.Buffer{},
+    }
+
+    // Check if valid template
     templ, valid := actionToTempl[action]
     if !valid {
 	err = ErrTemplateNotFound
     }
-	t := template.Must(template.New(action).Parse(templ))
-	if err = t.Execute(&result, vars); err != nil {
-		err = ErrCantCreateTemplate
-		result = bytes.Buffer{}
-	}
-	return
+
+    // Does the thing
+    t := template.Must(template.New(action).Parse(templ))
+    if err = t.Execute(&request.Text, vars); err != nil {
+        err = ErrCantCreateTemplate
+    }
+    return
 }
