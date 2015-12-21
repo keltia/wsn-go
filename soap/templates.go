@@ -130,6 +130,14 @@ const (
    </soap:Body>
 </soap:Envelope>
 `
+
+    SUBSCRIBEPUSH = 1+ iota
+    UNSUBSCRIBEPUSH
+    CREATEPULLPOINT
+    SUBSCRIBEPULL
+    GETMESSAGES
+    UNSUBSCRIBEPULL
+    DESTROYPULLPOINT
 )
 
 // SOAP stuff
@@ -147,16 +155,21 @@ var ErrCantCreateTemplate = errors.New("Can not create template")
 var ErrTemplateNotFound = errors.New("Unknown action")
 
 var (
-    actionToTempl = map[string]string{
-	"subscribe": subscribePushText,
-	"unsubscribe": unsubscribePushText,
+    actionToTempl = map[int]string{
+	SUBSCRIBEPUSH: subscribePushText,
+	UNSUBSCRIBEPUSH: unsubscribePushText,
+    }
+
+    actionToHeader = map[int]string{
+	SUBSCRIBEPUSH:   "subscribe",
+	UNSUBSCRIBEPUSH: "unsubscribe",
     }
 )
 
 // getTemplate return the template suited for operation
 
 // CreateRequest instantiate a template
-func CreateRequest(action, vars SubVars) (result bytes.Buffer, err error) {
+func CreateRequest(action int, vars SubVars) (result bytes.Buffer, err error) {
     templ, valid := actionToTempl[action]
     if !valid {
 	err = ErrTemplateNotFound
