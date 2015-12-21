@@ -56,9 +56,9 @@ func TestLoadConfig(t *testing.T) {
 
 	}
 
-	site := "192.70.89.113"
-	if conf.Site != site {
-		t.Errorf("Malformed site %s: %s", conf.Site, site)
+	site := "http://192.70.89.113"
+	if conf.Target != site {
+		t.Errorf("Malformed site %s: %s", conf.Target, site)
 	}
 
 	port := 9000
@@ -67,8 +67,8 @@ func TestLoadConfig(t *testing.T) {
 	}
 
 	endpoint := "wsn/NotificationBroker"
-	if conf.Endpoint != endpoint {
-		t.Errorf("Malformed base %s: %s", conf.Endpoint, endpoint)
+	if conf.Broker != endpoint {
+		t.Errorf("Malformed base %s: %s", conf.Broker, endpoint)
 	}
 
 	def := "mine"
