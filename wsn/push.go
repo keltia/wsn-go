@@ -114,6 +114,11 @@ func (c *PushClient) Type() int {
 	return MODE_PUSH
 }
 
+// SetVerbose is obvious
+func (c *PushClient) SetVerbose() {
+	c.verbose = true
+}
+
 // Subscribe registers the given topic
 func (c *PushClient) Subscribe(topic string) (err error) {
 	// Add the topic
