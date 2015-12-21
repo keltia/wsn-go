@@ -13,10 +13,10 @@ var (
 	httpClient http.Client = http.Client{}
 )
 
-func SendRequest(action string, targetURL string, result *bytes.Buffer) (body []byte, err error) {
+func SendRequest(action string, targetURL string, request *bytes.Buffer) (body []byte, err error) {
 
 	// Prepare the request
-	buf := bytes.NewBufferString(result.String())
+	buf := bytes.NewBufferString(request.String())
 	req, err := http.NewRequest("POST", targetURL, buf)
 	if err != nil {
 		log.Fatal("Error creating request for ", buf, ": ", err)
