@@ -19,6 +19,9 @@ type PushClient struct {
 	Timeout time.Duration
 
 	// Private fields
+	base    string
+	target  string
+	port    int
 	server  http.Server
 	verbose bool
 }
@@ -27,11 +30,16 @@ type PushClient struct {
 
 // NewPushClient creates a new client using push mode with an empty list of topics.
 func NewPushClient(config *config.Config) (client * PushClient) {
-	return &PushClient{
+	client = &PushClient{
 		Config: config,
 		List: TopicList{},
 		Timeout: -1,
+		base: config.Base,
+		target: config.Target,
+		port: config.Port,
+		verbose: false,
 	}
+	client.target = client.generateURL(config.Broker)
 }
 
 // Type returns the client mode
