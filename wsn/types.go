@@ -12,11 +12,6 @@ const (
 
 // SOAP stuff
 
-type SubVars struct {
-	TopicName string
-	TopicURL  string
-}
-
 type SubscribeAnswer struct {
 	XMLName xml.Name
 	Body    SABody
