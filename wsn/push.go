@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"wsn-go/config"
-	"fmt"
 )
 
 // PushClient represents an active Push mode client for WS-N.  It maintains a list of
