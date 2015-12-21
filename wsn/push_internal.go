@@ -35,7 +35,9 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 			TopicURL: c.createEndpoint(name),
 			TopicName: name,
 		}
-		soapReq, err := soap.NewRequest(soap.SUBSCRIBEPUSH, vars)
+	    	var soapReq *soap.Request
+
+		soapReq, err = soap.NewRequest(soap.SUBSCRIBEPUSH, vars)
 	        if err != nil {
 		    return
 		}
