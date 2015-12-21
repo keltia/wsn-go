@@ -52,7 +52,7 @@ func (request *Request) Send(targetURL string) (address string, err error) {
 	defer resp.Body.Close()
 
 	if err != nil {
-		address = nil
+		address = ""
 	} else {
 		// body is the XML encoded answer, to be decoded further up
 		body, err := ioutil.ReadAll(resp.Body)
