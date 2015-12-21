@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"wsn-go/config"
+	"fmt"
 )
 
 // PushClient represents an active Push mode client for WS-N.  It maintains a list of
@@ -16,7 +17,7 @@ import (
 type PushClient struct {
 	Config  *config.Config
 	List    TopicList
-	Timeout time.Duration
+	Timeout int64
 
 	// Private fields
 	base    string
@@ -84,7 +85,7 @@ func (c *PushClient) Unsubscribe(name string) (err error) {
 
 // SetTimeout records that we want to stop after some time
 func (c *PushClient) SetTimeout(timeout int64) {
-	c.Timeout = timeout * time.Second
+	c.Timeout = timeout
 }
 
 // Start does the real subscribe because it actually start the data flow
