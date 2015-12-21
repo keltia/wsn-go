@@ -26,7 +26,6 @@ func (c *PushClient) generateURL(endPoint string) string {
 
 // realSubscribe does the actual WS-N subscription
 func (c *PushClient) realSubscribe(name string) (err error) {
-	var config = c.Config
 
 	// Handle only already registered topics
 	if topic, present := c.List[name]; present {
@@ -43,19 +42,14 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 		}
 
 		// Send SOAP request
-		targetURL := c.generateURL(config.Endpoint)
-		answer, err = soapReq.Send(targetURL)
-
-		// Parse XML
-		res := &SubscribeAnswer{}
-		if err = xml.Unmarshal(answer, res); err != nil {
-			return
+		answer, err = soapReq.Send(c.target)
+	    	if err != nil {
+		    return
 		}
 
-		// Special case
-		address := res.Body.Resp.Reference.Address
-		address = strings.Replace(address, "0.0.0.0", config.Site, -1)
-
+	    	// We will fix the broken return address (might be 0.0.0.0)
+	    	baseIp := strings.Split(c.target, ":")
+		address := strings.Replace(answer, "0.0.0.0", baseIp, -1)
 		topic.UnsubAddr = address
 		topic.Started = true
 	} else {
