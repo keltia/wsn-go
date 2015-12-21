@@ -29,6 +29,7 @@ type Config struct {
 	Wsdl    string
 	Dests   map[string]Dest
 	Default string // mine
+	Version int    // 1, 2, … if not present, old version file
 }
 
 // Check the parameter for either tag or filename
@@ -76,6 +77,10 @@ func LoadConfig(file string) (*Config, error) {
 
 	// Finally set default destination
 	c.Default = "mine"
+
+	if c.Version == 0 {
+		return c, errors.New("Config file too old, need at least version 1!")
+	}
 
 	return c, nil
 }
