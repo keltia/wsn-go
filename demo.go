@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"reflect"
 	"wsn-go/config"
-	"wsn-ng/wsn"
+	"wsn-go/wsn"
 )
 
 func main() {
