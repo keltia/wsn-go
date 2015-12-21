@@ -54,8 +54,10 @@ func (request *Request) Send(targetURL string) (address string, err error) {
 	if err != nil {
 		address = ""
 	} else {
+		var body []byte
+
 		// body is the XML encoded answer, to be decoded further up
-		body, err := ioutil.ReadAll(resp.Body)
+		body, err = ioutil.ReadAll(resp.Body)
 
 		// Parse XML
 		res := &SubscribeAnswer{}
