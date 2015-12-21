@@ -12,6 +12,7 @@ import (
 	"time"
 	"wsn-go/config"
 	"wsn-ng/soap"
+	"net/http"
 )
 
 // PushClient represents an active Push mode client for WS-N.  It maintains a list of
@@ -20,7 +21,9 @@ type PushClient struct {
 	Config  *config.Config
 	List    TopicList
 	Timeout time.Duration
-	timer   chan bool
+
+	// Private fields
+	server  http.Server
 	verbose bool
 }
 
