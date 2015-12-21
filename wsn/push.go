@@ -155,6 +155,9 @@ func (c *PushClient) SetTimeout(timeout int64) {
 
 // Start does the real subscribe because it actually start the data flow
 func (c *PushClient) Start() (err error) {
+	// Setup callback server
+
+	// Setup the subscriptions, data will flow now
 	for name, _ := range c.List {
 		if err = c.realSubscribe(name); err != nil {
 			return
@@ -189,6 +192,7 @@ func (c *PushClient) Stop() (err error) {
 	for name, _ := range c.List {
 		err = c.Unsubscribe(name)
 	}
+	// Stop callback server
 	return
 }
 
