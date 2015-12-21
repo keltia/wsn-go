@@ -4,12 +4,10 @@ package soap
 
 import (
 	"bytes"
+	"encoding/xml"
 	"io/ioutil"
 	"log"
 	"net/http"
-"encoding/xml"
-"strings"
-"wsn-go/config"
 )
 
 var (
