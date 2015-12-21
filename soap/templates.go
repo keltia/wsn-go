@@ -188,7 +188,7 @@ func NewRequest(action int, vars SubVars) (request *Request, err error) {
     }
 
     // Does the thing
-    t := template.Must(template.New(action).Parse(templ))
+    t := template.Must(template.New(actionToHeader(action)).Parse(templ))
     if err = t.Execute(&request.Text, vars); err != nil {
         err = ErrCantCreateTemplate
     }
