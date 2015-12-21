@@ -13,6 +13,7 @@ var (
 	httpClient http.Client = http.Client{}
 )
 
+// Send the prepared request to the target SOAP endpoint
 func (request *Request) Send(targetURL string) (body []byte, err error) {
 
 	// Prepare the request
