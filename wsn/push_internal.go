@@ -41,6 +41,9 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 			TopicName: name,
 		}
 		soapReq, err := soap.NewRequest(soap.SUBSCRIBEPUSH, vars)
+	        if err != nil {
+		    return
+		}
 
 		// Send SOAP request
 		targetURL := c.generateURL(config.Endpoint)
