@@ -43,7 +43,7 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 	// Handle only already registered topics
 	if topic, present := c.List[name]; present {
 		var xmlReq bytes.Buffer
-		var body []byte
+		var answer []byte
 
 		// Prepare the request
 		vars := SubVars{
@@ -54,11 +54,11 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 
 		// Send SOAP request
 		targetURL := c.generateURL(config.Endpoint)
-		body, err = soap.SendRequest("subscribe", targetURL, &xmlReq)
+		answer, err = soap.SendRequest("subscribe", targetURL, &xmlReq)
 
 		// Parse XML
 		res := &SubscribeAnswer{}
-		if err = xml.Unmarshal(body, res); err != nil {
+		if err = xml.Unmarshal(answer, res); err != nil {
 			return
 		}
 
