@@ -28,7 +28,7 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 
 	// Handle only already registered topics
 	if topic, present := c.List[name]; present {
-		var answer []byte
+		var answer string
 
 		// Prepare the request
 		vars := soap.SubVars{
