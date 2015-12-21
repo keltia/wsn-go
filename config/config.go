@@ -22,14 +22,13 @@ type Dest struct {
 }
 
 type Config struct {
-	Proto    string // http
-	Site     string // 192.70.89.113
-	Port     int    // 9000
-	Endpoint string // wsn/NotificationBroker
-	Wsdl     string
-	Base     string // http://147.196.152.4
-	Dests    map[string]Dest
-	Default  string // mine
+	Target  string // htt://192.70.106.113
+	Base    string // http://147.196.152.4
+	Port    int    // 9000
+	Broker  string // wsn/NotificationBroker
+	Wsdl    string
+	Dests   map[string]Dest
+	Default string // mine
 }
 
 // Check the parameter for either tag or filename
