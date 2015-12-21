@@ -7,14 +7,39 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+"encoding/xml"
+"strings"
+"wsn-go/config"
 )
 
 var (
 	httpClient http.Client = http.Client{}
 )
 
+type SubscribeAnswer struct {
+	XMLName xml.Name
+	Body    SABody
+}
+
+type SABody struct {
+	XMLName xml.Name
+	Resp    SAResp `xml:"SubscribeResponse"`
+}
+
+type SAResp struct {
+	XMLName   xml.Name    `xml:"SubscribeResponse"`
+	Reference SAReference `xml:"SubscriptionReference"`
+}
+
+type SAReference struct {
+	XMLName             xml.Name `xml:"SubscriptionReference"`
+	Address             string
+	ReferenceParameters string
+	Metadata            string
+}
+
 // Send the prepared request to the target SOAP endpoint
-func (request *Request) Send(targetURL string) (body []byte, err error) {
+func (request *Request) Send(targetURL string) (address string, err error) {
 
 	// Prepare the request
 	buf := bytes.NewBufferString(request.Text.String())
@@ -29,10 +54,17 @@ func (request *Request) Send(targetURL string) (body []byte, err error) {
 	defer resp.Body.Close()
 
 	if err != nil {
-		body = nil
+		address = nil
 	} else {
 		// body is the XML encoded answer, to be decoded further up
-		body, err = ioutil.ReadAll(resp.Body)
+		body, err := ioutil.ReadAll(resp.Body)
+
+		// Parse XML
+		res := &SubscribeAnswer{}
+		if err = xml.Unmarshal(body, res); err != nil {
+			return
+		}
+		address = res.Body.Resp.Reference.Address
 	}
 	return
 }
