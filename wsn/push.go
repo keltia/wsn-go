@@ -14,7 +14,6 @@ import (
 // PushClient represents an active Push mode client for WS-N.  It maintains a list of
 // subscribed topics.
 type PushClient struct {
-	Config  *config.Config
 	List    TopicList
 	Timeout int64
 
@@ -31,7 +30,6 @@ type PushClient struct {
 // NewPushClient creates a new client using push mode with an empty list of topics.
 func NewPushClient(config *config.Config) (client * PushClient) {
 	client = &PushClient{
-		Config: config,
 		List: TopicList{},
 		Timeout: -1,
 		base: config.Base,
