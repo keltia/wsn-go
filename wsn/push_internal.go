@@ -3,7 +3,6 @@
 package wsn
 
 import (
-    "encoding/xml"
     "fmt"
     "strings"
 
