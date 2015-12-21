@@ -114,7 +114,7 @@ func (c *PushClient) Subscribe(topic string) (err error) {
 	// Add the topic
 	log.Printf("subscribe push/%s", topic)
 	if _, ok := c.List[topic]; ok {
-		err = ErrTopicAlreadyExist
+		err = ErrTopicAlreadySubscribed
 	}
 	c.List[topic] = &Topic{
 		Started: false,
