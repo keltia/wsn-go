@@ -142,6 +142,12 @@ const (
 
 // SOAP stuff
 
+// Request is here to encapsulate templating stuff
+type Request struct {
+    Text bytes.Buffer
+    Action int
+}
+
 // SubVars is the struct to hold template variables
 type SubVars struct {
 	TopicName string
