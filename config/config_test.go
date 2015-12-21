@@ -75,6 +75,11 @@ func TestLoadConfig(t *testing.T) {
 	if conf.Default != def {
 		t.Errorf("Malformed default %s: %s", conf.Default, def)
 	}
+
+	vers := 1
+	if conf.Version != vers {
+		t.Errorf("Configuration file too old: %d", conf.Version)
+	}
 }
 
 func TestLoadConfigDest(t *testing.T) {
