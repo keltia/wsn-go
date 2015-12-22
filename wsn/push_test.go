@@ -21,7 +21,6 @@ func TestNewPushClient(t *testing.T) {
 	// Check various fields
 
 	// Public
-	t.Log("  Public fields")
 	if len(client.List) != 0 {
 		t.Errorf("List is not correctly set: %s", client.List)
 	}
@@ -30,7 +29,6 @@ func TestNewPushClient(t *testing.T) {
 	}
 
 	// Private
-	t.Log("  Private fields")
 	if client.base != config.Base {
 		t.Errorf("base is not correctly set: %s", client.base)
 	}
