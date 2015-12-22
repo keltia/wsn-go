@@ -54,6 +54,10 @@ func (request *Request) Send(targetURL string) (address string, err error) {
 	if err != nil {
 		address = ""
 	} else {
+		if request.Action == UNSUBSCRIBEPUSH {
+			address = ""
+			return
+		}
 		var body []byte
 
 		// body is the XML encoded answer, to be decoded further up
