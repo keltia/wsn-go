@@ -3,7 +3,6 @@
 package wsn
 
 import (
-	"io"
 	"errors"
 )
 
@@ -16,8 +15,6 @@ const (
 
 // Generic Client interface for both Push/Pull modes
 type Client interface {
-	io.Reader
-
 	Type() int
 	Subscribe(string) error
 	Unsubscribe(string) error
