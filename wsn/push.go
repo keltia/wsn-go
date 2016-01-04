@@ -120,11 +120,3 @@ func (c *PushClient) Stop() (err error) {
 	return
 }
 
-// Read is needed for the io.Reader interface
-func (c *PushClient) Read(p []byte) (n int, err error) {
-	data := "push/foobar"
-	n = len(data)
-	copy(p, []byte(data))
-	err = io.EOF
-	return
-}
