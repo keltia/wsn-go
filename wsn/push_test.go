@@ -69,3 +69,36 @@ func TestPushSetVerbose (t *testing.T) {
 		t.Errorf("Error setting verbose mode: %v", client.verbose)
 	}
 }
+
+func TestPushSubscribe(t *testing.T) {
+	// Load our stuff
+	config, err :=  config.LoadConfig("../config/config.toml")
+	if err != nil {
+		t.Errorf("Error loading config: %v", err)
+	}
+	client := NewPushClient(config)
+
+	err = client.Subscribe("foobar")
+	if err != nil {
+		t.Errorf("Error: Subscribe returned error: %v", err)
+	}
+
+	// do we have exactly one topic?
+	if len(client.List) != 1 {
+		t.Errorf("Error: List should have 1 item: %d", len(client.List))
+	}
+
+	// is ours present?
+	if _, ok := client.List["foobar"]; !ok {
+		t.Errorf("Error: topic foobar not present: %v", client.List)
+	}
+
+	// does it have the right settings?
+	topic := client.List["foobar"]
+	if topic.Started {
+		t.Errorf("Error: topic should NOT be started")
+	}
+	if topic.UnsubAddr != "" {
+		t.Errorf("Error: unsubaddr should be empty!: %s", topic.UnsubAddr)
+	}
+}
