@@ -102,3 +102,19 @@ func TestPushSubscribe(t *testing.T) {
 		t.Errorf("Error: unsubaddr should be empty!: %s", topic.UnsubAddr)
 	}
 }
+
+func TestPushUnsubscribe(t *testing.T) {
+	// Load our stuff
+	config, err :=  config.LoadConfig("../config/config.toml")
+	if err != nil {
+		t.Errorf("Error loading config: %v", err)
+	}
+	client := NewPushClient(config)
+
+	err = client.Subscribe("foobar")
+	if err != nil {
+		t.Errorf("Error: Subscribe returned error: %v", err)
+	}
+
+	//err = client.Unsubscribe("foobar")
+}
