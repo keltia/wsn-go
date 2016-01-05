@@ -122,6 +122,7 @@ func (c *PushClient) Stop() (err error) {
 		}
 	}
 	// Stop callback server
+	close(c.output)
 	return
 }
 
