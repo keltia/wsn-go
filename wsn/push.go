@@ -3,7 +3,6 @@
 package wsn
 
 import (
-	"io"
 	"log"
 	"net/http"
 	"time"
@@ -115,6 +114,9 @@ func (c *PushClient) Stop() (err error) {
 
 	for name, _ := range c.List {
 		err = c.Unsubscribe(name)
+		if err != nil {
+			log.Printf("Error: Unsubscribe returned '%v' for %s", name)
+		}
 	}
 	// Stop callback server
 	return
