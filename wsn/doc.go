@@ -34,7 +34,7 @@
 
   You have to create the output channel *before* calling `Start()`.
 
-      output := make(chan int, <N>)    // If you want buffering, use a big N
+      output := make(chan []byte, <N>)    // Make it big like 128 or 256KB
       client.Start(output)
 
   To stop a given topic, use
