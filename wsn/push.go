@@ -113,7 +113,9 @@ func (c *PushClient) Start(output chan []byte) (err error) {
 
 // Stop does unsubscribe all the topics at once
 func (c *PushClient) Stop() (err error) {
-	log.Printf("stopping everything")
+	if c.verbose {
+		log.Printf("stopping everything")
+	}
 
 	for name, _ := range c.List {
 		err = c.Unsubscribe(name)
