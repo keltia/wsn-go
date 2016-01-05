@@ -22,7 +22,7 @@ type PushClient struct {
 	port    int
 	server  http.Server
 	verbose bool
-	output  chan int
+	output  chan []byte
 }
 
 // Public API
@@ -86,7 +86,7 @@ func (c *PushClient) SetTimeout(timeout int64) {
 }
 
 // Start does the real subscribe because it actually start the data flow
-func (c *PushClient) Start(output chan int) (err error) {
+func (c *PushClient) Start(output chan []byte) (err error) {
 	// Setup callback server
 
 	// register output channel
