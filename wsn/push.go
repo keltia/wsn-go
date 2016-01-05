@@ -53,8 +53,11 @@ func (c *PushClient) SetVerbose() {
 
 // Subscribe registers the given topic
 func (c *PushClient) Subscribe(topic string) (err error) {
+	if c.verbose {
+		log.Printf("subscribe push/%s", topic)
+	}
+
 	// Add the topic
-	log.Printf("subscribe push/%s", topic)
 	if _, ok := c.List[topic]; ok {
 		err = ErrTopicAlreadySubscribed
 	}
@@ -70,7 +73,9 @@ func (c *PushClient) Subscribe(topic string) (err error) {
 
 // Unsubscribe stops and closes the given topic
 func (c *PushClient) Unsubscribe(name string) (err error) {
-	log.Printf("unsubscribed push/%s", name)
+	if c.verbose {
+		log.Printf("unsubscribed push/%s", name)
+	}
 
 	if _, present := c.List[name]; present {
 		err = c.realUnsubscribe(name)
@@ -103,7 +108,9 @@ func (c *PushClient) Start(output chan []byte) (err error) {
 		// Fire up goroutine
 		go func() {
 			time.Sleep(time.Duration(c.Timeout) * time.Second)
-			log.Println("Timer expired!")
+			if c.verbose {
+				log.Println("Timer expired!")
+			}
 			c.Stop()
 		}()
 	}
