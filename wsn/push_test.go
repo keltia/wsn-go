@@ -118,3 +118,17 @@ func TestPushUnsubscribe(t *testing.T) {
 
 	//err = client.Unsubscribe("foobar")
 }
+
+func TestSetTimeout(t *testing.T) {
+	// Load our stuff
+	config, err :=  config.LoadConfig("../config/config.toml")
+	if err != nil {
+		t.Errorf("Error loading config: %v", err)
+	}
+	client := NewPushClient(config)
+
+	client.SetTimeout(255)
+	if client.Timeout != 255 {
+		t.Errorf("Error setting timeout: %d - %d", 255, client.Timeout)
+	}
+}
