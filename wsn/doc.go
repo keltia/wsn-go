@@ -30,10 +30,12 @@
 
   For both modes, the system is not started until you run
 
-      client.Start()
+      client.Start(output)
 
-  Both PullClient and PushClient supports the io.Reader interface which means that you can
-  use all the usual io and iobuf methods like iobuf.ReadAll().
+  You have to create the output channel *before* calling `Start()`.
+
+      output := make(chan int, <N>)    // If you want buffering, use a big N
+      client.Start(output)
 
   To stop a given topic, use
 

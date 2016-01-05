@@ -22,6 +22,7 @@ type PushClient struct {
 	port    int
 	server  http.Server
 	verbose bool
+	output  chan int
 }
 
 // Public API
@@ -85,9 +86,11 @@ func (c *PushClient) SetTimeout(timeout int64) {
 }
 
 // Start does the real subscribe because it actually start the data flow
-func (c *PushClient) Start() (err error) {
+func (c *PushClient) Start(output chan int) (err error) {
 	// Setup callback server
 
+	// register output channel
+	c.output = output
 	// Setup the subscriptions, data will flow now
 	for name, _ := range c.List {
 		if err = c.realSubscribe(name); err != nil {
