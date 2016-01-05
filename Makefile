@@ -5,7 +5,7 @@ SRCS=   client.go data.go  pull.go push.go push_server.go topic.go types.go \
 	config.go \
 	operations.go templates.go
 
-all: build test
+all: build
 
 clean:
 	go clean -v
