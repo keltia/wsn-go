@@ -4,7 +4,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"reflect"
 	"wsn-go/config"
 	"wsn-go/wsn"
@@ -12,6 +11,8 @@ import (
 )
 
 func main() {
+	var buf = make([]byte, 262144)
+
 	config, err := config.LoadConfig("surveillance")
 	if err != nil {
 		fmt.Printf("%v\n%v\n", config, err)
@@ -30,12 +31,13 @@ func main() {
 
 	fmt.Printf("push is of type: %v\n", reflect.TypeOf(push))
 
-
-	push.Start()
+	push.SetTimeout(10)
+	o := make(chan []byte, 262144)
+	push.Start(o)
 //	pull.Start()
-	data, err := ioutil.ReadAll(push)
-	if err == nil {
-		fmt.Println(string(data))
+	for {
+		buf = <- o
+		fmt.Println(string(buf))
 	}
 
 	err = push.Unsubscribe("toto")
