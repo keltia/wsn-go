@@ -92,6 +92,10 @@ func (c *PushClient) SetTimeout(timeout int64) {
 
 // Start does the real subscribe because it actually start the data flow
 func (c *PushClient) Start(output chan []byte) (err error) {
+	if output == nil {
+		err = ErrNoOutputChannel
+	}
+
 	// Setup callback server
 
 	// register output channel
