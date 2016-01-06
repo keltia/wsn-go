@@ -5,6 +5,7 @@ package wsn
 import (
 	"io"
 	"log"
+	"wsn-go/config"
 )
 
 // A PullClient represents an active Pull mode client for WS-N.  It maintains a list of
@@ -23,11 +24,18 @@ type PullClient struct {
 }
 
 // NewPullClient creates a new instance of a Pull client.
-func NewPullClient() *PullClient {
+func NewPullClient(config *config.Config) (client *PullClient) {
 	return &PullClient{
 		PullPt: "",
 		List:   TopicList{},
+		Timeout: -1,
+		base:    config.Base,
+		target:  config.Target,
+		port:    config.Port,
+		verbose: false,
 	}
+	client.target = client.generateURL(config.Broker)
+	return
 }
 
 // Type returns the operating mode of the client
