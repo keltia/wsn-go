@@ -3,8 +3,8 @@
 package wsn
 
 import (
-	"log"
 	"io"
+	"log"
 )
 
 // A PullClient represents an active Pull mode client for WS-N.  It maintains a list of
@@ -59,10 +59,10 @@ func (c *PullClient) Subscribe(topic string) (err error) {
 	// Add the topic
 	log.Printf("subscribe pull/%s", topic)
 	c.List[topic] = &Topic{
-		Started: false,
+		Started:   false,
 		UnsubAddr: "",
-		Bytes: 0,
-		Pkts: 0,
+		Bytes:     0,
+		Pkts:      0,
 	}
 
 	return
@@ -107,4 +107,3 @@ func (c *PullClient) Read(p []byte) (n int, err error) {
 	err = io.EOF
 	return
 }
-

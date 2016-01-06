@@ -3,13 +3,13 @@
 package wsn
 
 import (
-    "testing"
-    "encoding/xml"
+	"encoding/xml"
 	"strings"
+	"testing"
 )
 
 const (
-    testRecord = `
+	testRecord = `
 <?xml version="1.0" encoding="UTF-8"?>
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
                xmlns:wsa="http://www.w3.org/2005/08/addressing">
@@ -41,7 +41,7 @@ const (
 </soap:Envelope>
 `
 
-   testResult = `<adsc-uper:PDU xmlns:adsc-uper="http://www.eurocae.net/ADS_C_vH_stepC/Unaligned-PER">
+	testResult = `<adsc-uper:PDU xmlns:adsc-uper="http://www.eurocae.net/ADS_C_vH_stepC/Unaligned-PER">
                   <type xmlns="">ADSReport</type>
                   <value xmlns="">8009A600C426A0901772359A60100018</value>
                </adsc-uper:PDU>
@@ -66,19 +66,19 @@ func diffStrings(str1, str2 string) (off int, a byte, b byte) {
 }
 
 func TestWsnStringer(t *testing.T) {
-    var wsnTest WsnData
+	var wsnTest WsnData
 
-    err := xml.Unmarshal([]byte(testRecord), &wsnTest)
-    if err != nil {
-        t.Errorf("Data can not be decoded: %v\nError: %v", testRecord, err)
-    }
+	err := xml.Unmarshal([]byte(testRecord), &wsnTest)
+	if err != nil {
+		t.Errorf("Data can not be decoded: %v\nError: %v", testRecord, err)
+	}
 
-    str1 := wsnTest.String()
+	str1 := wsnTest.String()
 	str2 := strings.TrimSpace(testResult)
 	diff, a, b := diffStrings(str1, str2)
-    if diff == -2 {
+	if diff == -2 {
 		t.Errorf("Error: lengths are different: %d %d", len(str1), len(str2))
 	} else if diff != -1 {
-        t.Errorf("Decoded data is different:\nByte at %d (%d) != Byte at %d (%d)", diff, a, diff, b)
-    }
+		t.Errorf("Decoded data is different:\nByte at %d (%d) != Byte at %d (%d)", diff, a, diff, b)
+	}
 }

@@ -4,8 +4,8 @@ package wsn_test
 
 import (
 	"fmt"
-	"reflect"
 	"io/ioutil"
+	"reflect"
 	"wsn-go/wsn"
 )
 

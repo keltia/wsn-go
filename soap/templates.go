@@ -3,16 +3,16 @@
 package soap
 
 import (
-    "bytes"
-    "errors"
-    "text/template"
+	"bytes"
+	"errors"
+	"text/template"
 )
 
 const (
-    // Subscribe to topic
-    // sent to: wsn/NotificationBroker
-    // answer: wsn/subscriptions/<id>
-    subscribePushText = `
+	// Subscribe to topic
+	// sent to: wsn/NotificationBroker
+	// answer: wsn/subscriptions/<id>
+	subscribePushText = `
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
 	       xmlns:b="http://docs.oasis-open.org/wsn/b-2"
 	       xmlns:add="http://www.w3.org/2005/08/addressing">
@@ -30,9 +30,9 @@ const (
 </soap:Envelope>
 `
 
-    // Unsubscribe from topic
-    // sent to: wsn/subscriptions/<id>
-    unsubscribePushText = `
+	// Unsubscribe from topic
+	// sent to: wsn/subscriptions/<id>
+	unsubscribePushText = `
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
 	       xmlns:b="http://docs.oasis-open.org/wsn/b-2">
    <soap:Header/>
@@ -42,10 +42,10 @@ const (
 </soap:Envelope>
 `
 
-    // Create Pull Point
-    // sent to: wsn/CreatePullPoint
-    // answer: wsn/pullpoints/<id>
-    createPullPointText = `
+	// Create Pull Point
+	// sent to: wsn/CreatePullPoint
+	// answer: wsn/pullpoints/<id>
+	createPullPointText = `
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
 	       xmlns:wsa="http://www.w3.org/2005/08/addressing">
    <soap:Header>
@@ -59,10 +59,10 @@ const (
 </soap:Envelope>
 `
 
-    // Subscribe topic to Pull Point
-    // sent to: wsn/NotificationBroker
-    // answer: wsn/subscriptions/<id>
-    subscribePullPointText = `
+	// Subscribe topic to Pull Point
+	// sent to: wsn/NotificationBroker
+	// answer: wsn/subscriptions/<id>
+	subscribePullPointText = `
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
 	       xmlns:wsa="http://www.w3.org/2005/08/addressing">
    <soap:Header>
@@ -85,9 +85,9 @@ const (
 </soap:Envelope>
 `
 
-    // Get messages from topics
-    // sent to: wsn/pullpoints/<id>
-    getMessagePullText = `
+	// Get messages from topics
+	// sent to: wsn/pullpoints/<id>
+	getMessagePullText = `
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
 	       xmlns:wsa="http://www.w3.org/2005/08/addressing">
    <soap:Header>
@@ -101,9 +101,9 @@ const (
 </soap:Envelope>
 `
 
-    // Unsubscribe topic
-    // sent to: wsn/subscriptions/<id>
-    unsubscribePullPointText = `
+	// Unsubscribe topic
+	// sent to: wsn/subscriptions/<id>
+	unsubscribePullPointText = `
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
 	       xmlns:wsa="http://www.w3.org/2005/08/addressing">
    <soap:Header>
@@ -117,9 +117,9 @@ const (
 </soap:Envelope>
 `
 
-    // Destroy Pull Point
-    // sent to: wsn/pullpoints/<id>
-    destroyPullPointText = `
+	// Destroy Pull Point
+	// sent to: wsn/pullpoints/<id>
+	destroyPullPointText = `
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
 	       xmlns:wsa="http://www.w3.org/2005/08/addressing">
    <soap:Header>
@@ -131,21 +131,21 @@ const (
 </soap:Envelope>
 `
 
-    SUBSCRIBEPUSH = 1+ iota
-    UNSUBSCRIBEPUSH
-    CREATEPULLPOINT
-    SUBSCRIBEPULL
-    GETMESSAGES
-    UNSUBSCRIBEPULL
-    DESTROYPULLPOINT
+	SUBSCRIBEPUSH = 1 + iota
+	UNSUBSCRIBEPUSH
+	CREATEPULLPOINT
+	SUBSCRIBEPULL
+	GETMESSAGES
+	UNSUBSCRIBEPULL
+	DESTROYPULLPOINT
 )
 
 // SOAP stuff
 
 // Request is here to encapsulate templating stuff
 type Request struct {
-    Text bytes.Buffer
-    Action int
+	Text   bytes.Buffer
+	Action int
 }
 
 // SubVars is the struct to hold template variables
@@ -161,36 +161,36 @@ var ErrCantCreateTemplate = errors.New("Can not create template")
 var ErrTemplateNotFound = errors.New("Unknown action")
 
 var (
-    actionToTempl = map[int]string{
-	SUBSCRIBEPUSH: subscribePushText,
-	UNSUBSCRIBEPUSH: unsubscribePushText,
-    }
+	actionToTempl = map[int]string{
+		SUBSCRIBEPUSH:   subscribePushText,
+		UNSUBSCRIBEPUSH: unsubscribePushText,
+	}
 
-    actionToHeader = map[int]string{
-	SUBSCRIBEPUSH:   "subscribe",
-	UNSUBSCRIBEPUSH: "unsubscribe",
-    }
+	actionToHeader = map[int]string{
+		SUBSCRIBEPUSH:   "subscribe",
+		UNSUBSCRIBEPUSH: "unsubscribe",
+	}
 )
 
 // getTemplate return the template suited for operation
 
 // CreateRequest instantiates a template
 func NewRequest(action int, vars SubVars) (request *Request, err error) {
-    request = &Request{
-	Action: action,
-	Text: bytes.Buffer{},
-    }
+	request = &Request{
+		Action: action,
+		Text:   bytes.Buffer{},
+	}
 
-    // Check if valid template
-    templ, valid := actionToTempl[action]
-    if !valid {
-	err = ErrTemplateNotFound
-    }
+	// Check if valid template
+	templ, valid := actionToTempl[action]
+	if !valid {
+		err = ErrTemplateNotFound
+	}
 
-    // Does the thing
-    t := template.Must(template.New(actionToHeader[action]).Parse(templ))
-    if err = t.Execute(&request.Text, vars); err != nil {
-        err = ErrCantCreateTemplate
-    }
-    return
+	// Does the thing
+	t := template.Must(template.New(actionToHeader[action]).Parse(templ))
+	if err = t.Execute(&request.Text, vars); err != nil {
+		err = ErrCantCreateTemplate
+	}
+	return
 }

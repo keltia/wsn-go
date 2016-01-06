@@ -3,8 +3,8 @@
 package wsn
 
 import (
-	"testing"
 	"fmt"
+	"testing"
 	"wsn-go/config"
 )
 
@@ -12,7 +12,7 @@ var _topics TopicList = TopicList{}
 
 func TestNewPushClient(t *testing.T) {
 	// Load our stuff
-	config, err :=  config.LoadConfig("../config/config.toml")
+	config, err := config.LoadConfig("../config/config.toml")
 	if err != nil {
 		t.Errorf("Error loading config: %v", err)
 	}
@@ -43,9 +43,9 @@ func TestNewPushClient(t *testing.T) {
 	}
 }
 
-func TestPushType (t *testing.T) {
+func TestPushType(t *testing.T) {
 	// Load our stuff
-	config, err :=  config.LoadConfig("../config/config.toml")
+	config, err := config.LoadConfig("../config/config.toml")
 	if err != nil {
 		t.Errorf("Error loading config: %v", err)
 	}
@@ -56,9 +56,9 @@ func TestPushType (t *testing.T) {
 	}
 }
 
-func TestPushSetVerbose (t *testing.T) {
+func TestPushSetVerbose(t *testing.T) {
 	// Load our stuff
-	config, err :=  config.LoadConfig("../config/config.toml")
+	config, err := config.LoadConfig("../config/config.toml")
 	if err != nil {
 		t.Errorf("Error loading config: %v", err)
 	}
@@ -72,7 +72,7 @@ func TestPushSetVerbose (t *testing.T) {
 
 func TestPushSubscribe(t *testing.T) {
 	// Load our stuff
-	config, err :=  config.LoadConfig("../config/config.toml")
+	config, err := config.LoadConfig("../config/config.toml")
 	if err != nil {
 		t.Errorf("Error loading config: %v", err)
 	}
@@ -105,7 +105,7 @@ func TestPushSubscribe(t *testing.T) {
 
 func TestPushUnsubscribe(t *testing.T) {
 	// Load our stuff
-	config, err :=  config.LoadConfig("../config/config.toml")
+	config, err := config.LoadConfig("../config/config.toml")
 	if err != nil {
 		t.Errorf("Error loading config: %v", err)
 	}
@@ -121,7 +121,7 @@ func TestPushUnsubscribe(t *testing.T) {
 
 func TestSetTimeout(t *testing.T) {
 	// Load our stuff
-	config, err :=  config.LoadConfig("../config/config.toml")
+	config, err := config.LoadConfig("../config/config.toml")
 	if err != nil {
 		t.Errorf("Error loading config: %v", err)
 	}

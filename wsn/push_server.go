@@ -30,7 +30,7 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string, *PushClient
 func getFeedName(url string) string {
 	// FIXME
 	parts := strings.Split(url, "/")
-	return parts[len(parts) - 1]
+	return parts[len(parts)-1]
 
 }
 
@@ -38,7 +38,7 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string, client *
 	// body is an XML SOAP
 	//
 	if req.Method == "POST" {
-		body, err := ioutil.ReadAll(req.Body);
+		body, err := ioutil.ReadAll(req.Body)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("Error reading payload %s\n", req.Body), 500)
 		}
@@ -77,7 +77,7 @@ func handleNotify(w http.ResponseWriter, req *http.Request, url string, client *
 		topic.Pkts++
 
 		// Send everything through the channel
-		client.output<- payload
+		client.output <- payload
 	} else {
 		http.NotFound(w, req)
 	}
@@ -92,4 +92,3 @@ func (client *PushClient) StartServer() {
 	log.Println("Starting")
 	log.Fatal(http.ListenAndServe(":"+fmt.Sprintf("%d", client.port), server))
 }
-

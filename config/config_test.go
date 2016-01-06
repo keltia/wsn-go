@@ -1,11 +1,11 @@
 package config
 
 import (
-	"testing"
+	"fmt"
 	"os"
 	"path"
-	"fmt"
 	"reflect"
+	"testing"
 )
 
 func TestCheckName(t *testing.T) {
@@ -35,7 +35,7 @@ func TestCheckName(t *testing.T) {
 }
 
 func TestStringer(t *testing.T) {
-	dest := Dest{Broker:"broker", Name:"myname", Type:"mytype"}
+	dest := Dest{Broker: "broker", Name: "myname", Type: "mytype"}
 
 	res := dest.String()
 	if res != "broker: myname" {
@@ -103,7 +103,7 @@ func TestLoadConfigDest(t *testing.T) {
 		t.Errorf("Error loading Dests map[]: wrong type %v—%s", dst, reflect.TypeOf(Dest{}))
 	}
 
-	real := Dest{Broker:"localhost", Name:"surv", Type:"queue"}
+	real := Dest{Broker: "localhost", Name: "surv", Type: "queue"}
 	if dst != real {
 		t.Errorf("Error loading Dests map[]: wrong name %v—%v", dst, real)
 	}

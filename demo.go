@@ -4,10 +4,10 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"reflect"
 	"wsn-go/config"
 	"wsn-go/wsn"
-	"os"
 )
 
 func main() {
@@ -18,12 +18,12 @@ func main() {
 		fmt.Printf("%v\n%v\n", config, err)
 		os.Exit(1)
 	}
-/*	pull := wsn.NewPullClient()
-	err = pull.Subscribe("foo")
-	defer pull.Stop()
+	/*	pull := wsn.NewPullClient()
+		err = pull.Subscribe("foo")
+		defer pull.Stop()
 
-	fmt.Printf("pull is of type: %v\n", reflect.TypeOf(pull))
-*/
+		fmt.Printf("pull is of type: %v\n", reflect.TypeOf(pull))
+	*/
 	push := wsn.NewPushClient(config)
 	defer push.Stop()
 
@@ -34,9 +34,9 @@ func main() {
 	push.SetTimeout(10)
 	o := make(chan []byte, 262144)
 	push.Start(o)
-//	pull.Start()
+	//	pull.Start()
 	for {
-		buf = <- o
+		buf = <-o
 		fmt.Println(string(buf))
 	}
 

@@ -15,15 +15,14 @@ type WsnData struct {
 		Notify struct {
 			NotificationMessage struct {
 				SubscriptionReference SAReference
-				Topic           string
-				Message         struct {
+				Topic                 string
+				Message               struct {
 					Data []byte `xml:",innerxml"`
 				}
 			}
 		}
 	}
 }
-
 
 func (d *WsnData) String() (str string) {
 	str = strings.TrimSpace(string(d.Body.Notify.NotificationMessage.Message.Data))

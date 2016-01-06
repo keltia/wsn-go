@@ -3,12 +3,12 @@
 package soap
 
 import (
-    "testing"
 	"strings"
+	"testing"
 )
 
 var testVars = SubVars{
-	TopicURL: "http://example.com/foo",
+	TopicURL:  "http://example.com/foo",
 	TopicName: "foobar",
 }
 
@@ -31,7 +31,7 @@ const (
 </soap:Envelope>
 `
 
-    emptySubscribePush = `
+	emptySubscribePush = `
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
 	       xmlns:b="http://docs.oasis-open.org/wsn/b-2"
 	       xmlns:add="http://www.w3.org/2005/08/addressing">
@@ -77,7 +77,6 @@ func TestNewRequest(t *testing.T) {
 	if req.Action != SUBSCRIBEPUSH {
 		t.Errorf("Error: bad action: %v", req.Action)
 	}
-
 
 	req, err = NewRequest(UNSUBSCRIBEPUSH, testVars)
 

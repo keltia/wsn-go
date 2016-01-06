@@ -6,9 +6,7 @@ import (
 	"encoding/xml"
 )
 
-const (
-
-)
+const ()
 
 // SOAP stuff
 
@@ -33,4 +31,3 @@ type SAReference struct {
 	ReferenceParameters string
 	Metadata            string
 }
-

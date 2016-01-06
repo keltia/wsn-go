@@ -28,13 +28,13 @@ type PushClient struct {
 // Public API
 
 // NewPushClient creates a new client using push mode with an empty list of topics.
-func NewPushClient(config *config.Config) (client * PushClient) {
+func NewPushClient(config *config.Config) (client *PushClient) {
 	client = &PushClient{
-		List: TopicList{},
+		List:    TopicList{},
 		Timeout: -1,
-		base: config.Base,
-		target: config.Target,
-		port: config.Port,
+		base:    config.Base,
+		target:  config.Target,
+		port:    config.Port,
 		verbose: false,
 	}
 	client.target = client.generateURL(config.Broker)
@@ -62,10 +62,10 @@ func (c *PushClient) Subscribe(topic string) (err error) {
 		err = ErrTopicAlreadySubscribed
 	}
 	c.List[topic] = &Topic{
-		Started: false,
+		Started:   false,
 		UnsubAddr: "",
-		Bytes: 0,
-		Pkts: 0,
+		Bytes:     0,
+		Pkts:      0,
 	}
 
 	return
@@ -139,4 +139,3 @@ func (c *PushClient) Stop() (err error) {
 	close(c.output)
 	return
 }
-

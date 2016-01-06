@@ -3,10 +3,10 @@
 package wsn
 
 import (
-    "fmt"
-    "strings"
+	"fmt"
+	"strings"
 
-    "wsn-go/soap"
+	"wsn-go/soap"
 )
 
 // Private func
@@ -20,7 +20,7 @@ func (c *PushClient) createEndpoint(name string) (endpoint string) {
 
 // generateURL generates an URL on the target site
 func (c *PushClient) generateURL(endPoint string) string {
-    return fmt.Sprintf("%s:%d/%s", c.target, c.port, endPoint)
+	return fmt.Sprintf("%s:%d/%s", c.target, c.port, endPoint)
 }
 
 // realSubscribe does the actual WS-N subscription
@@ -32,24 +32,24 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 
 		// Prepare the request
 		vars := soap.SubVars{
-			TopicURL: c.createEndpoint(name),
+			TopicURL:  c.createEndpoint(name),
 			TopicName: name,
 		}
-	    	var soapReq *soap.Request
+		var soapReq *soap.Request
 
 		soapReq, err = soap.NewRequest(soap.SUBSCRIBEPUSH, vars)
-	        if err != nil {
-		    return
+		if err != nil {
+			return
 		}
 
 		// Send SOAP request
 		answer, err = soapReq.Send(c.target)
-	    	if err != nil {
-		    return
+		if err != nil {
+			return
 		}
 
-	    	// We will fix the broken return address (might be 0.0.0.0)
-	    	baseIp := strings.Split(c.target, ":")
+		// We will fix the broken return address (might be 0.0.0.0)
+		baseIp := strings.Split(c.target, ":")
 		address := strings.Replace(answer, "0.0.0.0", baseIp[1], -1)
 		topic.UnsubAddr = address
 		topic.Started = true
@@ -62,21 +62,20 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 // realUnsubscribe does the actual WS-N un-subscription
 func (c *PushClient) realUnsubscribe(name string) (err error) {
 	if topic, present := c.List[name]; present {
-	    var soapReq *soap.Request
+		var soapReq *soap.Request
 
-            // Prepare the request
-	    soapReq, err = soap.NewRequest(soap.UNSUBSCRIBEPUSH, soap.SubVars{})
-	    if err != nil {
-		return
-	    }
-	    // Send SOAP request
-	    _, err = soapReq.Send(topic.UnsubAddr)
+		// Prepare the request
+		soapReq, err = soap.NewRequest(soap.UNSUBSCRIBEPUSH, soap.SubVars{})
+		if err != nil {
+			return
+		}
+		// Send SOAP request
+		_, err = soapReq.Send(topic.UnsubAddr)
 
-            topic.UnsubAddr = ""
-            topic.Started = false
+		topic.UnsubAddr = ""
+		topic.Started = false
 	} else {
 		err = ErrTopicNotFound
 	}
 	return
 }
-
