@@ -96,7 +96,8 @@ func (c *PushClient) Start(output chan []byte) (err error) {
 		err = ErrNoOutputChannel
 	}
 
-	// Setup callback server
+	// Setup callback server and start it
+	go c.StartServer()
 
 	// register output channel
 	c.output = output
