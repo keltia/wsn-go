@@ -24,6 +24,9 @@ type Client interface {
 
 // Error list
 
+// Channel errors
+var ErrNoOutputChannel = errors.New("Output channel not opened")
+
 // Topic errors
 var ErrTopicNotFound = errors.New("Topic not found")
 
