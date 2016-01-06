@@ -10,20 +10,20 @@ import (
 )
 
 func ExampleNewPullClient() {
-	pull := wsn.NewPullClient()
+	config := LoadConfig()
+	pull := wsn.NewPullClient(config)
 	err := pull.Subscribe("foo")
 	defer pull.Stop()
 
 	fmt.Printf("pull is of type: %v\n", reflect.TypeOf(pull))
 
-	pull.Start()
+	output := make(chan []byte, 262144)
+	pull.Start(output)
 
 	data, err := ioutil.ReadAll(pull)
 	if err == nil {
 		fmt.Println(string(data))
 	}
-
-	data, err = ioutil.ReadAll(pull)
 
 	pull.Stop()
 }
