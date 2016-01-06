@@ -12,23 +12,14 @@ import (
 type PullClient struct {
 	PullPt string
 	List   TopicList
-}
+	Timeout int64
 
-// createPullPoint create a Pull point on the broker that will be used to subscribe
-// topics.
-func createPullPoint() (pullPt string, err error) {
-	if false {
-		err = ErrCreatingPullPoint
-	}
-	return
-}
-
-// destroyPullPoint de-registers the pull point to avoid hogging resources on the broker
-func destroyPullPoint(pullPt string) (err error) {
-	if false {
-		err = ErrDestroyingPullPoint
-	}
-	return
+	// Private fields
+	base    string
+	target  string
+	port    int
+	verbose bool
+	output  chan []byte
 }
 
 // NewPullClient creates a new instance of a Pull client.
