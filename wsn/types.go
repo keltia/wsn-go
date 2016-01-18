@@ -12,9 +12,10 @@ const ()
 
 type SubscribeAnswer struct {
 	XMLName xml.Name
-	Body    SABody
+	Body    []byte `xml:", innerxml"`
 }
 
+// PushClient.Subscribe
 type SABody struct {
 	XMLName xml.Name
 	Resp    SAResp `xml:"SubscribeResponse"`
@@ -31,3 +32,16 @@ type SAReference struct {
 	ReferenceParameters string
 	Metadata            string
 }
+
+// PullClient.createPullPoint
+type CPPBody struct {
+	XMLName xml.Name
+	CreatePullPointResponse struct{
+		PullPt struct {
+			Address string
+			Params string
+			Metadata []byte `xml:",innerxml"`
+		}
+	}
+}
+
