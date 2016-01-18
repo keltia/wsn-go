@@ -2,10 +2,6 @@
 
 package wsn
 
-import (
-	"errors"
-)
-
 const (
 	MAX_TOPICS = 10
 
