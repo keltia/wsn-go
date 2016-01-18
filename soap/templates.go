@@ -154,12 +154,6 @@ type SubVars struct {
 	TopicURL  string
 }
 
-// Error when creating template
-var ErrCantCreateTemplate = errors.New("Can not create template")
-
-// No template for given action
-var ErrTemplateNotFound = errors.New("Unknown action")
-
 var (
 	actionToTempl = map[int]string{
 		SUBSCRIBEPUSH:   subscribePushText,
