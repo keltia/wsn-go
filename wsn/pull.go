@@ -50,7 +50,7 @@ func (c *PullClient) Subscribe(topic string) (err error) {
 	// Create Pull Point if needed
 	if c.PullPt == "" {
 		log.Printf("creating pull point for %s", topic)
-		if c.PullPt, err = createPullPoint(); err != nil {
+		if c.PullPt, err = c.createPullPoint(); err != nil {
 			return
 		}
 	}
@@ -74,7 +74,7 @@ func (c *PullClient) Unsubscribe(topic string) (err error) {
 
 	// Destroy after last topic
 	if len(c.List) == 0 {
-		err = destroyPullPoint(c.PullPt)
+		err = c.destroyPullPoint(c.PullPt)
 		c.PullPt = ""
 	}
 	return
