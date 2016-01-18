@@ -4,7 +4,6 @@ package soap
 
 import (
 	"bytes"
-	"errors"
 	"text/template"
 )
 
