@@ -38,6 +38,10 @@ func main() {
 	for {
 		buf = <-o
 		fmt.Println(string(buf))
+
+		if buf == nil {
+			break
+		}
 	}
 
 	err = push.Unsubscribe("toto")
