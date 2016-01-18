@@ -25,7 +25,7 @@ type PullClient struct {
 
 // NewPullClient creates a new instance of a Pull client.
 func NewPullClient(config *config.Config) (client *PullClient) {
-	return &PullClient{
+	client = &PullClient{
 		PullPt: "",
 		List:   TopicList{},
 		Timeout: -1,
