@@ -3,6 +3,7 @@
 package wsn
 
 import (
+	"encoding/xml"
 	"fmt"
 	"strings"
 
@@ -28,13 +29,12 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 
 	// Handle only already registered topics
 	if topic, present := c.List[name]; present {
-		var answer string
-
 		// Prepare the request
 		vars := soap.SubVars{
 			TopicURL:  c.createEndpoint(name),
 			TopicName: name,
 		}
+		var res []byte
 		var soapReq *soap.Request
 
 		soapReq, err = soap.NewRequest(soap.SUBSCRIBEPUSH, vars)
@@ -43,10 +43,17 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 		}
 
 		// Send SOAP request
-		answer, err = soapReq.Send(c.target)
+		res, err = soapReq.Send(c.target)
 		if err != nil {
 			return
 		}
+
+		var ans = &SABody{}
+		if err = xml.Unmarshal(res, ans); err != nil {
+			return
+		}
+
+		answer := ans.Resp.Reference.Address
 
 		// We will fix the broken return address (might be 0.0.0.0)
 		baseIp := strings.Split(c.target, ":")
