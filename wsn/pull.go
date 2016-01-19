@@ -3,6 +3,7 @@
 package wsn
 
 import (
+	"fmt"
 	"log"
 	"wsn-go/config"
 )
@@ -29,11 +30,10 @@ func NewPullClient(config *config.Config) (client *PullClient) {
 		List:   TopicList{},
 		Timeout: -1,
 		base:    config.Base,
-		target:  config.Target,
 		port:    config.Port,
 		verbose: false,
 	}
-	client.target = client.generateURL(config.Broker)
+	client.target = fmt.Sprintf("%s:%d/%s", config.Target, config.Port, config.Broker)
 	return
 }
 
