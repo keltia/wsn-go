@@ -14,30 +14,13 @@ var (
 	httpClient http.Client = http.Client{}
 )
 
-type SubscribeAnswer struct {
+type SoapAnswer struct {
 	XMLName xml.Name
-	Body    SABody
-}
-
-type SABody struct {
-	XMLName xml.Name
-	Resp    SAResp `xml:"SubscribeResponse"`
-}
-
-type SAResp struct {
-	XMLName   xml.Name    `xml:"SubscribeResponse"`
-	Reference SAReference `xml:"SubscriptionReference"`
-}
-
-type SAReference struct {
-	XMLName             xml.Name `xml:"SubscriptionReference"`
-	Address             string
-	ReferenceParameters string
-	Metadata            string
+	Body    []byte `xml:",innerxml"`
 }
 
 // Send the prepared request to the target SOAP endpoint
-func (request *Request) Send(targetURL string) (address string, err error) {
+func (request *Request) Send(targetURL string) (res []byte, err error) {
 
 	// Prepare the request
 	buf := bytes.NewBufferString(request.Text.String())
@@ -52,23 +35,21 @@ func (request *Request) Send(targetURL string) (address string, err error) {
 	defer resp.Body.Close()
 
 	if err != nil {
-		address = ""
+		res = []byte{}
 	} else {
-		if request.Action == UNSUBSCRIBEPUSH {
-			address = ""
-			return
-		}
+		// Everything is generic at this point
 		var body []byte
 
 		// body is the XML encoded answer, to be decoded further up
 		body, err = ioutil.ReadAll(resp.Body)
 
 		// Parse XML
-		res := &SubscribeAnswer{}
-		if err = xml.Unmarshal(body, res); err != nil {
+		answer := &SoapAnswer{}
+		if err = xml.Unmarshal(body, answer); err != nil {
 			return
 		}
-		address = res.Body.Resp.Reference.Address
+		// Now in res we have to decode the Body itself
+
 	}
 	return
 }
