@@ -19,7 +19,7 @@ func createPullPoint() (pullPt string, err error) {
 }
 
 // destroyPullPoint de-registers the pull point to avoid hogging resources on the broker
-func destroyPullPoint(pullPt string) (err error) {
+func (c *PullClient) destroyPullPoint(pullPt string) (err error) {
 	if false {
 		err = ErrDestroyingPullPoint
 	}
