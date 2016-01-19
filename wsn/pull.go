@@ -42,6 +42,11 @@ func (c *PullClient) Type() int {
 	return MODE_PULL
 }
 
+// SetVerbose is obvious
+func (c *PullClient) SetVerbose() {
+	c.verbose = true
+}
+
 // Subscribe register a topic for future consumption.  It also create the Pull point on first
 // use.
 func (c *PullClient) Subscribe(topic string) (err error) {
