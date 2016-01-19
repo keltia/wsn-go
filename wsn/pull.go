@@ -3,7 +3,6 @@
 package wsn
 
 import (
-	"io"
 	"log"
 	"wsn-go/config"
 )
@@ -98,11 +97,3 @@ func (c *PullClient) Stop() (err error) {
 	return
 }
 
-// Read implements the io.Reader interface
-func (c *PullClient) Read(p []byte) (n int, err error) {
-	data := "pull/foobar"
-	n = len(data)
-	copy(p, []byte(data))
-	err = io.EOF
-	return
-}
