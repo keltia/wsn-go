@@ -12,7 +12,7 @@ import (
 func (c *PullClient) createPullPoint() (pullPt string, err error) {
 
 	// Pull point should not exist at this stage
-	if c.PullPt == "" {
+	if c.PullPt != "" {
 		soapReq, err := soap.NewRequest(soap.CREATEPULLPOINT, soap.SubVars{})
 		if err != nil {
 			return "", ErrCreatingPullPoint
