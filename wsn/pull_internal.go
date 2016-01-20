@@ -41,11 +41,12 @@ func (c *PullClient) destroyPullPoint(pullPt string) (err error) {
 func (c *PullClient) realSubscribe(topic string) (err error) {
 
 	// Prepare the request
+	var soapReq *soap.Request
 	var vars = soap.SubVars{PullPt: c.PullPt, TopicName: topic}
 
 	// Pull point should already exist at this stage
 	if c.PullPt != "" {
-		soapReq, err := soap.NewRequest(soap.SUBSCRIBEPULL, vars)
+		soapReq, err = soap.NewRequest(soap.SUBSCRIBEPULL, vars)
 		if err != nil {
 			return ErrCantSubscribeTopicPull
 		}
