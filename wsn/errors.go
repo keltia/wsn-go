@@ -29,5 +29,7 @@ var ErrPullPtAlreadyPresent = errors.New("Pull point already present")
 // Pull point destruction errors
 var ErrDestroyingPullPoint = errors.New("Can not destroy pull point")
 
+var ErrCantSubscribeTopicPull = errors.New("Can not subscribe pullpt to topic")
+
 // Templating error
 var ErrCantCreateTemplate = errors.New("Can not instanciate template")
