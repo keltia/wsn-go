@@ -151,17 +151,20 @@ type Request struct {
 type SubVars struct {
 	TopicName string
 	TopicURL  string
+	PullPt    string
 }
 
 var (
 	actionToTempl = map[int]string{
 		SUBSCRIBEPUSH:   subscribePushText,
 		UNSUBSCRIBEPUSH: unsubscribePushText,
+		SUBSCRIBEPULL: subscribePullPointText,
 	}
 
 	actionToHeader = map[int]string{
 		SUBSCRIBEPUSH:   "subscribe",
 		UNSUBSCRIBEPUSH: "unsubscribe",
+		SUBSCRIBEPULL:   "subscribe",
 	}
 )
 
