@@ -76,6 +76,18 @@ func (c *PullClient) Subscribe(topic string) (err error) {
 func (c *PullClient) Unsubscribe(topic string) (err error) {
 	log.Printf("unsubscribed pull/%s", topic)
 
+	// Check topic
+	if _, ok := c.List[topic]; ok {
+		err = ErrTopicNotFound
+		return
+	}
+
+	// Subscribe the topic to the pull point
+	err = c.realSubscribe(topic)
+	if err != nil {
+		return
+	}
+
 	// Destroy after last topic
 	if len(c.List) == 0 {
 		err = c.destroyPullPoint(c.PullPt)
