@@ -45,3 +45,14 @@ type CPPBody struct {
 	}
 }
 
+// PullClient.realSubscribe
+type STPPBody struct {
+	XMLName xml.Name
+	SubscribeTopicResponse struct {
+		Reference struct {
+			Address string
+			Params string
+			Metadata []byte `xml:",innerxml"`
+		}
+    }
+}
