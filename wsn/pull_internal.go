@@ -36,3 +36,31 @@ func (c *PullClient) destroyPullPoint(pullPt string) (err error) {
 	}
 	return
 }
+
+// realSubscribe does the registration for the given topic
+func (c *PullClient) realSubscribe(topic string) (err error) {
+
+	// Prepare the request
+	var vars = soap.SubVars{PullPt: c.PullPt, TopicName: topic}
+
+	// Pull point should already exist at this stage
+	if c.PullPt != "" {
+		soapReq, err := soap.NewRequest(soap.SUBSCRIBEPULL, vars)
+		if err != nil {
+			return "", ErrCantSubscribeTopicPull
+		}
+		answer, err := soapReq.Send(c.target)
+		if err != nil {
+			var res *STPPBody
+
+			err = xml.Unmarshal(answer, res)
+			if err != nil {
+				c.List[topic].UnsubAddr = res.SubscribeTopicResponse.Reference.Address
+				c.List[topic].Started = true
+			} else {
+				return
+			}
+		}
+	}
+	return
+}
