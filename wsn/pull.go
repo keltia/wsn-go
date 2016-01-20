@@ -48,7 +48,7 @@ func (c *PullClient) SetVerbose() {
 }
 
 // Subscribe register a topic for future consumption.  It also create the Pull point on first
-// use.
+// use.  The PP is created here for consistency w/ push mode.
 func (c *PullClient) Subscribe(topic string) (err error) {
 
 	// Create Pull Point if needed
