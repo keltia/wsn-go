@@ -76,7 +76,7 @@ const (
 	 </b:ConsumerReference>
 	 <b:Filter>
 	    <b:TopicExpression Dialect="http://docs.oasis-open.org/wsn/t-1/TopicExpression/Simple">
-	      {{.Topic}
+	      {{.TopicName}
 	    </b:TopicExpression>
 	 </b:Filter>
       </b:Subscribe>
