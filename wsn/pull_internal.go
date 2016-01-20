@@ -50,7 +50,10 @@ func (c *PullClient) realSubscribe(topic string) (err error) {
 		if err != nil {
 			return ErrCantSubscribeTopicPull
 		}
-		answer, err := soapReq.Send(c.target)
+
+		var answer []byte
+
+		answer, err = soapReq.Send(c.target)
 		if err != nil {
 			var res *STPPBody
 
