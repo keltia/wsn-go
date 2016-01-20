@@ -47,7 +47,7 @@ func (c *PullClient) realSubscribe(topic string) (err error) {
 	if c.PullPt != "" {
 		soapReq, err := soap.NewRequest(soap.SUBSCRIBEPULL, vars)
 		if err != nil {
-			return "", ErrCantSubscribeTopicPull
+			return ErrCantSubscribeTopicPull
 		}
 		answer, err := soapReq.Send(c.target)
 		if err != nil {
