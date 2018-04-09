@@ -14,6 +14,9 @@ build: ${SRCS}
 	go build -v ./...
 	go test -v ./...
 
+lint:
+	gometalinter ./...
+
 push:
 	git push --all
 	git push --all gitlab
