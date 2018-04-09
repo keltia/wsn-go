@@ -4,7 +4,7 @@ package wsn
 
 import (
 	"encoding/xml"
-	"wsn-go/soap"
+	"github.com/keltia/wsn-go/soap"
 )
 
 // createPullPoint create a Pull point on the broker that will be used to subscribe

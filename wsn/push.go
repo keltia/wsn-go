@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"wsn-go/config"
+	"github.com/keltia/wsn-go/config"
 )
 
 // PushClient represents an active Push mode client for WS-N.  It maintains a list of

@@ -5,7 +5,7 @@ package wsn
 import (
 	"fmt"
 	"log"
-	"wsn-go/config"
+	"github.com/keltia/wsn-go/config"
 )
 
 // A PullClient represents an active Pull mode client for WS-N.  It maintains a list of

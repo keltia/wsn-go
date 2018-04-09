@@ -4,10 +4,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/keltia/wsn-go/config"
+	"github.com/keltia/wsn-go/wsn"
 	"os"
 	"reflect"
-	"wsn-go/config"
-	"wsn-go/wsn"
 )
 
 func main() {

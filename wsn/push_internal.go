@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"strings"
 
-	"wsn-go/soap"
+	"github.com/keltia/wsn-go/soap"
 )
 
 // Private func

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"testing"
 
-	"wsn-go/config"
+	"github.com/keltia/wsn-go/config"
 )
 
 func TestNewPullClient(t *testing.T) {
