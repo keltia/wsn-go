@@ -21,10 +21,10 @@ func TestNewPullClient(t *testing.T) {
 
 	// Public
 	if len(client.List) != 0 {
-		t.Errorf("List is not correctly set: %s", client.List)
+		t.Errorf("List is not correctly set: %v", client.List)
 	}
 	if client.Timeout != int64(-1) {
-		t.Errorf("Timeout is not correctly set: %s", client.Timeout)
+		t.Errorf("Timeout is not correctly set: %d", client.Timeout)
 	}
 
 	// Private
@@ -35,10 +35,10 @@ func TestNewPullClient(t *testing.T) {
 		t.Errorf("target is not correctly set: %s", client.target)
 	}
 	if client.port != config.Port {
-		t.Errorf("port is not correctly set: %s", client.port)
+		t.Errorf("port is not correctly set: %d", client.port)
 	}
 	if client.verbose != false {
-		t.Errorf("verbose is not correctly set: %s", client.verbose)
+		t.Errorf("verbose is not correctly set: %v", client.verbose)
 	}
 
 }
