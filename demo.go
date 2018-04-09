@@ -8,6 +8,7 @@ import (
 	"github.com/keltia/wsn-go/wsn"
 	"os"
 	"reflect"
+	"log"
 )
 
 func main() {
@@ -28,6 +29,9 @@ func main() {
 	defer push.Stop()
 
 	err = push.Subscribe("bar")
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
 
 	fmt.Printf("push is of type: %v\n", reflect.TypeOf(push))
 
