@@ -96,9 +96,9 @@ func (c *PushClient) realUnsubscribe(name string) (err error) {
 // Public API
 
 // NewPushClient creates a new client using push mode with an empty list of topics.
-func NewPushClient(config *config.Config) (client *PushClient) {
+func NewPushClient(config *Config) (client *PushClient) {
 	return &PushClient{
-		Config: config,
+		Config: *config,
 		List:   TopicList{},
 	}
 }
