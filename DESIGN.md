@@ -54,7 +54,7 @@ For the moment the [wsn-go](https://github.com/keltia/wsn-go) package only imple
 
 ## Pull mode
 
-Wondering how to implement the Push model, I came with two different ways, not sure which one would be more _idiomatic_ Go:
+Wondering how to implement the Pull model, I came with two different ways, not sure which one would be more _idiomatic_ Go:
 
 1. split `Client` type into `PushClient` & `PullClient` types with some code duplication between the two
 
@@ -86,3 +86,5 @@ Wondering how to implement the Push model, I came with two different ways, not s
     <loop ?>                                // easy in pull, use channel in push? io.Reader?
     client.Unsubscribe(topic)               // 
     client.Stop()                           // destroy the pull point if needed
+
+I've gone over the 1st side for now.

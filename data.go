@@ -2,7 +2,10 @@
 
 package wsn
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"strings"
+)
 
 // Generic WS-N data
 
@@ -12,8 +15,8 @@ type WsnData struct {
 		Notify struct {
 			NotificationMessage struct {
 				SubscriptionReference SAReference
-				Topic           string
-				Message         struct {
+				Topic                 string
+				Message               struct {
 					Data []byte `xml:",innerxml"`
 				}
 			}
@@ -21,13 +24,7 @@ type WsnData struct {
 	}
 }
 
-// io.Reader interface
-func (d *WsnData) Read(p []byte) (n int, err error) {
-	n = copy(p, d.Body.Notify.NotificationMessage.Message.Data)
-	err = nil
+func (d *WsnData) String() (str string) {
+	str = strings.TrimSpace(string(d.Body.Notify.NotificationMessage.Message.Data))
 	return
-}
-
-func (d *WsnData) String() string {
-	return string(d.Body.Notify.NotificationMessage.Message.Data)
 }

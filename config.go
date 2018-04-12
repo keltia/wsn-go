@@ -22,14 +22,14 @@ type Dest struct {
 }
 
 type Config struct {
-	Proto    string // http
-	Site     string // 192.70.89.113
-	Port     int    // 9000
-	Endpoint string // wsn/NotificationBroker
-	Wsdl     string
-	Base     string // http://147.196.152.4
-	Dests    map[string]Dest
-	Default  string // mine
+	Target  string // htt://192.70.106.113
+	Base    string // http://147.196.152.4
+	Port    int    // 9000
+	Broker  string // wsn/NotificationBroker
+	Wsdl    string
+	Dests   map[string]Dest
+	Default string // mine
+	Version int    // 1, 2, … if not present, old version file
 }
 
 // Check the parameter for either tag or filename
@@ -77,6 +77,10 @@ func LoadConfig(file string) (*Config, error) {
 
 	// Finally set default destination
 	c.Default = "mine"
+
+	if c.Version == 0 {
+		return c, errors.New("Config file too old, need at least version 1!")
+	}
 
 	return c, nil
 }

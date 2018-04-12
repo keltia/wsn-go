@@ -1,9 +1,10 @@
-proto = "http"
-site = "192.70.89.113"
-port = 9000
-endpoint = "wsn/NotificationBroker"
-wsdl = "data/NotificationBroker.wsdl"
+version = 1
+
+target = "http://192.70.89.113"
 base = "http://147.196.152.4"
+port = 9000
+broker = "wsn/NotificationBroker"
+wsdl = "data/NotificationBroker.wsdl"
 default = "mine"
 
 [dests]

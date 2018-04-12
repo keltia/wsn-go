@@ -4,32 +4,47 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"reflect"
 	"github.com/keltia/wsn-go"
+	"log"
+	"os"
 )
 
 func main() {
-	config, err := wsn.LoadConfig("surveillance")
-/*	pull := wsn.NewPullClient()
-	err = pull.Subscribe("foo")
-	defer pull.Stop()
+	var buf = make([]byte, 262144)
 
-	fmt.Printf("pull is of type: %v\n", reflect.TypeOf(pull))
-*/
+	config, err := wsn.LoadConfig("surveillance")
+	if err != nil {
+		fmt.Printf("%v\n%v\n", config, err)
+		os.Exit(1)
+	}
+	/*	pull := wsn.NewPullClient()
+		err = pull.Subscribe("foo")
+		defer pull.Stop()
+
+		fmt.Printf("pull is of type: %v\n", reflect.TypeOf(pull))
+	*/
 	push := wsn.NewPushClient(config)
 	defer push.Stop()
 
 	err = push.Subscribe("bar")
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
 
 	fmt.Printf("push is of type: %v\n", reflect.TypeOf(push))
 
+	push.SetTimeout(10)
+	o := make(chan []byte, 262144)
+	push.Start(o)
+	//	pull.Start()
+	for {
+		buf = <-o
+		fmt.Println(string(buf))
 
-	push.Start()
-//	pull.Start()
-	data, err := ioutil.ReadAll(push)
-	if err == nil {
-		fmt.Println(string(data))
+		if buf == nil {
+			break
+		}
 	}
 
 	err = push.Unsubscribe("toto")

@@ -2,11 +2,6 @@
 
 package wsn
 
-import (
-	"io"
-	"errors"
-)
-
 const (
 	MAX_TOPICS = 10
 
@@ -16,8 +11,6 @@ const (
 
 // Generic Client interface for both Push/Pull modes
 type Client interface {
-	io.Reader
-
 	Type() int
 	Subscribe(string) error
 	Unsubscribe(string) error
@@ -25,22 +18,3 @@ type Client interface {
 	Stop() error
 }
 
-// Error list
-
-// Topic errors
-var ErrTopicNotFound = errors.New("Topic not found")
-
-// Can't add an existing topic
-var ErrTopicAlreadyExist = errors.New("Topic already exist!")
-
-// Can't subscribe more than once
-var ErrTopicAlreadySubscribed = errors.New("Topic already subscribed!")
-
-// Pull point creation error
-var ErrCreatingPullPoint = errors.New("Can not create pull point")
-
-// Pull point destruction errors
-var ErrDestroyingPullPoint = errors.New("Can not destroy pull point")
-
-// Templating error
-var ErrCantCreateTemplate = errors.New("Can not instanciate template")

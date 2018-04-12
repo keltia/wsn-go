@@ -3,104 +3,40 @@
 package wsn
 
 import (
-	"bytes"
-	"encoding/xml"
-	"fmt"
-	"github.com/keltia/wsn-go/soap"
-	"io"
+	"net/http"
 	"log"
-	"strings"
+	"time"
 )
 
-// A PullClient represents an active Push mode client for WS-N.  It maintains a list of
+// PushClient represents an active Push mode client for WS-N.  It maintains a list of
 // subscribed topics.
 type PushClient struct {
-	Config Config
-	List   TopicList
-}
+	List    TopicList
+	Timeout int64
 
-// Private func
-
-// createEndpoint generates our local endpoint URL
-func (c *PushClient) createEndpoint(name string) (endpoint string) {
-	config := c.Config
-	realEP := "/" + strings.ToLower(name)
-	endpoint = fmt.Sprintf("%s:%d%s", config.Base, config.Port, realEP)
-	return
-}
-
-// Generate an URL on the target site
-func (c *PushClient) generateURL(endPoint string) string {
-	config := c.Config
-	return fmt.Sprintf("%s://%s:%d/%s", config.Proto, config.Site, config.Port, endPoint)
-}
-
-// Does the actual WS-N subscription
-func (c *PushClient) realSubscribe(name string) (err error) {
-	var config = c.Config
-
-	// Handle only already registered topics
-	if topic, present := c.List[name]; present {
-		var xmlReq bytes.Buffer
-		var answer []byte
-
-		// Prepare the request
-		vars := SubVars{
-			TopicURL:  c.createEndpoint(name),
-			TopicName: name,
-		}
-		xmlReq, err = createRequest("subscribe", subscribePushText, vars)
-
-		// Send SOAP request
-		targetURL := c.generateURL(config.Endpoint)
-		answer, err = soap.SendRequest("subscribe", targetURL, &xmlReq)
-
-		// Parse XML
-		res := &SubscribeAnswer{}
-		if err = xml.Unmarshal(answer, res); err != nil {
-			return
-		}
-
-		// Special case
-		address := res.Body.Resp.Reference.Address
-		address = strings.Replace(address, "0.0.0.0", config.Site, -1)
-
-		topic.UnsubAddr = address
-		topic.Started = true
-	} else {
-		err = ErrTopicNotFound
-	}
-	return
-}
-
-// Does the actual WS-N un-subscription
-func (c *PushClient) realUnsubscribe(name string) (err error) {
-	if topic, present := c.List[name]; present {
-		var xmlReq *bytes.Buffer
-
-		// Prepare the request
-		xmlReq = bytes.NewBufferString(unsubscribePushText)
-
-		// Send SOAP request
-		targetURL := topic.UnsubAddr
-		_, err = soap.SendRequest("Unsubscribe", targetURL, xmlReq)
-
-		topic.UnsubAddr = ""
-		topic.Started = false
-	} else {
-		err = ErrTopicNotFound
-	}
-	return
+	// Private fields
+	base    string
+	target  string
+	port    int
+	server  http.Server
+	verbose bool
+	output  chan []byte
 }
 
 // Public API
 
 // NewPushClient creates a new client using push mode with an empty list of topics.
 func NewPushClient(config *Config) (client *PushClient) {
-	return &PushClient{
-		Config: *config,
-		List:   TopicList{},
+	client = &PushClient{
+		List:    TopicList{},
+		Timeout: -1,
+		base:    config.Base,
+		target:  config.Target,
+		port:    config.Port,
+		verbose: false,
 	}
+	client.target = client.generateURL(config.Broker)
+	return
 }
 
 // Type returns the client mode
@@ -108,10 +44,18 @@ func (c *PushClient) Type() int {
 	return MODE_PUSH
 }
 
+// SetVerbose is obvious
+func (c *PushClient) SetVerbose() {
+	c.verbose = true
+}
+
 // Subscribe registers the given topic
 func (c *PushClient) Subscribe(topic string) (err error) {
+	if c.verbose {
+		log.Printf("subscribe push/%s", topic)
+	}
+
 	// Add the topic
-	log.Printf("subscribe push/%s", topic)
 	if _, ok := c.List[topic]; ok {
 		err = ErrTopicAlreadySubscribed
 	}
@@ -127,7 +71,9 @@ func (c *PushClient) Subscribe(topic string) (err error) {
 
 // Unsubscribe stops and closes the given topic
 func (c *PushClient) Unsubscribe(name string) (err error) {
-	log.Printf("unsubscribed push/%s", name)
+	if c.verbose {
+		log.Printf("unsubscribed push/%s", name)
+	}
 
 	if _, present := c.List[name]; present {
 		err = c.realUnsubscribe(name)
@@ -137,29 +83,57 @@ func (c *PushClient) Unsubscribe(name string) (err error) {
 	return
 }
 
+// SetTimeout records that we want to stop after some time
+func (c *PushClient) SetTimeout(timeout int64) {
+	c.Timeout = timeout
+}
+
 // Start does the real subscribe because it actually start the data flow
-func (c *PushClient) Start() (err error) {
-	for name, _ := range c.List {
-		err = c.realSubscribe(name)
+func (c *PushClient) Start(output chan []byte) (err error) {
+	if output == nil {
+		err = ErrNoOutputChannel
 	}
+
+	// Setup callback server and start it
+	go c.StartServer()
+
+	// register output channel
+	c.output = output
+	// Setup the subscriptions, data will flow now
+	for name, _ := range c.List {
+		if err = c.realSubscribe(name); err != nil {
+			return
+		}
+	}
+
+	// Set timer
+	if c.Timeout != -1 {
+		// Fire up goroutine
+		go func() {
+			time.Sleep(time.Duration(c.Timeout) * time.Second)
+			if c.verbose {
+				log.Println("Timer expired!")
+			}
+			c.Stop()
+		}()
+	}
+
 	return
 }
 
 // Stop does unsubscribe all the topics at once
 func (c *PushClient) Stop() (err error) {
-	log.Printf("stopping everything")
+	if c.verbose {
+		log.Printf("stopping everything")
+	}
 
 	for name, _ := range c.List {
 		err = c.Unsubscribe(name)
+		if err != nil {
+			log.Printf("Error: Unsubscribe returned '%v' for %s", err, name)
+		}
 	}
-	return
-}
-
-// Read is needed for the io.Reader interface
-func (c *PushClient) Read(p []byte) (n int, err error) {
-	data := "push/foobar"
-	n = len(data)
-	copy(p, []byte(data))
-	err = io.EOF
+	// Stop callback server
+	close(c.output)
 	return
 }
