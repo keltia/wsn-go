@@ -9,8 +9,8 @@ import (
 	"io"
 	"log"
 	"strings"
-	"wsn-go/config"
-	"wsn-ng/soap"
+	"github.com/keltia/wsn-go/config"
+	"github.com/keltia/wsn-go/soap"
 )
 
 // A PullClient represents an active Push mode client for WS-N.  It maintains a list of
