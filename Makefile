@@ -1,18 +1,22 @@
 # Main Makefile for surv-export
 
-VPATH=  config:wsn
+SRC=	client.go config.go data.go pull.go push.go \
+	soap.go topic.go xml.go
 
 all: build test
 
 clean:
 	go clean -v
 
-build: client.go server.go types.go config.go
+demo:
+	go build -v ./cmd/...
+
+build: ${SRC}
 	go build -v ./...
 
-test: client.go server.go types.go config.go
+test: ${SRC}
 	go test -v ./...
 
 push:
 	git push --all
-	git push --all gitlab
+	git push --tags
