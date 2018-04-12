@@ -2,7 +2,7 @@
 //
 // My homemade configuration class
 
-package config
+package wsn
 
 import (
 	"errors"
