@@ -6,22 +6,16 @@ import (
 	"encoding/xml"
 )
 
-const (
-
-)
+const ()
 
 // SOAP stuff
 
-type SubVars struct {
-	TopicName string
-	TopicURL  string
-}
-
 type SubscribeAnswer struct {
 	XMLName xml.Name
-	Body    SABody
+	Body    []byte `xml:", innerxml"`
 }
 
+// PushClient.Subscribe
 type SABody struct {
 	XMLName xml.Name
 	Resp    SAResp `xml:"SubscribeResponse"`
@@ -39,3 +33,26 @@ type SAReference struct {
 	Metadata            string
 }
 
+// PullClient.createPullPoint
+type CPPBody struct {
+	XMLName xml.Name
+	CreatePullPointResponse struct{
+		PullPt struct {
+			Address string
+			Params string
+			Metadata []byte `xml:",innerxml"`
+		}
+	}
+}
+
+// PullClient.realSubscribe
+type STPPBody struct {
+	XMLName xml.Name
+	SubscribeTopicResponse struct {
+		Reference struct {
+			Address string
+			Params string
+			Metadata []byte `xml:",innerxml"`
+		}
+    }
+}

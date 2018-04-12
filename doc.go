@@ -30,10 +30,12 @@
 
   For both modes, the system is not started until you run
 
-      client.Start()
+      client.Start(output)
 
-  Both PullClient and PushClient supports the io.Reader interface which means that you can
-  use all the usual io and iobuf methods like iobuf.ReadAll().
+  You have to create the output channel *before* calling `Start()`.
+
+      output := make(chan []byte, <N>)    // Make it big like 128 or 256KB
+      client.Start(output)
 
   To stop a given topic, use
 
@@ -54,5 +56,5 @@
   in the data stream in push mode.  You also have to ensure any firewall in-between allow traffic
   from/to the designated port.  Pull mode may work better in this case.
 
- */
+*/
 package wsn

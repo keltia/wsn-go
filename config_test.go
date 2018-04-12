@@ -1,11 +1,11 @@
 package wsn
 
 import (
-	"testing"
+	"fmt"
 	"os"
 	"path"
-	"fmt"
 	"reflect"
+	"testing"
 )
 
 func TestCheckName(t *testing.T) {
@@ -35,7 +35,7 @@ func TestCheckName(t *testing.T) {
 }
 
 func TestStringer(t *testing.T) {
-	dest := Dest{Broker:"broker", Name:"myname", Type:"mytype"}
+	dest := Dest{Broker: "broker", Name: "myname", Type: "mytype"}
 
 	res := dest.String()
 	if res != "broker: myname" {
@@ -56,9 +56,9 @@ func TestLoadConfig(t *testing.T) {
 
 	}
 
-	site := "192.70.89.113"
-	if conf.Site != site {
-		t.Errorf("Malformed site %s: %s", conf.Site, site)
+	site := "http://192.70.89.113"
+	if conf.Target != site {
+		t.Errorf("Malformed site %s: %s", conf.Target, site)
 	}
 
 	port := 9000
@@ -67,13 +67,18 @@ func TestLoadConfig(t *testing.T) {
 	}
 
 	endpoint := "wsn/NotificationBroker"
-	if conf.Endpoint != endpoint {
-		t.Errorf("Malformed base %s: %s", conf.Endpoint, endpoint)
+	if conf.Broker != endpoint {
+		t.Errorf("Malformed base %s: %s", conf.Broker, endpoint)
 	}
 
 	def := "mine"
 	if conf.Default != def {
 		t.Errorf("Malformed default %s: %s", conf.Default, def)
+	}
+
+	vers := 1
+	if conf.Version != vers {
+		t.Errorf("Configuration file too old: %d", conf.Version)
 	}
 }
 
@@ -98,7 +103,7 @@ func TestLoadConfigDest(t *testing.T) {
 		t.Errorf("Error loading Dests map[]: wrong type %v—%s", dst, reflect.TypeOf(Dest{}))
 	}
 
-	real := Dest{Broker:"localhost", Name:"surv", Type:"queue"}
+	real := Dest{Broker: "localhost", Name: "surv", Type: "queue"}
 	if dst != real {
 		t.Errorf("Error loading Dests map[]: wrong name %v—%v", dst, real)
 	}
