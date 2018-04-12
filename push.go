@@ -6,18 +6,17 @@ import (
 	"bytes"
 	"encoding/xml"
 	"fmt"
+	"github.com/keltia/wsn-go/soap"
 	"io"
 	"log"
 	"strings"
-	"wsn-go/config"
-	"wsn-ng/soap"
 )
 
 // A PullClient represents an active Push mode client for WS-N.  It maintains a list of
 // subscribed topics.
 type PushClient struct {
-	Config *config.Config
-	List TopicList
+	Config Config
+	List   TopicList
 }
 
 // Private func
@@ -47,7 +46,7 @@ func (c *PushClient) realSubscribe(name string) (err error) {
 
 		// Prepare the request
 		vars := SubVars{
-			TopicURL: c.createEndpoint(name),
+			TopicURL:  c.createEndpoint(name),
 			TopicName: name,
 		}
 		xmlReq, err = createRequest("subscribe", subscribePushText, vars)
@@ -97,10 +96,10 @@ func (c *PushClient) realUnsubscribe(name string) (err error) {
 // Public API
 
 // NewPushClient creates a new client using push mode with an empty list of topics.
-func NewPushClient(config *config.Config) (client * PushClient) {
+func NewPushClient(config *Config) (client *PushClient) {
 	return &PushClient{
-		Config: config,
-		List: TopicList{},
+		Config: *config,
+		List:   TopicList{},
 	}
 }
 
@@ -117,10 +116,10 @@ func (c *PushClient) Subscribe(topic string) (err error) {
 		err = ErrTopicAlreadySubscribed
 	}
 	c.List[topic] = &Topic{
-		Started: false,
+		Started:   false,
 		UnsubAddr: "",
-		Bytes: 0,
-		Pkts: 0,
+		Bytes:     0,
+		Pkts:      0,
 	}
 
 	return

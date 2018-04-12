@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	httpClient http.Client = http.Client{}
+	httpClient = http.Client{}
 )
 
 func SendRequest(action string, targetURL string, result *bytes.Buffer) (body []byte, err error) {

@@ -1,4 +1,4 @@
-package config
+package wsn
 
 import (
 	"testing"
