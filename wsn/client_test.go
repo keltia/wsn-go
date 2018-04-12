@@ -37,7 +37,7 @@ func TestNewClient(t *testing.T) {
 	}
 
 	if client.Topics == nil {
-		t.Errorf("Uninitialized topics: %v: %v", client)
+		t.Errorf("Uninitialized topics: %v: %v", conf, client)
 	}
 }
 
