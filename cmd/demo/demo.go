@@ -6,12 +6,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"reflect"
-	"wsn-go/config"
-	"wsn-ng/wsn"
+	"github.com/keltia/wsn-go"
 )
 
 func main() {
-	config, err := config.LoadConfig("surveillance")
+	config, err := wsn.LoadConfig("surveillance")
 /*	pull := wsn.NewPullClient()
 	err = pull.Subscribe("foo")
 	defer pull.Stop()
