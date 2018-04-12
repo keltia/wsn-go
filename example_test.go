@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"reflect"
 	"io/ioutil"
-	"wsn-ng/wsn"
+	"github.com/keltia/wsn-go"
 )
 
 func ExampleNewPullClient() {
