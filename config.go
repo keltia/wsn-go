@@ -5,7 +5,6 @@
 package wsn
 
 import (
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -66,12 +65,12 @@ func LoadConfig(file string) (*Config, error) {
 	c := new(Config)
 	buf, err := ioutil.ReadFile(sFile)
 	if err != nil {
-		return c, errors.New(fmt.Sprintf("Can not read %s", sFile))
+		return c, fmt.Errorf("Can not read %s", sFile)
 	}
 
 	err = toml.Unmarshal(buf, &c)
 	if err != nil {
-		return c, errors.New(fmt.Sprintf("Error parsing toml %s: %v",
+		return c, fmt.Errorf(fmt.Sprintf("Error parsing toml %s: %v",
 			sFile, err))
 	}
 
@@ -79,7 +78,7 @@ func LoadConfig(file string) (*Config, error) {
 	c.Default = "mine"
 
 	if c.Version == 0 {
-		return c, errors.New("Config file too old, need at least version 1!")
+		return c, fmt.Errorf("config file too old, need at least version 1!")
 	}
 
 	return c, nil
