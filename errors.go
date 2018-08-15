@@ -8,28 +8,29 @@ import (
 
 // Error list
 
-// Channel errors
-var ErrNoOutputChannel = errors.New("Output channel not opened")
+// ErrNoOutputChannel is for Channel errors
+var ErrNoOutputChannel = errors.New("output channel not opened")
 
-// Topic errors
-var ErrTopicNotFound = errors.New("Topic not found")
+// ErrTopicNotFound is for Topic errors
+var ErrTopicNotFound = errors.New("topic not found")
 
-// Can't add an existing topic
-var ErrTopicAlreadyExist = errors.New("Topic already exist!")
+// ErrTopicAlreadyExist is when we can't add an existing topic
+var ErrTopicAlreadyExist = errors.New("topic already exist")
 
-// Can't subscribe more than once
-var ErrTopicAlreadySubscribed = errors.New("Topic already subscribed!")
+// ErrTopicAlreadySubscribed is when we can't subscribe more than once
+var ErrTopicAlreadySubscribed = errors.New("topic already subscribed")
 
-// Pull point creation error
-var ErrCreatingPullPoint = errors.New("Can not create pull point")
+// ErrCreatingPullPoint is when there is a Pull point creation error
+var ErrCreatingPullPoint = errors.New("can not create pull point")
 
-// Pull Point already created
-var ErrPullPtAlreadyPresent = errors.New("Pull point already present")
+// ErrPullPtAlreadyPresent is when Pull Point is already created
+var ErrPullPtAlreadyPresent = errors.New("pull point already present")
 
-// Pull point destruction errors
-var ErrDestroyingPullPoint = errors.New("Can not destroy pull point")
+// ErrDestroyingPullPoint is for Pull point destruction errors
+var ErrDestroyingPullPoint = errors.New("can not destroy pull point")
 
-var ErrCantSubscribeTopicPull = errors.New("Can not subscribe pullpt to topic")
+// ErrCantSubscribeTopicPull is for subscription errors
+var ErrCantSubscribeTopicPull = errors.New("can not subscribe pullpt to topic")
 
-// Templating error
-var ErrCantCreateTemplate = errors.New("Can not instanciate template")
+// ErrCantCreateTemplate is for Templating errors
+var ErrCantCreateTemplate = errors.New("can not instanciate template")
