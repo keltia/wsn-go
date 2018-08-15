@@ -1,5 +1,7 @@
 # Main Makefile for surv-export
 
+GO=		go
+
 VPATH=  soap
 SRCS=   client.go data.go  pull.go push.go push_internal.go push_server.go \
 	topic.go types.go config.go \
@@ -8,19 +10,19 @@ SRCS=   client.go data.go  pull.go push.go push_internal.go push_server.go \
 all: build
 
 clean:
-	go clean -v
+	${GO} clean -v
 
 demo:
-	go build -v ./cmd/...
+	${GO} build -v ./cmd/...
 
 build: ${SRCS}
-	go build -v ./...
+	${GO} build -v ./...
 
 test: ${SRCS}
-	go test -v ./...
+	${GO} test -v ./...
 
 build: ${SRCS}
-	go build -v ./...
+	${GO} build -v ./...
 
 lint:
 	gometalinter ./...
