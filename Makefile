@@ -21,9 +21,6 @@ build: ${SRCS}
 test: ${SRCS}
 	${GO} test -v ./...
 
-build: ${SRCS}
-	${GO} build -v ./...
-
 lint:
 	gometalinter ./...
 
