@@ -1,12 +1,10 @@
 language: go
 go:
-- 1.4
-- 1.5.2
+- "1.12.x"
 - tip
 branches:
   only:
   - develop
   - master
-install:
-  - go get github.com/naoina/toml
-
+env:
+  - GO111MODULE=on
