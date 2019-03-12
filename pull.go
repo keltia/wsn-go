@@ -5,14 +5,13 @@ package wsn
 import (
 	"fmt"
 	"log"
-	"github.com/keltia/wsn-go/config"
 )
 
 // A PullClient represents an active Pull mode client for WS-N.  It maintains a list of
 // subscribed topics and the Pull point that will be used to subscribe.
 type PullClient struct {
-	PullPt string
-	List   TopicList
+	PullPt  string
+	List    TopicList
 	Timeout int64
 
 	// Private fields
@@ -24,10 +23,10 @@ type PullClient struct {
 }
 
 // NewPullClient creates a new instance of a Pull client.
-func NewPullClient(config *config.Config) (client *PullClient) {
+func NewPullClient(config Config) (client *PullClient) {
 	client = &PullClient{
-		PullPt: "",
-		List:   TopicList{},
+		PullPt:  "",
+		List:    TopicList{},
 		Timeout: -1,
 		base:    config.Base,
 		port:    config.Port,
@@ -113,4 +112,3 @@ func (c *PullClient) Stop() (err error) {
 	}
 	return
 }
-

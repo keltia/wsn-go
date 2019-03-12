@@ -4,17 +4,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/keltia/wsn-go/config"
-	"github.com/keltia/wsn-go/wsn"
-	"os"
 	"reflect"
+	"github.com/keltia/wsn-go"
 	"log"
+	"os"
 )
 
 func main() {
 	var buf = make([]byte, 262144)
 
-	config, err := config.LoadConfig("surveillance")
+	config, err := wsn.LoadConfig("surveillance")
 	if err != nil {
 		fmt.Printf("%v\n%v\n", config, err)
 		os.Exit(1)

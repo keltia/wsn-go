@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	httpClient http.Client = http.Client{}
+	httpClient = http.Client{}
 )
 
 type SoapAnswer struct {
